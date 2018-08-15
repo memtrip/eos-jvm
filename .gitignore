@@ -1,0 +1,8 @@
+.DS_Store
+abi-binary-compressor/.idea
+abi-binary-compressor/.gradle
+abi-binary-compressor/build
+*.iml
+abi-binary-preprocessor-kotlin/.idea
+abi-binary-preprocessor/.idea
+abi-binary-preprocessor/target

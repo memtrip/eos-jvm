@@ -1,0 +1,71 @@
+package com.memtrip.eosio.abi.binary.gen;
+
+<#list abi_list as abi>
+import ${abi.getClassPackage()}.${abi.getClassName()};
+</#list>
+
+import com.memtrip.eosio.abi.binary.compression.CompressionFactory;
+import com.memtrip.eosio.abi.binary.compression.CompressionType;
+import com.memtrip.eosio.abi.binary.ByteWriter;
+import com.memtrip.eosio.abi.binary.writer.DefaultByteWriter;
+import com.memtrip.eosio.abi.binary.HexWriter;
+import com.memtrip.eosio.abi.binary.writer.AccountNameWriter;
+import com.memtrip.eosio.abi.binary.writer.DefaultHexWriter;
+import com.memtrip.eosio.abi.binary.writer.NameWriter;
+
+import java.util.List;
+
+public class AbiBinaryGen {
+
+    private final ByteWriter byteWriter;
+    private final HexWriter hexWriter;
+    private final CompressionType compressionType;
+
+    <#list abi_list as abi>
+    private final ${abi.getClassName()}Squishable ${abi.getClassName()?lower_case}Squishable;
+    </#list>
+
+    public AbiBinaryGen(CompressionType compressionType) {
+        this(
+            new DefaultByteWriter(
+                512,
+                new NameWriter(),
+                new AccountNameWriter(),
+                new DefaultHexWriter()),
+            new DefaultHexWriter(),
+            compressionType
+        );
+    }
+
+    public AbiBinaryGen(ByteWriter byteWriter, HexWriter hexWriter, CompressionType compressionType) {
+        this.byteWriter = byteWriter;
+        this.hexWriter = hexWriter;
+        this.compressionType = compressionType;
+
+        <#list abi_list as abi>
+        this.${abi.getClassName()?lower_case}Squishable = new ${abi.getClassName()}Squishable(this);
+        </#list>
+    }
+
+    public String pack() {
+        byte[] compressedBytes = new CompressionFactory(compressionType)
+            .create()
+            .compress(byteWriter.toBytes());
+        return hexWriter.bytesToHex(compressedBytes, 0, compressedBytes.length, null);
+    }
+
+    <#list abi_list as abi>
+
+        public AbiBinaryGen squish${abi.getClassName()}(${abi.getClassName()} ${abi.getClassName()?lower_case}) {
+            ${abi.getClassName()?lower_case}Squishable.squish(${abi.getClassName()?lower_case}, byteWriter);
+            return this;
+        }
+
+        void squishCollection${abi.getClassName()}(List<${abi.getClassName()}> ${abi.getClassName()?lower_case}List, ByteWriter byteWriter) {
+            byteWriter.putVariableUInt(${abi.getClassName()?lower_case}List.size());
+            for (${abi.getClassName()} ${abi.getClassName()?lower_case} : ${abi.getClassName()?lower_case}List) {
+                ${abi.getClassName()?lower_case}Squishable.squish(${abi.getClassName()?lower_case}, byteWriter);
+            }
+        }
+    </#list>
+}
