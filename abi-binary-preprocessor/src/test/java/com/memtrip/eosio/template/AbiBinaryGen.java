@@ -55,7 +55,7 @@ public class AbiBinaryGen {
         return hexWriter.bytesToHex(compressedBytes, 0, compressedBytes.length, null);
     }
 
-    public AbiBinaryGen compressTransaction(Transaction transaction) {
+    public AbiBinaryGen squishTransaction(Transaction transaction) {
         transactionSquishable.squish(transaction, byteWriter);
         return this;
     }
@@ -74,7 +74,7 @@ public class AbiBinaryGen {
         return this;
     }
 
-    public AbiBinaryGen compressCollectionPackedAction(
+    public AbiBinaryGen squishCollectionPackedAction(
         List<PackedAction> packedactionList, ByteWriter byteWriter) {
         byteWriter.putVariableUInt(packedactionList.size());
         for (PackedAction packedaction : packedactionList) {

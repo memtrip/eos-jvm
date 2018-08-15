@@ -41,7 +41,7 @@ public class ${abi.getClassName()}Squishable implements Squishable<${abi.getClas
                 byteWriter.putShort(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
             <#if field.isInt()>
-                byteWriter.putShort(${abi.getClassName()?lower_case}.${field.getName()}());
+                byteWriter.putInt(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
             <#if field.isVariableUInt()>
                 byteWriter.putVariableUInt(${abi.getClassName()?lower_case}.${field.getName()}());
@@ -59,7 +59,7 @@ public class ${abi.getClassName()}Squishable implements Squishable<${abi.getClas
                 byteWriter.putStringCollection(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
             <#if field.isChild()>
-
+                abiBinaryGen.squish${extractObject(field.getClassType())}(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
             <#if field.isCollection()>
                 abiBinaryGen.squishCollection${extractListObject(field.getClassType())}(

@@ -21,13 +21,15 @@ public class TransactionSquishable implements Squishable<Transaction> {
         byteWriter.putVariableUInt(transaction.getMaxCpuUsageMs());
         byteWriter.putVariableUInt(transaction.getDelaySec());
 
-        abiBinaryGen.compressCollectionPackedAction(
+        abiBinaryGen.squishCollectionPackedAction(
             transaction.getContextFreeActions(),
             byteWriter);
 
-        abiBinaryGen.compressCollectionPackedAction(
+        abiBinaryGen.squishCollectionPackedAction(
             transaction.getActions(),
             byteWriter);
+
+        abiBinaryGen.squishTransaction(transaction);
 
         byteWriter.putStringCollection(transaction.getTransactionExtensions());
     }
