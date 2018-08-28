@@ -21,3 +21,6 @@ eos-abi-writer/.gradle
 eos-abi-writer/gradle
 eos-abi-writer-preprocessor/target
 eos-abi-writer-preprocessor/.idea
+eos-http-rpc/.gradle
+eos-http-rpc/.idea
+eos-http-rpc/build

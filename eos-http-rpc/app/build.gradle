@@ -1,0 +1,147 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'eos-jvm'
+    bintrayOrg = 'memtrip'
+
+    publishedGroupId = 'com.memtrip.eos-jvm'
+    artifact = 'eos-http-rpc'
+
+    libraryDescription = 'Interface to the EOS HTTP RPC api'
+    siteUrl = 'https://github.com/memtrip/eos-jvm'
+    gitUrl = 'https://github.com/memtrip/eos-jvm.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'samkirton'
+    developerName = 'Samuel Kirton'
+    developerEmail = 'sam@memtrip.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+version = libraryVersion
+group = publishedGroupId
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    /* retrofit */
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    /* moshi */
+    implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
+
+    /* rxkotlin */
+    implementation 'io.reactivex:rxkotlin:1.0.0'
+
+    /* JSR-310 */
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
+    implementation "com.memtrip.eos-jvm:eos-core:1.0.0"
+    implementation "com.memtrip.eos-jvm:eos-abi-writer:1.0.0"
+    kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0"
+
+    /* junit */
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.junit.platform:junit-platform-runner:1.0.1'
+
+    /* spek */
+    testImplementation 'org.jetbrains.spek:spek-api:1.1.5'
+    testImplementation 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+
+    testImplementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    testImplementation 'org.json:json:20140107'
+}
+
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = bintrayOrg
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId publishedGroupId
+                artifactId artifact
+
+                name artifact
+                description libraryDescription
+                url 'http://www.memtrip.com'
+
+                licenses {
+                    license {
+                        name licenseName
+                        url licenseUrl
+                    }
+                }
+                developers {
+                    developer {
+                        id developerId
+                        name developerName
+                        email developerEmail
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
