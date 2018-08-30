@@ -20,7 +20,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.0.1'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -68,7 +68,7 @@ dependencies {
     /* JSR-310 */
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
-    implementation "com.memtrip.eos-jvm:eos-core:1.0.0"
+    implementation "com.memtrip.eos-jvm:eos-core:1.0.1"
     implementation "com.memtrip.eos-jvm:eos-abi-writer:1.0.0"
     kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0"
 

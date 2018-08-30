@@ -14,7 +14,7 @@ data class Account(
     val cpu_weight: Long,
     val net_limit: AccountResourceLimit,
     val cpu_limit: AccountResourceLimit,
-    val ram_usage: Int,
+    val ram_usage: Long,
     val permissions: List<AccountPermission>,
     val total_resources: Any?,
     val self_delegated_bandwidth: Any?,
