@@ -90,6 +90,10 @@ public class FieldModel {
         return compressType == CompressType.COLLECTION;
     }
 
+    public boolean isAccountNameCollection() {
+        return compressType == CompressType.ACCOUNT_NAME_COLLECTION;
+    }
+
     public boolean isChild() {
         return compressType == CompressType.CHILD;
     }

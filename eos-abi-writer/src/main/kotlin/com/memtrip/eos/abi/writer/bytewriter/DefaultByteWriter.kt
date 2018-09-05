@@ -133,6 +133,16 @@ class DefaultByteWriter(
         hexCollectionWriter.put(stringList, this)
     }
 
+    override fun putAccountNameCollection(accountNameList: List<String>) {
+        putVariableUInt(accountNameList.size.toLong())
+
+        if (!accountNameList.isEmpty()) {
+            for (accountName in accountNameList) {
+                putAccountName(accountName)
+            }
+        }
+    }
+
     override fun toBytes(): ByteArray {
         val bytes = ByteArray(index)
         System.arraycopy(buffer, 0, bytes, 0, index)

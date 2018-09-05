@@ -45,7 +45,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.memtrip.eos-jvm'
             artifactId = 'eos-abi-writer'
-            version = '1.0.0'
+            version = '1.0.2'
 
             from components.java
         }

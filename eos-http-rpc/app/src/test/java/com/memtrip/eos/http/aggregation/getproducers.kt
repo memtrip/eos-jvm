@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class AggregateGetBlockProducersAggregateTest : Spek({
+class GetBlockProducersAggregateTest : Spek({
 
     given("an Api") {
 

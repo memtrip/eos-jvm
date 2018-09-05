@@ -3,6 +3,7 @@ package com.memtrip.eos.http.aggregation
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.aggregation.transfer.TransferAggregate
+import com.memtrip.eos.http.aggregation.vote.VoteAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -16,11 +17,12 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
+import java.util.Arrays.asList
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class TransferAggregateTest : Spek({
+class VoteAggregateTest : Spek({
 
     given("an Api") {
 
@@ -35,7 +37,7 @@ class TransferAggregateTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> transfer") {
+        on("v1/chain/push_transaction -> vote") {
 
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
@@ -44,9 +46,9 @@ class TransferAggregateTest : Spek({
                 CreateAccountAggregate.Args(
                     firstAccountName,
                     CreateAccountAggregate.Args.Quantity(
-                        "1.0000 SYS",
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
+                        "100.0000 SYS",
+                        "100.0000 SYS",
+                        "100.0000 SYS"),
                     privateKey.publicKey,
                     privateKey.publicKey,
                     "eosio",
@@ -55,52 +57,20 @@ class TransferAggregateTest : Spek({
                 )
             ).blockingGet()
 
-            val secondAccountName = generateUniqueAccountName()
-            CreateAccountAggregate(chainApi).createAccount(
-                CreateAccountAggregate.Args(
-                    secondAccountName,
-                    CreateAccountAggregate.Args.Quantity(
-                        "1.0000 SYS",
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
-                    "eosio",
-                    privateKey,
-                    Calendar.getInstance().toLocalDateTime()
-                )
-            ).blockingGet()
-
-            val transfer1 = TransferAggregate(chainApi).transfer(
-                TransferAggregate.Args(
-                    "eosio",
-                    secondAccountName,
-                    "10.0000 SYS",
-                    "here is some coins!",
-                    "eosio",
-                    privateKey,
-                    Calendar.getInstance().toLocalDateTime()
-                )
-            ).blockingGet()
-
-            val transfer2 = TransferAggregate(chainApi).transfer(
-                TransferAggregate.Args(
-                    secondAccountName,
+            val vote = VoteAggregate(chainApi).vote(
+                VoteAggregate.Args(
                     firstAccountName,
-                    "1.0000 SYS",
-                    "Enjoy these coins!",
-                    secondAccountName,
+                    "",
+                    asList("memtripblock"),
+                    firstAccountName,
                     privateKey,
                     Calendar.getInstance().toLocalDateTime()
                 )
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertNotNull(transfer1.body)
-                Assert.assertTrue(transfer1.isSuccessful)
-
-                Assert.assertNotNull(transfer2.body)
-                Assert.assertTrue(transfer2.isSuccessful)
+                Assert.assertNotNull(vote.body)
+                Assert.assertTrue(vote.isSuccessful)
             }
         }
     }

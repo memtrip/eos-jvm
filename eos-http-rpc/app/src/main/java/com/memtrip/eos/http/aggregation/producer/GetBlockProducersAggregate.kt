@@ -24,7 +24,12 @@ class GetBlockProducersAggregate(
                 response.body()!!.rows.map { producer ->
                     val bpParent = getBpJson(producer)
                     if (bpParent != null) {
-                        BlockProducer(producer, bpParent)
+                        if (bpParent.nodes.isNotEmpty() &&
+                            bpParent.nodes[0].api_endpoint != null) {
+                            BlockProducer(producer, bpParent, bpParent.nodes[0].api_endpoint!!)
+                        } else {
+                            null
+                        }
                     } else {
                         null
                     }

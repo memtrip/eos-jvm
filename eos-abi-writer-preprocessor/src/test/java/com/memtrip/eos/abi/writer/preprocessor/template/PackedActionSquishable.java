@@ -16,6 +16,7 @@ public class PackedActionSquishable implements Squishable<PackedAction> {
     public void squish(PackedAction packedAction, ByteWriter byteWriter) {
         byteWriter.putAccountName(packedAction.account());
         byteWriter.putName(packedAction.name());
+        byteWriter.putAccountNameCollection(packedAction.producers());
 
         abiBinaryGen.compressCollectionPackedTransactionAuthorization(packedAction.authorization(), byteWriter);
 

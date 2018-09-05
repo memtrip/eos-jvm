@@ -1,5 +1,6 @@
 package com.memtrip.eos.abi.writer.preprocessor;
 
+import com.memtrip.eos.abi.writer.AccountNameCollectionCompress;
 import com.memtrip.eos.abi.writer.AccountNameCompress;
 import com.memtrip.eos.abi.writer.AssetCompress;
 import com.memtrip.eos.abi.writer.BlockNumCompress;
@@ -125,6 +126,8 @@ final class ParseAnnotations {
             return CompressType.STRING_COLLECTION;
         } else if (hasAnnotation(element, CollectionCompress.class)) {
             return CompressType.COLLECTION;
+        } else if (hasAnnotation(element, AccountNameCollectionCompress.class)) {
+            return CompressType.ACCOUNT_NAME_COLLECTION;
         } else if (hasAnnotation(element, ChildCompress.class)) {
             return CompressType.CHILD;
         } else {
@@ -153,6 +156,7 @@ final class ParseAnnotations {
             || hasAnnotation(element, StringCompress.class)
             || hasAnnotation(element, StringCollectionCompress.class)
             || hasAnnotation(element, CollectionCompress.class)
+            || hasAnnotation(element, AccountNameCollectionCompress.class)
             || hasAnnotation(element, ChildCompress.class);
     }
 

@@ -71,6 +71,9 @@ public class ${abi.getClassName()}Squishable implements Squishable<${abi.getClas
             <#if field.isStringCollection()>
                 byteWriter.putStringCollection(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
+            <#if field.isAccountNameCollection()>
+                byteWriter.putAccountNameCollection(${abi.getClassName()?lower_case}.${field.getName()}());
+            </#if>
             <#if field.isChild()>
                 abiBinaryGen.squish${extractObject(field.getClassType())}(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>

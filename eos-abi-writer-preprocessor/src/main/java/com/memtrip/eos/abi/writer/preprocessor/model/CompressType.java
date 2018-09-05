@@ -20,5 +20,6 @@ public enum  CompressType {
     STRING,
     STRING_COLLECTION,
     COLLECTION,
+    ACCOUNT_NAME_COLLECTION,
     CHILD
 }

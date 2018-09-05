@@ -62,3 +62,6 @@ annotation class CollectionCompress
 
 @Target(AnnotationTarget.PROPERTY_GETTER)
 annotation class HexCollectionCompress
+
+@Target(AnnotationTarget.PROPERTY_GETTER)
+annotation class AccountNameCollectionCompress

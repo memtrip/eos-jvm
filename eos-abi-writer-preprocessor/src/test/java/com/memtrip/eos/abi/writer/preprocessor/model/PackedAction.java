@@ -1,6 +1,7 @@
 package com.memtrip.eos.abi.writer.preprocessor.model;
 
 import com.memtrip.eos.abi.writer.Abi;
+import com.memtrip.eos.abi.writer.AccountNameCollectionCompress;
 import com.memtrip.eos.abi.writer.AccountNameCompress;
 import com.memtrip.eos.abi.writer.CollectionCompress;
 import com.memtrip.eos.abi.writer.DataCompress;
@@ -15,6 +16,7 @@ public class PackedAction {
     private final String name;
     private final List<PackedTransactionAuthorization> authorization;
     private final String data;
+    private final List<String> producers;
 
     @AccountNameCompress
     public String account() {
@@ -36,15 +38,22 @@ public class PackedAction {
         return data;
     }
 
+    @AccountNameCollectionCompress
+    public List<String> producers() {
+        return producers;
+    }
+
     public PackedAction(
         String account,
         String name,
         List<PackedTransactionAuthorization> authorization,
-        String data
+        String data,
+        List<String> producers
     ) {
         this.account = account;
         this.name = name;
         this.authorization = authorization;
         this.data = data;
+        this.producers = producers;
     }
 }

@@ -21,6 +21,7 @@ interface ByteWriter {
     fun putString(value: String)
     fun putStringCollection(stringList: List<String>)
     fun putHexCollection(stringList: List<String>)
+    fun putAccountNameCollection(accountNameList: List<String>)
 
     fun toBytes(): ByteArray
     fun length(): Int

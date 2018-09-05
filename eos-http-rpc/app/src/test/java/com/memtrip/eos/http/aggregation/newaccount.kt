@@ -20,7 +20,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class AggregateCreateAccountTest : Spek({
+class CreateAccountAggregateTest : Spek({
 
     given("an Api") {
 
