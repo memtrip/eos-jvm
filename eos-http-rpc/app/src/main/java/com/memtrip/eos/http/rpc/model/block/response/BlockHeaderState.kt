@@ -1,4 +1,8 @@
 package com.memtrip.eos.http.rpc.model.block.response
+
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class BlockHeaderState(
     val id: String,
     val block_num: Int,

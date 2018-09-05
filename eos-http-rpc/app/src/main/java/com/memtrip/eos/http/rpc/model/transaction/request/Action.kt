@@ -6,8 +6,10 @@ import com.memtrip.eos.abi.writer.CollectionCompress
 import com.memtrip.eos.abi.writer.DataCompress
 import com.memtrip.eos.abi.writer.NameCompress
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
+import com.squareup.moshi.JsonClass
 
 @Abi
+@JsonClass(generateAdapter = true)
 data class Action(
     val account: String,
     val name: String,

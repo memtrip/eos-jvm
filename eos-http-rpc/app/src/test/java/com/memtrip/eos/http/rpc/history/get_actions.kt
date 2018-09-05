@@ -22,7 +22,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class ChainGetActionsTest : Spek({
+class HistoryGetActionsTest : Spek({
 
     given("an Api") {
 

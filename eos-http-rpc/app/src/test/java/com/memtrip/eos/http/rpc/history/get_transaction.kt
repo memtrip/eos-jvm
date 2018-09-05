@@ -20,7 +20,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class ChainGetTransactionsTest : Spek({
+class HistoryGetTransactionsTest : Spek({
 
     given("an Api") {
 

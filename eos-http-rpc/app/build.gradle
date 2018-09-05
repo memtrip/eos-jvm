@@ -20,7 +20,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -40,7 +40,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -61,6 +61,7 @@ dependencies {
 
     /* moshi */
     implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
 
     /* rxkotlin */
     implementation 'io.reactivex:rxkotlin:1.0.0'

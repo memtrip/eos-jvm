@@ -14,10 +14,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class Api(
     baseUrl: String,
     okHttpClient: OkHttpClient,
-    moshi: Moshi = Moshi.Builder()
-        .add(KotlinJsonAdapterFactory())
-        .add(LocalDateTimeAdapter())
-        .build(),
+    moshi: Moshi = Moshi.Builder().add(LocalDateTimeAdapter()).build(),
     converterFactory: Converter.Factory = MoshiConverterFactory.create(moshi),
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)

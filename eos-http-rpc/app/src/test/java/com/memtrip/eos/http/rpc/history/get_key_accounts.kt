@@ -21,7 +21,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class ChainGetKeyAccountsTest : Spek({
+class HistoryGetKeyAccountsTest : Spek({
 
     given("an Api") {
 

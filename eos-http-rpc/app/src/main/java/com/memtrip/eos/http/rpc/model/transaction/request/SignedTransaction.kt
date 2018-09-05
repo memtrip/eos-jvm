@@ -4,8 +4,10 @@ import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.ChainIdCompress
 import com.memtrip.eos.abi.writer.ChildCompress
 import com.memtrip.eos.abi.writer.HexCollectionCompress
+import com.squareup.moshi.JsonClass
 
 @Abi
+@JsonClass(generateAdapter = true)
 data class SignedTransaction(
     val chainId: String,
     val transaction: Transaction,

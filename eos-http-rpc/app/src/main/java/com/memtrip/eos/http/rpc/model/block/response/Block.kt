@@ -1,7 +1,9 @@
 package com.memtrip.eos.http.rpc.model.block.response
 
+import com.squareup.moshi.JsonClass
 import org.threeten.bp.LocalDateTime
 
+@JsonClass(generateAdapter = true)
 data class Block(
     val id: String,
     val block_num: Int,

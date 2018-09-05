@@ -1,8 +1,10 @@
 package com.memtrip.eos.http.rpc.model.history.response
 
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
+import com.squareup.moshi.JsonClass
 import org.threeten.bp.LocalDateTime
 
+@JsonClass(generateAdapter = true)
 class ExecutedTransaction(
     val expiration: LocalDateTime,
     val ref_block_num: Int,

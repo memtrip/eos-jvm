@@ -4,8 +4,10 @@ import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.CollectionCompress
 import com.memtrip.eos.abi.writer.IntCompress
 import com.memtrip.eos.abi.writer.StringCollectionCompress
+import com.squareup.moshi.JsonClass
 
 @Abi
+@JsonClass(generateAdapter = true)
 data class AccountRequiredAuth(
     val threshold: Int,
     val keys: List<AccountKey>,

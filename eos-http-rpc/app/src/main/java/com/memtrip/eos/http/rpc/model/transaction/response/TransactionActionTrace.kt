@@ -1,5 +1,8 @@
 package com.memtrip.eos.http.rpc.model.transaction.response
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class TransactionActionTrace(
     val receipt: TransactionReceipt,
     val act: TransactionAct,
@@ -8,4 +11,5 @@ data class TransactionActionTrace(
     val console: String,
     val total_cpu_usage: Int,
     val trx_id: String,
-    val inline_traces: List<TransactionActionTrace>)
+    val inline_traces: List<TransactionActionTrace>
+)

@@ -1,5 +1,8 @@
 package com.memtrip.eos.http.rpc.model.contract.response
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class AbiContract(
     val version: String,
     val types: List<AbiType>,

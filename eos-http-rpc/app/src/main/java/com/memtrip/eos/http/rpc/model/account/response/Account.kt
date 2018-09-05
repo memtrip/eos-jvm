@@ -1,7 +1,9 @@
 package com.memtrip.eos.http.rpc.model.account.response
 
+import com.squareup.moshi.JsonClass
 import org.threeten.bp.LocalDateTime
 
+@JsonClass(generateAdapter = true)
 data class Account(
     val account_name: String,
     val head_block_num: Int,
@@ -19,4 +21,5 @@ data class Account(
     val total_resources: Any?,
     val self_delegated_bandwidth: Any?,
     val refund_request: Any?,
-    val voter_info: Any?)
+    val voter_info: Any?
+)

@@ -7,10 +7,12 @@ import com.memtrip.eos.abi.writer.CollectionCompress
 import com.memtrip.eos.abi.writer.StringCollectionCompress
 import com.memtrip.eos.abi.writer.TimestampCompress
 import com.memtrip.eos.abi.writer.VariableUIntCompress
+import com.squareup.moshi.JsonClass
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 
 @Abi
+@JsonClass(generateAdapter = true)
 class Transaction(
     val expiration: LocalDateTime,
     val ref_block_num: Int,
