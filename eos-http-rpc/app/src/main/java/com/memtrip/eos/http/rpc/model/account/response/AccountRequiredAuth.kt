@@ -12,7 +12,8 @@ data class AccountRequiredAuth(
     val threshold: Int,
     val keys: List<AccountKey>,
     val accounts: List<String>,
-    val waits: List<String>) {
+    val waits: List<String>
+) {
 
     val getThreshold: Int
         @IntCompress get() = threshold

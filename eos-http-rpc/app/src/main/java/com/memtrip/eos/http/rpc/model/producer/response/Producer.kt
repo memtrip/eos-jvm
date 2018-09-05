@@ -1,4 +1,4 @@
-package com.memtrip.eos.http.rpc.model.producer
+package com.memtrip.eos.http.rpc.model.producer.response
 
 import com.squareup.moshi.JsonClass
 

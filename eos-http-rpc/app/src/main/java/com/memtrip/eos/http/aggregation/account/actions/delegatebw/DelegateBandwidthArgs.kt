@@ -11,7 +11,8 @@ data class DelegateBandwidthArgs(
     val receiver: String,
     val stake_net_quantity: String,
     val stake_cpu_quantity: String,
-    val transfer: Int) {
+    val transfer: Int
+) {
 
     val getFrom: String
         @AccountNameCompress get() = from

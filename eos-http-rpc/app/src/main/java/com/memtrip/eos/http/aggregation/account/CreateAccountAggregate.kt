@@ -6,7 +6,7 @@ import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.core.crypto.EosPublicKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
 
-import com.memtrip.eos.http.aggregation.TransactionResponse
+import com.memtrip.eos.http.aggregation.AggregateResponse
 import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
 import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamBody
 import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthArgs
@@ -29,7 +29,7 @@ import org.threeten.bp.LocalDateTime
 import retrofit2.Response
 import java.util.Arrays
 
-class CreateAccount(
+class CreateAccountAggregate(
     private val chainApi: ChainApi
 ) {
 
@@ -40,15 +40,17 @@ class CreateAccount(
         val activePublicKey: EosPublicKey,
         val authorizingAccountName: String,
         val authorizingPrivateKey: EosPrivateKey,
-        val expirationDate: LocalDateTime) {
+        val expirationDate: LocalDateTime
+    ) {
 
         data class Quantity(
             val ram: String,
             val net: String,
-            val cpu: String)
+            val cpu: String
+        )
     }
 
-    fun createAccount(args: Args): Single<TransactionResponse<TransactionCommitted>> {
+    fun createAccount(args: Args): Single<AggregateResponse<TransactionCommitted>> {
         return chainApi.getInfo().flatMap { info ->
             if (info.isSuccessful) {
                 val transaction = transaction(
@@ -77,7 +79,7 @@ class CreateAccount(
                 Single.just(Response.error(info.code(), info.errorBody()!!))
             }
         }.map {
-            TransactionResponse(
+            AggregateResponse(
                 it.isSuccessful,
                 it.code(),
                 it.body(),

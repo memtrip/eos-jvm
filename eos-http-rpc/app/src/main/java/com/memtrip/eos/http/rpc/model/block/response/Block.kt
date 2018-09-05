@@ -18,4 +18,5 @@ data class Block(
     val new_producers: Any?,
     val producer_signature: String,
     val regions: List<Region>?,
-    val input_transactions: List<Any>?)
+    val input_transactions: List<Any>?
+)

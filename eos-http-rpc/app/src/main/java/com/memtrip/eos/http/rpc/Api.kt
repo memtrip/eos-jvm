@@ -2,12 +2,9 @@ package com.memtrip.eos.http.rpc
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import com.memtrip.eos.http.rpc.utils.LocalDateTimeAdapter
-
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Converter
-
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 

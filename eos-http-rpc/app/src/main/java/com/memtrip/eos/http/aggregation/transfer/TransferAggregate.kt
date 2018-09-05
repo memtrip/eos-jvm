@@ -4,7 +4,7 @@ import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
-import com.memtrip.eos.http.aggregation.TransactionResponse
+import com.memtrip.eos.http.aggregation.AggregateResponse
 
 import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
 import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
@@ -21,7 +21,7 @@ import org.threeten.bp.LocalDateTime
 import retrofit2.Response
 import java.util.Arrays
 
-class Transfer(
+class TransferAggregate(
     private val chainApi: ChainApi
 ) {
 
@@ -35,7 +35,7 @@ class Transfer(
         val expirationDate: LocalDateTime
     )
 
-    fun transfer(args: Args): Single<TransactionResponse<TransactionCommitted>> {
+    fun transfer(args: Args): Single<AggregateResponse<TransactionCommitted>> {
         return chainApi.getInfo().flatMap { info ->
             if (info.isSuccessful) {
 
@@ -63,7 +63,7 @@ class Transfer(
                 Single.just(Response.error(info.code(), info.errorBody()!!))
             }
         }.map {
-            TransactionResponse(
+            AggregateResponse(
                 it.isSuccessful,
                 it.code(),
                 it.body(),

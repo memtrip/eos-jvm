@@ -7,7 +7,8 @@ import com.memtrip.eos.abi.writer.ChildCompress
 data class TransferBody(
     val code: String,
     val action: String,
-    val args: TransferArgs) {
+    val args: TransferArgs
+) {
 
     val getArgs: TransferArgs
         @ChildCompress get() = args

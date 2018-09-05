@@ -10,7 +10,8 @@ data class TransferArgs(
     val from: String,
     val to: String,
     val quantity: String,
-    val memo: String) {
+    val memo: String
+) {
 
     val getFrom: String
         @AccountNameCompress get() = from

@@ -76,6 +76,15 @@ cleos push action eosio.token transfer \
 ## Install the system contracts
 cleos set contract eosio /contracts/eosio.system -p eosio@active
 
+## Make eosio.msg a privileged account so that it can authorize on behalf of eosio
+cleos push action eosio setpriv '["eosio.msig", 1]' -p eosio@active
+
+## Create an account for the block producer
+cleos system newaccount eosio --transfer memtripblock EOS5nyBg8bYrXxpPJfC7i4oakB7m6aBGMTmZpb6pAUqjTWQr88D1S --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
+
+## Register the public key and account as a block producer
+cleos system regproducer memtripblock EOS5nyBg8bYrXxpPJfC7i4oakB7m6aBGMTmZpb6pAUqjTWQr88D1S https://memtrip.com/
+
 ## echo the wallet and key details for the developer to take note of
 echo "\n"
 echo "> system contracts installed"

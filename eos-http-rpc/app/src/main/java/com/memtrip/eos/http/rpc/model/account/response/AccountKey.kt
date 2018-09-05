@@ -9,7 +9,8 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class AccountKey(
     val key: String,
-    val weight: Short) {
+    val weight: Short
+) {
 
     val getKey: String
         @PublicKeyCompress get() = key

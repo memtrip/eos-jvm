@@ -24,7 +24,8 @@ class Transaction(
     val actions: List<Action>,
     val transaction_extensions: List<String>,
     val signatures: List<String>,
-    val context_free_data: List<String>) {
+    val context_free_data: List<String>
+) {
 
     val getExpiration: Long
         @TimestampCompress get() = expiration.toInstant(ZoneOffset.UTC).toEpochMilli()

@@ -16,6 +16,8 @@ import com.memtrip.eos.http.rpc.model.contract.response.CodeForAccount
 import com.memtrip.eos.http.rpc.model.contract.response.ContractTableRows
 import com.memtrip.eos.http.rpc.model.contract.response.RawCodeForAccount
 import com.memtrip.eos.http.rpc.model.info.Info
+import com.memtrip.eos.http.rpc.model.producer.request.GetProducers
+import com.memtrip.eos.http.rpc.model.producer.response.ProducerList
 import com.memtrip.eos.http.rpc.model.signing.GetRequiredKeysBody
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.signing.RequiredKeys
@@ -31,6 +33,9 @@ interface ChainApi {
 
     @POST("v1/chain/get_info")
     fun getInfo(): Single<Response<Info>>
+
+    @POST("v1/chain/get_producers")
+    fun getProducers(@Body body: GetProducers): Single<Response<ProducerList>>
 
     @POST("v1/chain/get_block")
     fun getBlock(@Body body: BlockNumOrId): Single<Response<Block>>

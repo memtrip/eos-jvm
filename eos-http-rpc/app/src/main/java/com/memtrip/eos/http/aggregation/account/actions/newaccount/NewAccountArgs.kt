@@ -10,7 +10,8 @@ data class NewAccountArgs(
     val creator: String,
     val name: String,
     val owner: AccountRequiredAuth,
-    val active: AccountRequiredAuth) {
+    val active: AccountRequiredAuth
+) {
 
     val getCreator: String
         @AccountNameCompress get() = creator

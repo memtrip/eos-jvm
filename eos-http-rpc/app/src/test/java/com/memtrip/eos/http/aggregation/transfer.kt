@@ -1,8 +1,8 @@
 package com.memtrip.eos.http.aggregation
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.CreateAccount
-import com.memtrip.eos.http.aggregation.transfer.Transfer
+import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.transfer.TransferAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -20,7 +20,7 @@ import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class ChainTransferTest : Spek({
+class AggregateTransferTest : Spek({
 
     given("an Api") {
 
@@ -40,10 +40,10 @@ class ChainTransferTest : Spek({
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
             val firstAccountName = generateUniqueAccountName()
-            CreateAccount(chainApi).createAccount(
-                CreateAccount.Args(
+            CreateAccountAggregate(chainApi).createAccount(
+                CreateAccountAggregate.Args(
                     firstAccountName,
-                    CreateAccount.Args.Quantity(
+                    CreateAccountAggregate.Args.Quantity(
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
@@ -56,10 +56,10 @@ class ChainTransferTest : Spek({
             ).blockingGet()
 
             val secondAccountName = generateUniqueAccountName()
-            CreateAccount(chainApi).createAccount(
-                CreateAccount.Args(
+            CreateAccountAggregate(chainApi).createAccount(
+                CreateAccountAggregate.Args(
                     secondAccountName,
-                    CreateAccount.Args.Quantity(
+                    CreateAccountAggregate.Args.Quantity(
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
@@ -71,8 +71,8 @@ class ChainTransferTest : Spek({
                 )
             ).blockingGet()
 
-            val transfer1 = Transfer(chainApi).transfer(
-                Transfer.Args(
+            val transfer1 = TransferAggregate(chainApi).transfer(
+                TransferAggregate.Args(
                     "eosio",
                     secondAccountName,
                     "10.0000 SYS",
@@ -83,8 +83,8 @@ class ChainTransferTest : Spek({
                 )
             ).blockingGet()
 
-            val transfer2 = Transfer(chainApi).transfer(
-                Transfer.Args(
+            val transfer2 = TransferAggregate(chainApi).transfer(
+                TransferAggregate.Args(
                     secondAccountName,
                     firstAccountName,
                     "1.0000 SYS",
@@ -94,7 +94,6 @@ class ChainTransferTest : Spek({
                     Calendar.getInstance().toLocalDateTime()
                 )
             ).blockingGet()
-
 
             it("should return the transaction") {
                 Assert.assertNotNull(transfer1.body)

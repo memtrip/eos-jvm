@@ -1,7 +1,7 @@
 package com.memtrip.eos.http.rpc.history
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.CreateAccount
+import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -40,10 +40,10 @@ class HistoryGetTransactionsTest : Spek({
 
         val accountName = generateUniqueAccountName()
 
-        val createTransaction = CreateAccount(chainApi).createAccount(
-            CreateAccount.Args(
+        val createTransaction = CreateAccountAggregate(chainApi).createAccount(
+            CreateAccountAggregate.Args(
                 accountName,
-                CreateAccount.Args.Quantity(
+                CreateAccountAggregate.Args.Quantity(
                     "1.0000 SYS",
                     "1.0000 SYS",
                     "11.0000 SYS"),

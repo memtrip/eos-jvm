@@ -1,7 +1,5 @@
 package com.memtrip.eos.http.aggregation.producer.bpjson.response
 
-import com.memtrip.eos.http.aggregation.producer.BpNode
-import com.memtrip.eos.http.aggregation.producer.BpOrg
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)

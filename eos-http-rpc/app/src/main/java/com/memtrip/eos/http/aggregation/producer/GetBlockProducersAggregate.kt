@@ -9,7 +9,7 @@ import com.memtrip.eos.http.rpc.model.producer.response.Producer
 
 import io.reactivex.Single
 
-class GetProducerListAggregate(
+class GetBlockProducersAggregate(
     private val chainApi: ChainApi,
     private val getBpJson: GetBpJson = GetBpJson()
 ) {
@@ -39,7 +39,7 @@ class GetProducerListAggregate(
         val response = getBpJson.get(producer.url)
 
         return if (response.isSuccessful) {
-            response.body()
+            response.body
         } else {
             null
         }

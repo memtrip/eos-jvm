@@ -186,7 +186,6 @@ class WalletSignTransactionTest : Spek({
                 emptyList(),
                 emptyList())
 
-
             /**
              * v1/wallet/sign_transaction
              */

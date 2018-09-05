@@ -8,7 +8,8 @@ import com.memtrip.eos.abi.writer.AssetCompress
 data class BuyRamArgs(
     val payer: String,
     val receiver: String,
-    val quant: String) {
+    val quant: String
+) {
 
     val getCreator: String
         @AccountNameCompress get() = payer
