@@ -17,7 +17,7 @@ fun generateUniqueAccountName(): String {
 class Config {
     companion object {
         const val WALLET_API_BASE_URL = "http://localhost:8899/"
-        const val CHAIN_API_BASE_URL = "http://localhost:8888/"
+        const val CHAIN_API_BASE_URL = "http://api.eosnewyork.io/"
     }
 }
 

@@ -8,15 +8,22 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class GetBpJson(
-    private val okHttpClient: OkHttpClient = OkHttpClient.Builder().build(),
+    private val okHttpClient: OkHttpClient =
+        OkHttpClient
+            .Builder()
+            .connectTimeout(2000, TimeUnit.MILLISECONDS)
+            .readTimeout(1500, TimeUnit.MILLISECONDS)
+            .build(),
     private val moshi: Moshi = Moshi.Builder().build()
 ) {
     fun get(url: String): AggregateResponse<BpParent> {
+        val patchedUrl = patchUrl(url)
         return try {
             val response = okHttpClient.newCall(
-                Request.Builder().url("${url}bp.json").build()
+                Request.Builder().url("${patchedUrl}bp.json").build()
             ).execute()
 
             return if (response.isSuccessful) {
@@ -26,7 +33,7 @@ class GetBpJson(
                     response.code(),
                     moshi.adapter(BpParent::class.java).fromJson(response.body()!!.string()),
                     null)
-                } catch (e: IOException) {
+                } catch (e: Exception) {
                     AggregateResponse.error<BpParent>()
                 }
             } else {
@@ -34,6 +41,14 @@ class GetBpJson(
             }
         } catch (e: IOException) {
             AggregateResponse.error()
+        }
+    }
+
+    private fun patchUrl(url: String): String {
+        if (!url.endsWith("/")) {
+            return "$url/"
+        } else {
+            return url
         }
     }
 }
