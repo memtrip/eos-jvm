@@ -1,4 +1,4 @@
-package com.memtrip.eos.http.aggregation.account.actions.delegatebw
+package com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.AccountNameCompress

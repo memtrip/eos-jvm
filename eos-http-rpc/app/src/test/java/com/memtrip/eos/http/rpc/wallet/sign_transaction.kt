@@ -3,12 +3,12 @@ package com.memtrip.eos.http.rpc.wallet
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamBody
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthArgs
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountBody
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -18,8 +18,8 @@ import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.toLocalDateTime
-import com.memtrip.eos.http.rpc.utils.LocalDateTimeAdapter
+import com.memtrip.eos.http.rpc.toNowDate
+import com.memtrip.eos.http.rpc.utils.DateAdapter
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
@@ -146,7 +146,7 @@ class WalletSignTransactionTest : Spek({
              * Sign transaction
              */
             val transaction = Transaction(
-                Calendar.getInstance().toLocalDateTime(),
+                Calendar.getInstance().toNowDate(),
                 blockIdDetails.blockNum,
                 blockIdDetails.blockPrefix,
                 0,
@@ -190,7 +190,7 @@ class WalletSignTransactionTest : Spek({
              * v1/wallet/sign_transaction
              */
             val jsonAdapter = Moshi.Builder()
-                .add(LocalDateTimeAdapter())
+                .add(DateAdapter())
                 .build()
                 .adapter<Transaction>(Transaction::class.java)
 

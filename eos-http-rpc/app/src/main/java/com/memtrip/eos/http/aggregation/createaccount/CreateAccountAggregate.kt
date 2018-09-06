@@ -1,4 +1,4 @@
-package com.memtrip.eos.http.aggregation.account
+package com.memtrip.eos.http.aggregation.createaccount
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
@@ -7,12 +7,12 @@ import com.memtrip.eos.core.crypto.EosPublicKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
 
 import com.memtrip.eos.http.aggregation.AggregateResponse
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamBody
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthArgs
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthBody
+import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountArgs
+import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountBody
 
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.account.response.AccountKey
@@ -25,7 +25,7 @@ import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import io.reactivex.Single
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 import retrofit2.Response
 import java.util.Arrays
 
@@ -40,7 +40,7 @@ class CreateAccountAggregate(
         val activePublicKey: EosPublicKey,
         val authorizingAccountName: String,
         val authorizingPrivateKey: EosPrivateKey,
-        val expirationDate: LocalDateTime
+        val expirationDate: Date
     ) {
 
         data class Quantity(

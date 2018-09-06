@@ -1,11 +1,11 @@
 package com.memtrip.eos.http.rpc.model.block.response
 
 import com.squareup.moshi.JsonClass
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class BlockHeaderStateHeader(
-    val timestamp: LocalDateTime,
+    val timestamp: Date,
     val producer: String,
     val confirmed: Int,
     val previous: String,

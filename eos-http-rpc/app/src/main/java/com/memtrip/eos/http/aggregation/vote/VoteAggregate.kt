@@ -17,7 +17,7 @@ import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import io.reactivex.Single
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 import retrofit2.Response
 import java.util.Arrays
 
@@ -31,7 +31,7 @@ class VoteAggregate(
         val producers: List<String>,
         val authorizingAccountName: String,
         val authorizingPrivateKey: EosPrivateKey,
-        val expirationDate: LocalDateTime
+        val expirationDate: Date
     )
 
     fun vote(args: Args): Single<AggregateResponse<TransactionCommitted>> {

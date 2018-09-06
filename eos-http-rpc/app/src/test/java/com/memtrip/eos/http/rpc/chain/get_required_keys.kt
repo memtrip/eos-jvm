@@ -11,7 +11,7 @@ import com.memtrip.eos.http.rpc.model.signing.GetRequiredKeysBody
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.toLocalDateTime
+import com.memtrip.eos.http.rpc.toFutureDate
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -70,7 +70,7 @@ class ChainGetRequiredKeysTest : Spek({
             val abiBin = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
             val transaction = Transaction(
-                Calendar.getInstance().toLocalDateTime(),
+                Calendar.getInstance().toFutureDate(),
                 blockIdDetails.blockNum,
                 blockIdDetails.blockPrefix,
                 0,

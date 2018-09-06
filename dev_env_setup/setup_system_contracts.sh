@@ -80,10 +80,10 @@ cleos set contract eosio /contracts/eosio.system -p eosio@active
 cleos push action eosio setpriv '["eosio.msig", 1]' -p eosio@active
 
 ## Create an account for the block producer
-cleos system newaccount eosio --transfer memtripblock EOS5nyBg8bYrXxpPJfC7i4oakB7m6aBGMTmZpb6pAUqjTWQr88D1S --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
+cleos system newaccount eosio --transfer memtripblock $PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
 
 ## Register the public key and account as a block producer
-cleos system regproducer memtripblock EOS5nyBg8bYrXxpPJfC7i4oakB7m6aBGMTmZpb6pAUqjTWQr88D1S https://memtrip.com/
+cleos system regproducer memtripblock $PUBLIC_KEY https://memtrip.com/
 
 ## echo the wallet and key details for the developer to take note of
 echo "\n"
@@ -91,4 +91,5 @@ echo "> system contracts installed"
 
 mkdir -p session
 echo $PUBLIC_KEY > session/public_key
+echo $PRIVATE_KEY > session/private_key
 echo $WALLET_PASSWORD > session/wallet_password

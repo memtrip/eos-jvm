@@ -20,7 +20,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.5'
+    libraryVersion = '1.0.8'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -59,15 +59,14 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.4.0'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
+    implementation 'javax.xml.bind:jaxb-api:2.2.12-b140109.1041'
+
     /* moshi */
     implementation 'com.squareup.moshi:moshi-kotlin:1.6.0'
     kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
 
     /* rxkotlin */
     implementation 'io.reactivex:rxkotlin:1.0.0'
-
-    /* JSR-310 */
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     implementation "com.memtrip.eos-jvm:eos-core:1.0.1"
     implementation "com.memtrip.eos-jvm:eos-abi-writer:1.0.2"

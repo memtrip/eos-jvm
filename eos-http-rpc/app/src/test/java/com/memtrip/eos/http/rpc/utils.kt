@@ -1,6 +1,6 @@
 package com.memtrip.eos.http.rpc
 
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 import java.util.Calendar
 import java.util.Random
 
@@ -17,9 +17,15 @@ fun generateUniqueAccountName(): String {
 class Config {
     companion object {
         const val WALLET_API_BASE_URL = "http://localhost:8899/"
-        const val CHAIN_API_BASE_URL = "http://api.eosnewyork.io/"
+        const val CHAIN_API_BASE_URL = "http://localhost:8888/"
     }
 }
 
-fun Calendar.toLocalDateTime(): LocalDateTime = LocalDateTime.of(get(Calendar.YEAR), get(Calendar.MONTH) + 1, get(Calendar.DAY_OF_MONTH), get(Calendar.HOUR_OF_DAY), get(Calendar.MINUTE), get(Calendar.SECOND),
-    get(Calendar.MILLISECOND) * 1000000)
+fun Calendar.toFutureDate(): Date = with (Calendar.getInstance()) {
+    set(Calendar.MINUTE, get(Calendar.SECOND)+30)
+    this
+}.time
+
+fun Calendar.toNowDate(): Date = with (Calendar.getInstance()) {
+    this
+}.time

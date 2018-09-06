@@ -1,12 +1,12 @@
 package com.memtrip.eos.http.aggregation
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.createaccount.CreateAccountAggregate
 import com.memtrip.eos.http.aggregation.transfer.TransferAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
-import com.memtrip.eos.http.rpc.toLocalDateTime
+import com.memtrip.eos.http.rpc.toFutureDate
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -51,7 +51,7 @@ class TransferAggregateTest : Spek({
                     privateKey.publicKey,
                     "eosio",
                     privateKey,
-                    Calendar.getInstance().toLocalDateTime()
+                    Calendar.getInstance().toFutureDate()
                 )
             ).blockingGet()
 
@@ -67,7 +67,7 @@ class TransferAggregateTest : Spek({
                     privateKey.publicKey,
                     "eosio",
                     privateKey,
-                    Calendar.getInstance().toLocalDateTime()
+                    Calendar.getInstance().toFutureDate()
                 )
             ).blockingGet()
 
@@ -79,7 +79,7 @@ class TransferAggregateTest : Spek({
                     "here is some coins!",
                     "eosio",
                     privateKey,
-                    Calendar.getInstance().toLocalDateTime()
+                    Calendar.getInstance().toFutureDate()
                 )
             ).blockingGet()
 
@@ -91,7 +91,7 @@ class TransferAggregateTest : Spek({
                     "Enjoy these coins!",
                     secondAccountName,
                     privateKey,
-                    Calendar.getInstance().toLocalDateTime()
+                    Calendar.getInstance().toFutureDate()
                 )
             ).blockingGet()
 

@@ -5,7 +5,7 @@ import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
 import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.utils.LocalDateTimeAdapter
+import com.memtrip.eos.http.rpc.utils.DateAdapter
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
@@ -51,7 +51,7 @@ class ChainAbiJsoinToBinTest : Spek({
             )
 
             val jsonAdapter = Moshi.Builder()
-                .add(LocalDateTimeAdapter())
+                .add(DateAdapter())
                 .build()
                 .adapter<TransferBody>(TransferBody::class.java)
 

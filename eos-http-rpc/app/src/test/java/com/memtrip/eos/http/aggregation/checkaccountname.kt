@@ -1,8 +1,8 @@
 package com.memtrip.eos.http.aggregation
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
+import com.memtrip.eos.http.aggregation.accountname.CheckAccountNameExists
 import com.memtrip.eos.http.aggregation.createaccount.CreateAccountAggregate
-import com.memtrip.eos.http.aggregation.vote.VoteAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -16,12 +16,11 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Arrays.asList
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class VoteAggregateTest : Spek({
+class CheckAccountNameTest : Spek({
 
     given("an Api") {
 
@@ -36,7 +35,7 @@ class VoteAggregateTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> vote") {
+        on("v1/chain/get_currency_balance -> Account exists") {
 
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
@@ -56,20 +55,23 @@ class VoteAggregateTest : Spek({
                 )
             ).blockingGet()
 
-            val vote = VoteAggregate(chainApi).vote(
-                VoteAggregate.Args(
-                    firstAccountName,
-                    "",
-                    asList("memtripblock"),
-                    firstAccountName,
-                    privateKey,
-                    Calendar.getInstance().toFutureDate()
-                )
-            ).blockingGet()
+            val accountExists = CheckAccountNameExists(chainApi)
+                .checkAccountNameExists(firstAccountName)
+                .blockingGet()
 
-            it("should return the transaction") {
-                Assert.assertNotNull(vote.body)
-                Assert.assertTrue(vote.isSuccessful)
+            it("should return true") {
+                Assert.assertTrue(accountExists)
+            }
+        }
+
+        on("v1/chain/get_currency_balance -> Account does not exists") {
+
+            val accountExists = CheckAccountNameExists(chainApi)
+                .checkAccountNameExists("123456789012")
+                .blockingGet()
+
+            it("should return false") {
+                Assert.assertFalse(accountExists)
             }
         }
     }

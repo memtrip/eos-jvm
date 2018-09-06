@@ -1,7 +1,7 @@
 package com.memtrip.eos.http.rpc.model.block.response
 
 import com.squareup.moshi.JsonClass
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class Block(
@@ -9,7 +9,7 @@ data class Block(
     val block_num: Int,
     val ref_block_prefix: Long,
     val previous: String,
-    val timestamp: LocalDateTime,
+    val timestamp: Date,
     val transaction_mroot: String,
     val action_mroot: String,
     val block_mroot: String?,

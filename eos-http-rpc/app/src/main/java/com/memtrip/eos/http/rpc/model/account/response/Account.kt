@@ -1,16 +1,16 @@
 package com.memtrip.eos.http.rpc.model.account.response
 
 import com.squareup.moshi.JsonClass
-import org.threeten.bp.LocalDateTime
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class Account(
     val account_name: String,
     val head_block_num: Int,
-    val head_block_time: LocalDateTime,
+    val head_block_time: Date,
     val privileged: Boolean,
-    val last_code_update: LocalDateTime,
-    val created: LocalDateTime,
+    val last_code_update: Date,
+    val created: Date,
     val ram_quota: Long,
     val net_weight: Long,
     val cpu_weight: Long,

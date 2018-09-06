@@ -8,13 +8,12 @@ import com.memtrip.eos.abi.writer.StringCollectionCompress
 import com.memtrip.eos.abi.writer.TimestampCompress
 import com.memtrip.eos.abi.writer.VariableUIntCompress
 import com.squareup.moshi.JsonClass
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
+import java.util.Date
 
 @Abi
 @JsonClass(generateAdapter = true)
 class Transaction(
-    val expiration: LocalDateTime,
+    val expiration: Date,
     val ref_block_num: Int,
     val ref_block_prefix: Long,
     val max_net_usage_words: Long,
@@ -28,7 +27,7 @@ class Transaction(
 ) {
 
     val getExpiration: Long
-        @TimestampCompress get() = expiration.toInstant(ZoneOffset.UTC).toEpochMilli()
+        @TimestampCompress get() = expiration.time
 
     val getRefBlockNum: Int
         @BlockNumCompress get() = ref_block_num

@@ -1,12 +1,12 @@
 package com.memtrip.eos.http.rpc.history
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.createaccount.CreateAccountAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
 import com.memtrip.eos.http.rpc.model.history.request.GetTransaction
-import com.memtrip.eos.http.rpc.toLocalDateTime
+import com.memtrip.eos.http.rpc.toFutureDate
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -51,7 +51,7 @@ class HistoryGetTransactionsTest : Spek({
                 privateKey.publicKey,
                 "eosio",
                 privateKey,
-                Calendar.getInstance().toLocalDateTime())).blockingGet()
+                Calendar.getInstance().toFutureDate())).blockingGet()
 
         on("v1/history/get_transactions") {
 
