@@ -1,35 +1,81 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext.kotlin_version = '1.2.60'
     repositories {
-        google()
-        jcenter()
-        mavenLocal()
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0-alpha05'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:5.0.0'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0"
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenLocal()
-        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
+    id "org.jetbrains.kotlin.kapt" version "1.2.61"
+    id 'maven-publish'
+    id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
+}
+
+group 'com.memtrip.eos-jvm'
+version '1.0.9'
+
+repositories {
+    jcenter()
+    mavenLocal()
+}
+
+sourceCompatibility = 1.8
+
+dependencies {
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.61"
+
+    /* retrofit */
+    compile 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.4.0'
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
+
+    compile 'javax.xml.bind:jaxb-api:2.2.12-b140109.1041'
+
+    /* moshi */
+    compile 'com.squareup.moshi:moshi-kotlin:1.6.0'
+    kapt 'com.squareup.moshi:moshi-kotlin-codegen:1.6.0'
+
+    /* rxkotlin */
+    compile 'io.reactivex:rxkotlin:1.0.0'
+
+    compile "com.memtrip.eos-jvm:eos-core:1.0.1"
+    compile "com.memtrip.eos-jvm:eos-abi-writer:1.0.2"
+    kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.1"
+
+    /* junit */
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.junit.platform:junit-platform-runner:1.0.1'
+
+    /* spek */
+    testCompile 'org.jetbrains.spek:spek-api:1.1.5'
+    testCompile 'org.jetbrains.spek:spek-junit-platform-engine:1.1.5'
+
+    testCompile 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    testCompile 'org.json:json:20140107'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.memtrip.eos-jvm'
+            artifactId = 'eos-http-rpc'
+            version = '1.0.10'
+
+            from components.java
+        }
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-subprojects {
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
 }

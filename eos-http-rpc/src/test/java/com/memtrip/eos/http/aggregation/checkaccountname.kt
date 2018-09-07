@@ -67,7 +67,7 @@ class CheckAccountNameTest : Spek({
         on("v1/chain/get_currency_balance -> Account does not exists") {
 
             val accountExists = CheckAccountNameExists(chainApi)
-                .checkAccountNameExists("123456789012")
+                .checkAccountNameExists(generateUniqueAccountName())
                 .blockingGet()
 
             it("should return false") {

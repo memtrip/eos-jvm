@@ -81,15 +81,34 @@ cleos push action eosio setpriv '["eosio.msig", 1]' -p eosio@active
 
 ## Create an account for the block producer
 cleos system newaccount eosio --transfer memtripblock $PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
+cleos push action eosio.token issue '[ "memtripblock", "1000000.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
 
 ## Register the public key and account as a block producer
 cleos system regproducer memtripblock $PUBLIC_KEY https://memtrip.com/
+
+# create a key pair for memtripissue
+declare MEMTRIP_ISSUE_CREATE_KEY_RESULT=($(cleos create key --to-console))
+MEMTRIP_ISSUE_PRIVATE_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[2]}
+MEMTRIP_ISSUE_PUBLIC_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[5]}
+
+cleos wallet import --private-key $MEMTRIP_ISSUE_PRIVATE_KEY
+
+cleos system newaccount eosio --transfer memtripissue $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
+cleos push action eosio.token issue '[ "memtripissue", "1000000.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+# transfer from memtripissue to memtripblock
+cleos push action eosio.token transfer \
+        '[ "memtripissue", "memtripblock", "25.0000 SYS", "m" ]' -p memtripissue@active
 
 ## echo the wallet and key details for the developer to take note of
 echo "\n"
 echo "> system contracts installed"
 
-mkdir -p session
+mkdir -p session/memtripissue
 echo $PUBLIC_KEY > session/public_key
 echo $PRIVATE_KEY > session/private_key
 echo $WALLET_PASSWORD > session/wallet_password
+echo $MEMTRIP_ISSUE_PUBLIC_KEY > session/memtripissue/public_key
+echo $MEMTRIP_ISSUE_PRIVATE_KEY > session/memtripissue/private_key

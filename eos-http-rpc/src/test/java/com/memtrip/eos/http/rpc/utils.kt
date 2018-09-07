@@ -22,7 +22,7 @@ class Config {
 }
 
 fun Calendar.toFutureDate(): Date = with (Calendar.getInstance()) {
-    set(Calendar.MINUTE, get(Calendar.SECOND)+30)
+    set(Calendar.MINUTE, get(Calendar.MINUTE)+5)
     this
 }.time
 

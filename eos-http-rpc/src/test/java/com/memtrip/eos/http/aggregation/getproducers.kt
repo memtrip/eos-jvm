@@ -1,4 +1,4 @@
-package com.memtrip.eos.http.aggregation
+package com.memtrip.eos.http.aggregation.producer
 
 import com.memtrip.eos.http.aggregation.producer.GetBlockProducersAggregate
 import com.memtrip.eos.http.rpc.Api

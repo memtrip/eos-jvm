@@ -91,7 +91,7 @@ class CreateAccountAggregate(
         return AbiBinaryGen(CompressionType.NONE).squishNewAccountBody(
             NewAccountBody(
                 NewAccountArgs(
-                    "eosio",
+                    args.authorizingAccountName,
                     args.newAccountName,
                     AccountRequiredAuth(
                         1,
@@ -165,7 +165,7 @@ class CreateAccountAggregate(
                     "eosio",
                     "newaccount",
                     Arrays.asList(TransactionAuthorization(
-                        "eosio",
+                        args.authorizingAccountName,
                         "active")
                     ),
                     newAccountBin
@@ -174,7 +174,7 @@ class CreateAccountAggregate(
                     "eosio",
                     "buyram",
                     Arrays.asList(TransactionAuthorization(
-                        "eosio",
+                        args.authorizingAccountName,
                         "active")
                     ),
                     buyRamBin
@@ -183,7 +183,7 @@ class CreateAccountAggregate(
                     "eosio",
                     "delegatebw",
                     Arrays.asList(TransactionAuthorization(
-                        "eosio",
+                        args.authorizingAccountName,
                         "active")
                     ),
                     delegateBandWidthBin
