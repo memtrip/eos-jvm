@@ -11,7 +11,7 @@ import com.memtrip.eos.http.rpc.model.signing.GetRequiredKeysBody
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.toFutureDate
+import com.memtrip.eos.http.rpc.transactionDefaultExpiry
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +23,6 @@ import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.Arrays.asList
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
@@ -70,7 +69,7 @@ class ChainGetRequiredKeysTest : Spek({
             val abiBin = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
             val transaction = Transaction(
-                Calendar.getInstance().toFutureDate(),
+                transactionDefaultExpiry(),
                 blockIdDetails.blockNum,
                 blockIdDetails.blockPrefix,
                 0,

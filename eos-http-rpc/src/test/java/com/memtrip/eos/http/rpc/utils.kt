@@ -21,11 +21,7 @@ class Config {
     }
 }
 
-fun Calendar.toFutureDate(): Date = with (Calendar.getInstance()) {
-    set(Calendar.MINUTE, get(Calendar.MINUTE)+5)
-    this
-}.time
-
-fun Calendar.toNowDate(): Date = with (Calendar.getInstance()) {
+fun transactionDefaultExpiry(): Date = with (Calendar.getInstance()) {
+    set(Calendar.MINUTE, get(Calendar.MINUTE) + 2)
     this
 }.time

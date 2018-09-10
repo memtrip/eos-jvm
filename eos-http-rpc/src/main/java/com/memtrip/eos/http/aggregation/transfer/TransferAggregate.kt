@@ -4,7 +4,9 @@ import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
+import com.memtrip.eos.http.aggregation.AggregateContext
 import com.memtrip.eos.http.aggregation.AggregateResponse
+import com.memtrip.eos.http.aggregation.AggregateTransaction
 
 import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
 import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
@@ -21,54 +23,32 @@ import java.util.Date
 import retrofit2.Response
 import java.util.Arrays
 
-class TransferAggregate(
-    private val chainApi: ChainApi
-) {
+class TransferAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi) {
 
     data class Args(
         val fromAccount: String,
         val toAccount: String,
         val quantity: String,
-        val memo: String,
-        val authorizingAccountName: String,
-        val authorizingPrivateKey: EosPrivateKey,
-        val expirationDate: Date
+        val memo: String
     )
 
-    fun transfer(args: Args): Single<AggregateResponse<TransactionCommitted>> {
-        return chainApi.getInfo().flatMap { info ->
-            if (info.isSuccessful) {
+    fun transfer(
+        args: Args,
+        aggregateContext: AggregateContext
+    ): Single<AggregateResponse<TransactionCommitted>> {
 
-                val transaction = transaction(
-                    args,
-                    BlockIdDetails(info.body()!!.head_block_id),
-                    transferBin(args))
-
-                val signature = PrivateKeySigning().sign(
-                    AbiBinaryGen(CompressionType.NONE).squishSignedTransaction(
-                        SignedTransaction(
-                            info.body()!!.chain_id,
-                            transaction,
-                            emptyList()
-                        )
-                    ).toBytes(), args.authorizingPrivateKey)
-
-                chainApi.pushTransaction(
-                    PushTransaction(
-                        Arrays.asList(signature),
-                        "none",
-                        "",
-                        AbiBinaryGen(CompressionType.NONE).squishTransaction(transaction).toHex()))
-            } else {
-                Single.just(Response.error(info.code(), info.errorBody()!!))
-            }
-        }.map {
-            AggregateResponse(
-                it.isSuccessful,
-                it.code(),
-                it.body(),
-                it.errorBody()?.string())
-        }
+        return push(
+            aggregateContext.expirationDate,
+            Arrays.asList(Action(
+                "eosio.token",
+                "transfer",
+                Arrays.asList(TransactionAuthorization(
+                    aggregateContext.authorizingAccountName,
+                    "active")),
+                transferBin(args)
+            )),
+            aggregateContext.authorizingPrivateKey
+        )
     }
 
     private fun transferBin(args: Args): String {
@@ -83,31 +63,5 @@ class TransferAggregate(
                     args.memo)
             )
         ).toHex()
-    }
-
-    private fun transaction(
-        args: Args,
-        blockIdDetails: BlockIdDetails,
-        transferBin: String
-    ): Transaction {
-        return Transaction(
-            args.expirationDate,
-            blockIdDetails.blockNum,
-            blockIdDetails.blockPrefix,
-            0,
-            0,
-            0,
-            emptyList(),
-            Arrays.asList(Action(
-                "eosio.token",
-                "transfer",
-                Arrays.asList(TransactionAuthorization(
-                    args.authorizingAccountName,
-                    "active")),
-                transferBin
-            )),
-            emptyList(),
-            emptyList(),
-            emptyList())
     }
 }

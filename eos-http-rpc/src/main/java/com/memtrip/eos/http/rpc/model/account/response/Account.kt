@@ -21,5 +21,5 @@ data class Account(
     val total_resources: Any?,
     val self_delegated_bandwidth: Any?,
     val refund_request: Any?,
-    val voter_info: Any?
+    val voter_info: VoterInfo?
 )

@@ -1,12 +1,13 @@
 package com.memtrip.eos.http.rpc.chain
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.createaccount.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.AggregateContext
+import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
 import com.memtrip.eos.http.rpc.model.account.request.AccountName
-import com.memtrip.eos.http.rpc.toFutureDate
+import com.memtrip.eos.http.rpc.transactionDefaultExpiry
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -17,7 +18,6 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
@@ -61,15 +61,42 @@ class ChainGetAccountTest : Spek({
                         "11.0000 SYS"),
                     privateKey.publicKey,
                     privateKey.publicKey,
+                    true
+                ),
+                AggregateContext(
                     "eosio",
                     privateKey,
-                    Calendar.getInstance().toFutureDate())).blockingGet()
+                    transactionDefaultExpiry()
+                )
+            ).blockingGet()
 
             val account = chainApi.getAccount(AccountName(accountName)).blockingGet()
 
             it("should return the account") {
                 assertTrue(account.isSuccessful)
                 assertNotNull(account.body())
+            }
+        }
+
+        on("v1/chain/get_account -> voter info") {
+
+            val account = chainApi.getAccount(AccountName("memtripadmin")).blockingGet()
+
+            it("should return the account") {
+                assertTrue(account.isSuccessful)
+                assertNotNull(account.body()!!.voter_info)
+                assertTrue(account.body()!!.voter_info!!.producers.isNotEmpty())
+            }
+        }
+
+        on("v1/chain/get_account -> voter info proxied") {
+
+            val account = chainApi.getAccount(AccountName("memtripissue")).blockingGet()
+
+            it("should return the account") {
+                assertTrue(account.isSuccessful)
+                assertNotNull(account.body())
+                assertTrue(account.body()!!.voter_info!!.proxy.isNotEmpty())
             }
         }
     }

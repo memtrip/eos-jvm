@@ -1,12 +1,12 @@
 package com.memtrip.eos.http.aggregation
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.createaccount.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.aggregation.transfer.TransferAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
-import com.memtrip.eos.http.rpc.toFutureDate
+import com.memtrip.eos.http.rpc.transactionDefaultExpiry
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -16,7 +16,6 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
@@ -37,7 +36,12 @@ class TransferAggregateTest : Spek({
 
         on("v1/chain/push_transaction -> transfer") {
 
-            val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+
+            /**
+             * First account
+             */
+            val firstAccountPrivateKey = EosPrivateKey()
 
             val firstAccountName = generateUniqueAccountName()
             CreateAccountAggregate(chainApi).createAccount(
@@ -47,13 +51,21 @@ class TransferAggregateTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
+                    firstAccountPrivateKey.publicKey,
+                    firstAccountPrivateKey.publicKey,
+                    true
+                ),
+                AggregateContext(
                     "eosio",
-                    privateKey,
-                    Calendar.getInstance().toFutureDate()
+                    signatureProviderPrivateKey,
+                    transactionDefaultExpiry()
                 )
             ).blockingGet()
+
+            /**
+             * Second account
+             */
+            val secondAccountPrivateKey = EosPrivateKey()
 
             val secondAccountName = generateUniqueAccountName()
             CreateAccountAggregate(chainApi).createAccount(
@@ -63,35 +75,65 @@ class TransferAggregateTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
+                    secondAccountPrivateKey.publicKey,
+                    secondAccountPrivateKey.publicKey,
+                    true
+                ),
+                AggregateContext(
                     "eosio",
-                    privateKey,
-                    Calendar.getInstance().toFutureDate()
+                    signatureProviderPrivateKey,
+                    transactionDefaultExpiry()
                 )
             ).blockingGet()
 
+            /**
+             * Send money from the signature provider to the first account
+             */
             val transfer1 = TransferAggregate(chainApi).transfer(
                 TransferAggregate.Args(
                     "eosio",
-                    secondAccountName,
-                    "10.0000 SYS",
-                    "here is some coins!",
+                    firstAccountName,
+                    "100.0000 SYS",
+                    "here is some coins!"
+                ),
+                AggregateContext(
                     "eosio",
-                    privateKey,
-                    Calendar.getInstance().toFutureDate()
+                    signatureProviderPrivateKey,
+                    transactionDefaultExpiry()
                 )
             ).blockingGet()
 
+            /**
+             * Transfer money from the first account to the second account
+             */
             val transfer2 = TransferAggregate(chainApi).transfer(
+                TransferAggregate.Args(
+                    firstAccountName,
+                    secondAccountName,
+                    "2.0000 SYS",
+                    "Enjoy these coins!"
+                ),
+                AggregateContext(
+                    firstAccountName,
+                    firstAccountPrivateKey,
+                    transactionDefaultExpiry()
+                )
+            ).blockingGet()
+
+            /**
+             * Transfer money from the second account to the first account
+             */
+            val transfer3 = TransferAggregate(chainApi).transfer(
                 TransferAggregate.Args(
                     secondAccountName,
                     firstAccountName,
-                    "1.0000 SYS",
-                    "Enjoy these coins!",
+                    "2.0000 SYS",
+                    "Enjoy these coins!"
+                ),
+                AggregateContext(
                     secondAccountName,
-                    privateKey,
-                    Calendar.getInstance().toFutureDate()
+                    secondAccountPrivateKey,
+                    transactionDefaultExpiry()
                 )
             ).blockingGet()
 
@@ -101,6 +143,9 @@ class TransferAggregateTest : Spek({
 
                 Assert.assertNotNull(transfer2.body)
                 Assert.assertTrue(transfer2.isSuccessful)
+
+                Assert.assertNotNull(transfer3.body)
+                Assert.assertTrue(transfer3.isSuccessful)
             }
         }
     }

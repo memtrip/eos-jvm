@@ -3,22 +3,19 @@ package com.memtrip.eos.http.rpc.wallet
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamArgs
-import com.memtrip.eos.http.aggregation.createaccount.actions.buyram.BuyRamBody
-import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthArgs
-import com.memtrip.eos.http.aggregation.createaccount.actions.delegatebw.DelegateBandwidthBody
-import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountArgs
-import com.memtrip.eos.http.aggregation.createaccount.actions.newaccount.NewAccountBody
-import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueAccountName
+import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
+import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamBody
+import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthArgs
+import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
+import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
+import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
+import com.memtrip.eos.http.rpc.*
 import com.memtrip.eos.http.rpc.model.account.response.AccountKey
 import com.memtrip.eos.http.rpc.model.account.response.AccountRequiredAuth
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.toNowDate
 import com.memtrip.eos.http.rpc.utils.DateAdapter
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
@@ -37,7 +34,6 @@ import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.Arrays
-import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
 /**
@@ -146,7 +142,7 @@ class WalletSignTransactionTest : Spek({
              * Sign transaction
              */
             val transaction = Transaction(
-                Calendar.getInstance().toNowDate(),
+                transactionDefaultExpiry(),
                 blockIdDetails.blockNum,
                 blockIdDetails.blockPrefix,
                 0,

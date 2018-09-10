@@ -2,6 +2,7 @@ package com.memtrip.eos.http.aggregation.vote.actions
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.AccountNameCollectionCompress
+
 import com.memtrip.eos.abi.writer.AccountNameCompress
 
 @Abi

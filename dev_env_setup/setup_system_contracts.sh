@@ -98,9 +98,20 @@ cleos system newaccount eosio --transfer memtripissue $MEMTRIP_ISSUE_PUBLIC_KEY 
 cleos push action eosio.token issue '[ "memtripissue", "1000000.0000 SYS", "eosio_init" ]' \
         -p eosio@active
 
-# transfer from memtripissue to memtripblock
-cleos push action eosio.token transfer \
-        '[ "memtripissue", "memtripblock", "25.0000 SYS", "m" ]' -p memtripissue@active
+cleos system newaccount eosio --transfer memtripadmin $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
+cleos push action eosio.token issue '[ "memtripadmin", "10.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+cleos system newaccount eosio --transfer memtripproxy $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
+cleos push action eosio.token issue '[ "memtripproxy", "754.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+# vote for memtripblock as the block producer
+cleos system voteproducer prods memtripissue memtripblock
+cleos system voteproducer prods memtripadmin memtripblock
+
+cleos system regproxy memtripadmin
+cleos system voteproducer proxy memtripissue memtripadmin
 
 ## echo the wallet and key details for the developer to take note of
 echo "\n"

@@ -1,4 +1,4 @@
-package com.memtrip.eos.http.aggregation.createaccount.actions.buyram
+package com.memtrip.eos.http.aggregation.account.actions.buyram
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.AccountNameCompress

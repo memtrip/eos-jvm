@@ -122,7 +122,7 @@ class DefaultByteWriter(
     override fun putStringCollection(stringList: List<String>) {
         putVariableUInt(stringList.size.toLong())
 
-        if (!stringList.isEmpty()) {
+        if (stringList.isNotEmpty()) {
             for (string in stringList) {
                 putString(string)
             }
@@ -136,7 +136,7 @@ class DefaultByteWriter(
     override fun putAccountNameCollection(accountNameList: List<String>) {
         putVariableUInt(accountNameList.size.toLong())
 
-        if (!accountNameList.isEmpty()) {
+        if (accountNameList.isNotEmpty()) {
             for (accountName in accountNameList) {
                 putAccountName(accountName)
             }

@@ -8,7 +8,7 @@ services:
     container_name: nodeos
     # --hard-replay (add for the first launch after an exit code 2)
     # --delete-all-blocks
-    command: /opt/eosio/bin/nodeosd.sh -e --http-alias=nodeosd:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888 --http-validate-host=false  --filter-on 'eosio.token:transfer:' --filter-on 'eosio.token:issue:'
+    command: /opt/eosio/bin/nodeosd.sh -e --http-alias=nodeosd:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888 --http-validate-host=false --verbose-http-errors  --filter-on 'eosio.token:transfer:' --filter-on 'eosio.token:issue:'
     hostname: nodeosd
     ports:
       - 8888:8888
