@@ -1,6 +1,5 @@
 package com.memtrip.eos.http.aggregation.producer
 
-import com.memtrip.eos.http.aggregation.producer.GetBlockProducersAggregate
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import okhttp3.OkHttpClient

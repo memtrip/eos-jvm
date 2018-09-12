@@ -73,7 +73,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.memtrip.eos-jvm'
             artifactId = 'eos-http-rpc'
-            version = '1.0.14'
+            version = '1.0.17'
 
             from components.java
         }

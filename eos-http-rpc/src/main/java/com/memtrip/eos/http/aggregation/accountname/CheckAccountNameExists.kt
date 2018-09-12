@@ -2,7 +2,6 @@ package com.memtrip.eos.http.aggregation.accountname
 
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.account.request.AccountName
-import com.memtrip.eos.http.rpc.model.contract.request.GetCurrencyBalance
 import io.reactivex.Single
 
 class CheckAccountNameExists(

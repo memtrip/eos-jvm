@@ -14,7 +14,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Arrays
+import java.util.Arrays.asList
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
@@ -45,7 +45,7 @@ class WalletListKeysTest : Spek({
                 .importKey(listOf(walletName, privateKey.toString()))
                 .blockingGet()
 
-            val listOfKeys = walletApi.listKeys(Arrays.asList(walletName, walletPassword)).blockingGet()
+            val listOfKeys = walletApi.listKeys(asList(walletName, walletPassword)).blockingGet()
 
             it("should list the keys associated with the wallet") {
                 assertTrue(listOfKeys.isSuccessful)

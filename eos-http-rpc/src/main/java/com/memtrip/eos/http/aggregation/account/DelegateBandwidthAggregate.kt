@@ -13,7 +13,7 @@ import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import io.reactivex.Single
-import java.util.*
+import java.util.Arrays.asList
 
 class DelegateBandwidthAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi) {
 
@@ -32,10 +32,10 @@ class DelegateBandwidthAggregate(chainApi: ChainApi) : AggregateTransaction(chai
 
         return push(
             aggregateContext.expirationDate,
-            Arrays.asList(Action(
+            asList(Action(
                 "eosio",
                 "delegatebw",
-                Arrays.asList(TransactionAuthorization(
+                asList(TransactionAuthorization(
                     aggregateContext.authorizingAccountName,
                     "active")),
                 delegateBandwidthBin(args)

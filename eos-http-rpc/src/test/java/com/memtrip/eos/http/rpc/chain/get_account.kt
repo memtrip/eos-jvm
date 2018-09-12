@@ -59,6 +59,10 @@ class ChainGetAccountTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
+                    CreateAccountAggregate.Args.Transfer(
+                        "0.1000 SYS",
+                        "memo"
+                    ),
                     privateKey.publicKey,
                     privateKey.publicKey,
                     true

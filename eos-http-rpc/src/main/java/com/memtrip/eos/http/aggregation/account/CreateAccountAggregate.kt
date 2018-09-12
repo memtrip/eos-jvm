@@ -3,7 +3,6 @@ package com.memtrip.eos.http.aggregation.account
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.crypto.EosPublicKey
 import com.memtrip.eos.http.aggregation.AggregateContext
-
 import com.memtrip.eos.http.aggregation.AggregateResponse
 import com.memtrip.eos.http.aggregation.AggregateTransaction
 import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
@@ -12,7 +11,9 @@ import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandw
 import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
 import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
 import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
-
+import com.memtrip.eos.http.aggregation.transfer.TransferAggregate
+import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
+import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.account.response.AccountKey
 import com.memtrip.eos.http.rpc.model.account.response.AccountRequiredAuth
@@ -21,13 +22,14 @@ import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import io.reactivex.Single
-import java.util.Arrays
+import java.util.Arrays.asList
 
 class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi) {
 
     data class Args(
         val newAccountName: String,
         val quantity: Quantity,
+        val initialTransfer: Transfer,
         val ownerPublicKey: EosPublicKey,
         val activePublicKey: EosPublicKey,
         val transfer: Boolean
@@ -36,6 +38,10 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
             val ram: String,
             val net: String,
             val cpu: String
+        )
+        data class Transfer(
+            val quantity: String,
+            val memo: String
         )
     }
 
@@ -46,11 +52,11 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
 
         return push(
             aggregateContext.expirationDate,
-            Arrays.asList(
+            asList(
                 Action(
                     "eosio",
                     "newaccount",
-                    Arrays.asList(TransactionAuthorization(
+                    asList(TransactionAuthorization(
                         aggregateContext.authorizingAccountName,
                         "active")
                     ),
@@ -59,7 +65,7 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
                 Action(
                     "eosio",
                     "buyram",
-                    Arrays.asList(TransactionAuthorization(
+                    asList(TransactionAuthorization(
                         aggregateContext.authorizingAccountName,
                         "active")
                     ),
@@ -68,11 +74,19 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
                 Action(
                     "eosio",
                     "delegatebw",
-                    Arrays.asList(TransactionAuthorization(
+                    asList(TransactionAuthorization(
                         aggregateContext.authorizingAccountName,
                         "active")
                     ),
                     delegateRamAbi(args, aggregateContext)
+                ),
+                Action(
+                    "eosio.token",
+                    "transfer",
+                    asList(TransactionAuthorization(
+                        aggregateContext.authorizingAccountName,
+                        "active")),
+                    transferBin(args, aggregateContext)
                 )
             ),
             aggregateContext.authorizingPrivateKey
@@ -87,7 +101,7 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
                     args.newAccountName,
                     AccountRequiredAuth(
                         1,
-                        Arrays.asList(
+                        asList(
                             AccountKey(
                                 args.ownerPublicKey.toString(),
                                 1)
@@ -97,7 +111,7 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
                     ),
                     AccountRequiredAuth(
                         1,
-                        Arrays.asList(
+                        asList(
                             AccountKey(
                                 args.activePublicKey.toString(),
                                 1)
@@ -133,6 +147,20 @@ class CreateAccountAggregate(chainApi: ChainApi) : AggregateTransaction(chainApi
                     args.quantity.cpu,
                     if (args.transfer) 1 else 0
                 )
+            )
+        ).toHex()
+    }
+
+    private fun transferBin(args: Args, aggregateContext: AggregateContext): String {
+        return AbiBinaryGen(CompressionType.NONE).squishTransferBody(
+            TransferBody(
+                "eosio.token",
+                "transfer",
+                TransferArgs(
+                    aggregateContext.authorizingAccountName,
+                    args.newAccountName,
+                    args.initialTransfer.quantity,
+                    args.initialTransfer.memo)
             )
         ).toHex()
     }

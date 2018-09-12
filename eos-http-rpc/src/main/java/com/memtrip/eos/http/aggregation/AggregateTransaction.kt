@@ -6,8 +6,6 @@ import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
-import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
-
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.SignedTransaction
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
@@ -15,8 +13,8 @@ import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import io.reactivex.Single
 import retrofit2.Response
-import sun.jvm.hotspot.opto.Block
-import java.util.*
+import java.util.Date
+import java.util.Arrays.asList
 
 abstract class AggregateTransaction(
     private val chainApi: ChainApi
@@ -45,7 +43,7 @@ abstract class AggregateTransaction(
 
                 chainApi.pushTransaction(
                     PushTransaction(
-                        Arrays.asList(signature),
+                        asList(signature),
                         "none",
                         "",
                         AbiBinaryGen(CompressionType.NONE).squishTransaction(transaction).toHex()))

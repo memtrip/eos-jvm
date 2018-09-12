@@ -9,13 +9,16 @@ import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandw
 import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
 import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
 import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
-import com.memtrip.eos.http.rpc.*
+import com.memtrip.eos.http.rpc.Api
+import com.memtrip.eos.http.rpc.Config
+import com.memtrip.eos.http.rpc.generateUniqueAccountName
 import com.memtrip.eos.http.rpc.model.account.response.AccountKey
 import com.memtrip.eos.http.rpc.model.account.response.AccountRequiredAuth
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.model.transaction.request.Action
 import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
+import com.memtrip.eos.http.rpc.transactionDefaultExpiry
 import com.memtrip.eos.http.rpc.utils.DateAdapter
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
@@ -33,7 +36,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Arrays
+import java.util.Arrays.asList
 import java.util.concurrent.TimeUnit
 
 /**
@@ -86,7 +89,7 @@ class WalletSignTransactionTest : Spek({
                     newAccountName,
                     AccountRequiredAuth(
                         1,
-                        Arrays.asList(
+                        asList(
                             AccountKey(
                                 privateKey.publicKey.toString(),
                                 1)
@@ -96,7 +99,7 @@ class WalletSignTransactionTest : Spek({
                     ),
                     AccountRequiredAuth(
                         1,
-                        Arrays.asList(
+                        asList(
                             AccountKey(
                                 privateKey.publicKey.toString(),
                                 1)
@@ -149,11 +152,11 @@ class WalletSignTransactionTest : Spek({
                 0,
                 0,
                 emptyList(),
-                Arrays.asList(
+                asList(
                     Action(
                         "eosio",
                         "newaccount",
-                        Arrays.asList(TransactionAuthorization(
+                        asList(TransactionAuthorization(
                             "eosio",
                             "active")
                         ),
@@ -162,7 +165,7 @@ class WalletSignTransactionTest : Spek({
                     Action(
                         "eosio",
                         "buyram",
-                        Arrays.asList(TransactionAuthorization(
+                        asList(TransactionAuthorization(
                             "eosio",
                             "active")
                         ),
@@ -171,7 +174,7 @@ class WalletSignTransactionTest : Spek({
                     Action(
                         "eosio",
                         "delegatebw",
-                        Arrays.asList(TransactionAuthorization(
+                        asList(TransactionAuthorization(
                             "eosio",
                             "active")
                         ),

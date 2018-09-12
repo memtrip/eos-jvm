@@ -51,6 +51,10 @@ class TransferAggregateTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
+                    CreateAccountAggregate.Args.Transfer(
+                        "0.1000 SYS",
+                        "memo"
+                    ),
                     firstAccountPrivateKey.publicKey,
                     firstAccountPrivateKey.publicKey,
                     true
@@ -75,6 +79,10 @@ class TransferAggregateTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
+                    CreateAccountAggregate.Args.Transfer(
+                        "0.1000 SYS",
+                        "memo"
+                    ),
                     secondAccountPrivateKey.publicKey,
                     secondAccountPrivateKey.publicKey,
                     true

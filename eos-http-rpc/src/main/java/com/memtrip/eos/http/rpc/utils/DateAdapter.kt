@@ -3,7 +3,6 @@ package com.memtrip.eos.http.rpc.utils
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
 import java.text.SimpleDateFormat
-
 import java.util.Date
 
 class DateAdapter {

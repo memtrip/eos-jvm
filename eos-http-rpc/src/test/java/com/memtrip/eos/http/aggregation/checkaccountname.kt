@@ -1,8 +1,8 @@
 package com.memtrip.eos.http.aggregation
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.accountname.CheckAccountNameExists
 import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
+import com.memtrip.eos.http.aggregation.accountname.CheckAccountNameExists
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.generateUniqueAccountName
@@ -14,6 +14,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
+import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
@@ -39,13 +40,17 @@ class CheckAccountNameTest : Spek({
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
             val firstAccountName = generateUniqueAccountName()
-            CreateAccountAggregate(chainApi).createAccount(
+            val createAccountRequest = CreateAccountAggregate(chainApi).createAccount(
                 CreateAccountAggregate.Args(
                     firstAccountName,
                     CreateAccountAggregate.Args.Quantity(
                         "100.0000 SYS",
                         "100.0000 SYS",
                         "100.0000 SYS"),
+                    CreateAccountAggregate.Args.Transfer(
+                        "0.1000 SYS",
+                        "memo"
+                    ),
                     privateKey.publicKey,
                     privateKey.publicKey,
                     true
@@ -62,6 +67,7 @@ class CheckAccountNameTest : Spek({
                 .blockingGet()
 
             it("should return true") {
+                assertTrue(createAccountRequest.isSuccessful)
                 Assert.assertTrue(accountExists)
             }
         }
