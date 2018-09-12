@@ -3,7 +3,7 @@ package com.memtrip.eos.core.crypto
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class EosPrivateKeyTests {
+class EosKeyTests {
 
     @Test
     fun testPublicKeyIsResolvedFromPrivateKey() {

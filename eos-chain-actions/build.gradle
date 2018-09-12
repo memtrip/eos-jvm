@@ -43,7 +43,7 @@ dependencies {
     compile 'io.reactivex:rxkotlin:1.0.0'
 
     compile "com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha01"
-    compile "com.memtrip.eos-jvm:eos-abi-writer:1.0.2"
+    compile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha01"
     kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.1"
 
     /* junit */

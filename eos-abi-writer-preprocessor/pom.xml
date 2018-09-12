@@ -9,13 +9,13 @@
 
     <groupId>com.memtrip.eos-jvm</groupId>
     <artifactId>eos-abi-writer-preprocessor</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.0-alpha01</version>
 
     <name>Abi writer preprocessor</name>
     <description>
         Generate abi binary compressor objects.
     </description>
-    <url>https://github.com/memtrip/abi-binary-preprocessor</url>
+    <url>https://github.com/memtrip/eos-jvm/eos-abi-writer-preprocessor</url>
 
     <developers>
         <developer>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>com.memtrip.eos-jvm</groupId>
             <artifactId>eos-abi-writer</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.0-alpha01</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -113,9 +113,9 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:memtrip/abi-binary-preprocessor.git</connection>
-        <developerConnection>scm:git:git@github.com:memtrip/abi-binary-preprocessor.git</developerConnection>
-        <url>git@github.com:memtrip/abi-binary-preprocessor.git</url>
+        <connection>scm:git:git@github.com:memtrip/eos-jvm.git</connection>
+        <developerConnection>scm:git:git@github.com:memtrip/eos-jvm.git</developerConnection>
+        <url>git@github.com:memtrip/eos-jvm.git</url>
     </scm>
 
 </project>

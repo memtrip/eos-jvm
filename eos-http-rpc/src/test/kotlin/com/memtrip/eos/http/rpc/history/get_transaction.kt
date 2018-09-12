@@ -31,7 +31,6 @@ class HistoryGetTransactionsTest : Spek({
         }
 
         val historyApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).history }
-        val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
         /**
          * v1/history/get_actions

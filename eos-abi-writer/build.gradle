@@ -11,7 +11,7 @@ buildscript {
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.2.60'
+    id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'maven-publish'
     id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
 }
@@ -28,7 +28,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "com.memtrip.eos-jvm:eos-core:1.0.0"
+    compile "com.memtrip.eos-jvm:eos-core:1.0.0-alpha01"
     compile "org.bitcoinj:bitcoinj-core:0.14.7"
     testCompile "junit:junit:4.12"
 }
@@ -45,7 +45,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.memtrip.eos-jvm'
             artifactId = 'eos-abi-writer'
-            version = '1.0.2'
+            version = '1.0.0-alpha01'
 
             from components.java
         }

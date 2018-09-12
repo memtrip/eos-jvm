@@ -16,9 +16,6 @@ plugins {
     id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
 }
 
-group 'com.memtrip.eosio'
-version '1.0.0'
-
 sourceCompatibility = 1.8
 
 repositories {
@@ -43,7 +40,7 @@ publishing {
         maven(MavenPublication) {
             groupId = 'com.memtrip.eos-jvm'
             artifactId = 'eos-core'
-            version = '1.0.1'
+            version = '1.0.0-alpha01'
 
             from components.java
         }
