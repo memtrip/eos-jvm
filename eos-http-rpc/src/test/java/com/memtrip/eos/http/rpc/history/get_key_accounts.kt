@@ -1,14 +1,9 @@
 package com.memtrip.eos.http.rpc.history
 
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.AggregateContext
-import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueAccountName
-
 import com.memtrip.eos.http.rpc.model.history.request.GetKeyAccounts
-import com.memtrip.eos.http.rpc.transactionDefaultExpiry
+import com.memtrip.eos.http.rpc.utils.Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -35,33 +30,10 @@ class HistoryGetKeyAccountsTest : Spek({
         }
 
         val historyApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).history }
-        val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
         on("v1/history/get_key_accounts") {
 
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
-
-            CreateAccountAggregate(chainApi).createAccount(
-                CreateAccountAggregate.Args(
-                    generateUniqueAccountName(),
-                    CreateAccountAggregate.Args.Quantity(
-                        "1.0000 SYS",
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
-                    CreateAccountAggregate.Args.Transfer(
-                        "0.1000 SYS",
-                        "memo"
-                    ),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
-                    true
-                ),
-                AggregateContext(
-                    "eosio",
-                    privateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
 
             val accounts = historyApi.getKeyAccounts(GetKeyAccounts(privateKey.publicKey.toString())).blockingGet()
 

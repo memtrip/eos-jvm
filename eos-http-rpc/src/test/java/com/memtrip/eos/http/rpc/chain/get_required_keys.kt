@@ -3,15 +3,15 @@ package com.memtrip.eos.http.rpc.chain
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.model.signing.GetRequiredKeysBody
+import com.memtrip.eos.http.rpc.model.transaction.Action
+import com.memtrip.eos.http.rpc.model.transaction.Transaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
-import com.memtrip.eos.http.rpc.model.transaction.request.Action
-import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.transactionDefaultExpiry
+import com.memtrip.eos.http.rpc.utils.Config
+import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
+import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
+import com.memtrip.eos.http.rpc.utils.transactionDefaultExpiry
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -40,7 +40,6 @@ class ChainGetRequiredKeysTest : Spek({
         }
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
-        val walletApi by memoized { Api(Config.WALLET_API_BASE_URL, okHttpClient).wallet }
 
         on("v1/chain/get_required_keys") {
 

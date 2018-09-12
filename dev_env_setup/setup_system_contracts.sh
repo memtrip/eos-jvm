@@ -58,6 +58,9 @@ cleos create account eosio user $PUBLIC_KEY $PUBLIC_KEY
 ## create the tester account
 cleos create account eosio tester $PUBLIC_KEY $PUBLIC_KEY
 
+## create an account using the signature authority
+cleos create account eosio sigaccount EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
+
 ## create some SYS tokens
 cleos push action eosio.token create '[ "eosio", "1000000000.0000 SYS"]' \
          -p eosio.token@active

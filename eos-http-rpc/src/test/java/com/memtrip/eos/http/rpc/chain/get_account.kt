@@ -1,13 +1,8 @@
 package com.memtrip.eos.http.rpc.chain
 
-import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.AggregateContext
-import com.memtrip.eos.http.aggregation.account.CreateAccountAggregate
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueAccountName
 import com.memtrip.eos.http.rpc.model.account.request.AccountName
-import com.memtrip.eos.http.rpc.transactionDefaultExpiry
+import com.memtrip.eos.http.rpc.utils.Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -39,42 +34,6 @@ class ChainGetAccountTest : Spek({
         on("v1/chain/get_account -> eosio.token") {
 
             val account = chainApi.getAccount(AccountName("eosio.token")).blockingGet()
-
-            it("should return the account") {
-                assertTrue(account.isSuccessful)
-                assertNotNull(account.body())
-            }
-        }
-
-        on("v1/chain/get_account -> new account") {
-
-            val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
-
-            val accountName = generateUniqueAccountName()
-
-            CreateAccountAggregate(chainApi).createAccount(
-                CreateAccountAggregate.Args(
-                    accountName,
-                    CreateAccountAggregate.Args.Quantity(
-                        "1.0000 SYS",
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
-                    CreateAccountAggregate.Args.Transfer(
-                        "0.1000 SYS",
-                        "memo"
-                    ),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
-                    true
-                ),
-                AggregateContext(
-                    "eosio",
-                    privateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
-
-            val account = chainApi.getAccount(AccountName(accountName)).blockingGet()
 
             it("should return the account") {
                 assertTrue(account.isSuccessful)

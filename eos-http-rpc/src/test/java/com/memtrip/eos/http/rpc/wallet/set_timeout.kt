@@ -1,8 +1,8 @@
 package com.memtrip.eos.http.rpc.wallet
 
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueWalletName
+import com.memtrip.eos.http.rpc.utils.Config
+import com.memtrip.eos.http.rpc.utils.generateUniqueWalletName
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek

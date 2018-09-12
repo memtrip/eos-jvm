@@ -3,23 +3,15 @@ package com.memtrip.eos.http.rpc.wallet
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamArgs
-import com.memtrip.eos.http.aggregation.account.actions.buyram.BuyRamBody
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthArgs
-import com.memtrip.eos.http.aggregation.account.actions.delegatebw.DelegateBandwidthBody
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountArgs
-import com.memtrip.eos.http.aggregation.account.actions.newaccount.NewAccountBody
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueAccountName
-import com.memtrip.eos.http.rpc.model.account.response.AccountKey
-import com.memtrip.eos.http.rpc.model.account.response.AccountRequiredAuth
-import com.memtrip.eos.http.rpc.model.signing.PushTransaction
+import com.memtrip.eos.http.rpc.model.transaction.Action
+import com.memtrip.eos.http.rpc.model.transaction.Transaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
-import com.memtrip.eos.http.rpc.model.transaction.request.Action
-import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
-import com.memtrip.eos.http.rpc.transactionDefaultExpiry
+import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.DateAdapter
+import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
+import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
+import com.memtrip.eos.http.rpc.utils.transactionDefaultExpiry
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
@@ -31,7 +23,6 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.json.JSONArray
-import org.junit.Assert
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
@@ -63,15 +54,9 @@ class WalletSignTransactionTest : Spek({
         on("v1/wallet/sign_transaction") {
 
             /**
-             * New account name
-             */
-            val newAccountName = generateUniqueAccountName()
-
-            /**
              * signature-provider key
              */
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
-            Assert.assertEquals(privateKey.publicKey.toString(), "EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV")
 
             /**
              * v1/chain/get_info
@@ -80,121 +65,48 @@ class WalletSignTransactionTest : Spek({
 
             val blockIdDetails = BlockIdDetails(info.head_block_id)
 
-            /**
-             * Create account action
-             */
-            val createAccountBody = NewAccountBody(
-                NewAccountArgs(
-                    "eosio",
-                    newAccountName,
-                    AccountRequiredAuth(
-                        1,
-                        asList(
-                            AccountKey(
-                                privateKey.publicKey.toString(),
-                                1)
-                        ),
-                        emptyList(),
-                        emptyList()
-                    ),
-                    AccountRequiredAuth(
-                        1,
-                        asList(
-                            AccountKey(
-                                privateKey.publicKey.toString(),
-                                1)
-                        ),
-                        emptyList(),
-                        emptyList()
-                    )
-                )
-            )
-
-            val createAccountBin = AbiBinaryGen(CompressionType.NONE).squishNewAccountBody(createAccountBody).toHex()
-
-            /**
-             * Buy RAM action
-             */
-            val buyRamBody = BuyRamBody(
-                BuyRamArgs(
-                    "eosio",
-                    newAccountName,
-                    "1.0000 SYS")
-            )
-
-            val buyRamBin = AbiBinaryGen(CompressionType.NONE).squishBuyRamBody(buyRamBody).toHex()
-
-            /**
-             * Delegate bandwidth
-             */
-            val delegateBandwidthBody = DelegateBandwidthBody(
-                "eosio",
-                "delegatebw",
-                DelegateBandwidthArgs(
-                    "eosio",
-                    newAccountName,
+            val transferBody = TransferBody(
+                "eosio.token",
+                "transfer",
+                TransferArgs(
+                    "eosio.token",
+                    "tester",
                     "1.0000 SYS",
-                    "11.0000 SYS",
-                    0
-                )
+                    "here is some coins!")
             )
 
-            val delegateBandWidthBin = AbiBinaryGen(CompressionType.NONE).squishDelegateBandwidthBody(delegateBandwidthBody).toHex()
+            val abiBin = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
-            /**
-             * Sign transaction
-             */
             val transaction = Transaction(
                 transactionDefaultExpiry(),
                 blockIdDetails.blockNum,
                 blockIdDetails.blockPrefix,
                 0,
                 0,
-                0,
+                120000,
                 emptyList(),
-                asList(
-                    Action(
+                asList(Action(
+                    "eosio.token",
+                    "transfer",
+                    asList(TransactionAuthorization(
                         "eosio",
-                        "newaccount",
-                        asList(TransactionAuthorization(
-                            "eosio",
-                            "active")
-                        ),
-                        createAccountBin
-                    ),
-                    Action(
-                        "eosio",
-                        "buyram",
-                        asList(TransactionAuthorization(
-                            "eosio",
-                            "active")
-                        ),
-                        buyRamBin
-                    ),
-                    Action(
-                        "eosio",
-                        "delegatebw",
-                        asList(TransactionAuthorization(
-                            "eosio",
-                            "active")
-                        ),
-                        delegateBandWidthBin
-                    )
-                ),
+                        "active")),
+                    abiBin
+                )),
                 emptyList(),
                 emptyList(),
                 emptyList())
 
-            /**
-             * v1/wallet/sign_transaction
-             */
-            val jsonAdapter = Moshi.Builder()
+            val transactionJsonAdapter = Moshi.Builder()
                 .add(DateAdapter())
                 .build()
                 .adapter<Transaction>(Transaction::class.java)
 
+            /**
+             * v1/wallet/sign_transaction
+             */
             val jsonArray = JSONArray()
-            jsonArray.put(jsonAdapter.toJsonValue(transaction))
+            jsonArray.put(transactionJsonAdapter.toJsonValue(transaction))
             jsonArray.put(with(JSONArray()) { put(privateKey.publicKey.toString()) })
             jsonArray.put(info.chain_id)
 
@@ -202,21 +114,10 @@ class WalletSignTransactionTest : Spek({
                 RequestBody.create(MediaType.parse("application/json"), jsonArray.toString())
             ).blockingGet()
 
-            /**
-             * v1/chain/push_transaction
-             */
-            val pushTransaction = chainApi.pushTransaction(
-                PushTransaction(
-                    signedTransaction.body()!!.signatures,
-                    "none",
-                    "",
-                    AbiBinaryGen(CompressionType.NONE).squishTransaction(transaction).toHex()
-                )
-            ).blockingGet()
-
             it("should return a transaction receipt") {
-                assertNotNull(pushTransaction.body())
-                assertTrue(pushTransaction.isSuccessful)
+                assertNotNull(signedTransaction.body()!!.signatures)
+                assertTrue(signedTransaction.body()!!.signatures.isNotEmpty())
+                assertTrue(signedTransaction.isSuccessful)
             }
         }
     }

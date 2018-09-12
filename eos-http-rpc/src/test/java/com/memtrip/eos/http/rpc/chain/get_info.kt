@@ -1,7 +1,7 @@
 package com.memtrip.eos.http.rpc.chain
 
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
+import com.memtrip.eos.http.rpc.utils.Config
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek

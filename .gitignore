@@ -26,3 +26,7 @@ eos-http-rpc/.idea
 eos-http-rpc/build
 dev_env_setup/session
 eos-http-rpc/out
+eos-chain-actions/.gradle
+eos-chain-actions/.idea
+eos-chain-actions/build
+eos-chain-actions/out

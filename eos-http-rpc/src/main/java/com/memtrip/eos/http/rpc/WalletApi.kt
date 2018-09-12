@@ -1,6 +1,6 @@
 package com.memtrip.eos.http.rpc
 
-import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
+import com.memtrip.eos.http.rpc.model.transaction.Transaction
 import io.reactivex.Single
 import okhttp3.RequestBody
 import retrofit2.Response

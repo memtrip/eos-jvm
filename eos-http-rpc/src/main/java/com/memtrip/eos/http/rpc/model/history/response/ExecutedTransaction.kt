@@ -1,6 +1,6 @@
 package com.memtrip.eos.http.rpc.model.history.response
 
-import com.memtrip.eos.http.rpc.model.transaction.request.Action
+import com.memtrip.eos.http.rpc.model.transaction.Action
 import com.squareup.moshi.JsonClass
 import java.util.Date
 

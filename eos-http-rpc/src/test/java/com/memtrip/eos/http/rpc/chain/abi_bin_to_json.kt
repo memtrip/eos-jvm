@@ -1,12 +1,12 @@
 package com.memtrip.eos.http.rpc.chain
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
 import com.memtrip.eos.http.rpc.model.contract.request.AbiBinToJson
+import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.DateAdapter
+import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
+import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient

@@ -1,12 +1,14 @@
 package com.memtrip.eos.http.rpc.wallet
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
+
 import com.memtrip.eos.core.crypto.EosPrivateKey
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferArgs
-import com.memtrip.eos.http.aggregation.transfer.actions.TransferBody
+
 import com.memtrip.eos.http.rpc.Api
-import com.memtrip.eos.http.rpc.Config
-import com.memtrip.eos.http.rpc.generateUniqueWalletName
+import com.memtrip.eos.http.rpc.utils.Config
+import com.memtrip.eos.http.rpc.utils.generateUniqueWalletName
+import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
+import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
 import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,9 +64,9 @@ class WalletSignDigestTest : Spek({
                 "eosio.token",
                 "transfer",
                 TransferArgs(
-                    "user",
-                    "tester",
-                    "25.0000 SYS",
+                    "memtripblock",
+                    "memtripissue",
+                    "1.0000 SYS",
                     "here is some coins!")
             )
 

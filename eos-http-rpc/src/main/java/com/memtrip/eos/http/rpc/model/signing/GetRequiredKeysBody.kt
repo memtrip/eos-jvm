@@ -1,6 +1,7 @@
 package com.memtrip.eos.http.rpc.model.signing
 
-import com.memtrip.eos.http.rpc.model.transaction.request.Transaction
+import com.memtrip.eos.http.rpc.model.transaction.Transaction
+
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
