@@ -44,7 +44,33 @@ class HistoryGetActionsTest : Spek({
             }
         }
 
-        on("v1/history/get_actions with pos 100") {
+        on("v1/history/get_actions with pagination") {
+
+            val firstPageActions = historyApi.getActions(GetActions(
+                "eosio.token",
+                -1,
+                -20
+            )).blockingGet()
+            val firstPageActionsItems = firstPageActions.body()!!.actions
+
+            val secondPageActions = historyApi.getActions(GetActions(
+                "eosio.token",
+                -1,
+                firstPageActionsItems[firstPageActionsItems.size-1].account_action_seq
+            )).blockingGet()
+
+            it("should return the account") {
+                assertTrue(firstPageActions.isSuccessful)
+                assertNotNull(firstPageActions.body())
+                assertTrue(firstPageActions.body()!!.actions.size == 20)
+
+                assertTrue(secondPageActions.isSuccessful)
+                assertNotNull(secondPageActions.body())
+                assertTrue(secondPageActions.body()!!.actions.size == 20)
+            }
+        }
+
+        on("v1/history/get_actions with pos out of range") {
 
             val actions = historyApi.getActions(GetActions(
                 "eosio.token",

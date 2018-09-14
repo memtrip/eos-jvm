@@ -50,31 +50,16 @@ cleos create account eosio exchange  \
         $PUBLIC_KEY
 cleos set contract exchange contracts/exchange -p exchange@active
 
-## Transfers
-##
-## create the user account
-cleos create account eosio user $PUBLIC_KEY $PUBLIC_KEY
-
-## create the tester account
-cleos create account eosio tester $PUBLIC_KEY $PUBLIC_KEY
-
 ## create an account using the signature authority
 cleos create account eosio sigaccount EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
 
-## create some SYS tokens
-cleos push action eosio.token create '[ "eosio", "1000000000.0000 SYS"]' \
+## create the circulating supply of SYS tokens
+cleos push action eosio.token create '[ "eosio", "1200000.0000 SYS"]' \
          -p eosio.token@active
 
-## allocate some SYS tokens to the user and tester accounts
-cleos push action eosio.token issue '[ "eosio", "1000000.0000 SYS", "eosio_init" ]' \
+## allocate some SYS tokens to the eosio account
+cleos push action eosio.token issue '[ "eosio", "200000.0000 SYS", "eosio_init" ]' \
         -p eosio@active
-
-cleos push action eosio.token issue '[ "user", "1000000.0000 SYS", "user_init" ]' \
-        -p eosio@active
-
-## transfer some tokens from user to tester
-cleos push action eosio.token transfer \
-        '[ "user", "tester", "25.0000 SYS", "m" ]' -p user@active
 
 ## Install the system contracts
 cleos set contract eosio /contracts/eosio.system -p eosio@active
@@ -84,7 +69,7 @@ cleos push action eosio setpriv '["eosio.msig", 1]' -p eosio@active
 
 ## Create an account for the block producer
 cleos system newaccount eosio --transfer memtripblock $PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
-cleos push action eosio.token issue '[ "memtripblock", "1000000.0000 SYS", "eosio_init" ]' \
+cleos push action eosio.token issue '[ "memtripblock", "100.0000 SYS", "eosio_init" ]' \
         -p eosio@active
 
 ## Register the public key and account as a block producer
@@ -97,17 +82,21 @@ MEMTRIP_ISSUE_PUBLIC_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[5]}
 
 cleos wallet import --private-key $MEMTRIP_ISSUE_PRIVATE_KEY
 
-cleos system newaccount eosio --transfer memtripissue $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
-cleos push action eosio.token issue '[ "memtripissue", "1000000.0000 SYS", "eosio_init" ]' \
+cleos system newaccount eosio --transfer memtripissue $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
+cleos push action eosio.token issue '[ "memtripissue", "750000.0000 SYS", "eosio_init" ]' \
         -p eosio@active
 
-cleos system newaccount eosio --transfer memtripadmin $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
+cleos system newaccount eosio --transfer memtripadmin $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
 cleos push action eosio.token issue '[ "memtripadmin", "10.0000 SYS", "eosio_init" ]' \
         -p eosio@active
 
-cleos system newaccount eosio --transfer memtripproxy $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "1000.0000 SYS" --stake-cpu "1000.0000 SYS" --buy-ram "1000.0000 SYS"
-cleos push action eosio.token issue '[ "memtripproxy", "754.0000 SYS", "eosio_init" ]' \
+cleos system newaccount eosio --transfer memtripproxy $MEMTRIP_ISSUE_PUBLIC_KEY --stake-net "100.0000 SYS" --stake-cpu "100.0000 SYS" --buy-ram "100.0000 SYS"
+cleos push action eosio.token issue '[ "memtripproxy", "10.0000 SYS", "eosio_init" ]' \
         -p eosio@active
+
+# delegate 100% of memtripissue issue tokens to bandwidth for voting, to activate the chain.
+# (at least 15% of all tokens participate in voting)
+cleos system delegatebw memtripissue memtripissue "300000.0000 SYS" "300000.0000 SYS"
 
 # vote for memtripblock as the block producer
 cleos system voteproducer prods memtripissue memtripblock

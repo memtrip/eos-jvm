@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class TransferAggregateTest : Spek({
+class TransferChainTest : Spek({
 
     given("an Api") {
 
@@ -138,14 +138,14 @@ class TransferAggregateTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertNotNull(transfer1.body)
                 Assert.assertTrue(transfer1.isSuccessful)
+                Assert.assertNotNull(transfer1.body)
 
-                Assert.assertNotNull(transfer2.body)
                 Assert.assertTrue(transfer2.isSuccessful)
+                Assert.assertNotNull(transfer2.body)
 
-                Assert.assertNotNull(transfer3.body)
                 Assert.assertTrue(transfer3.isSuccessful)
+                Assert.assertNotNull(transfer3.body)
             }
         }
     }

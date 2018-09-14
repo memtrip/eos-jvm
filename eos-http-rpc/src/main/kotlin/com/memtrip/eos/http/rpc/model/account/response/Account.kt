@@ -11,6 +11,7 @@ data class Account(
     val privileged: Boolean,
     val last_code_update: Date,
     val created: Date,
+    val core_liquid_balance: String?,
     val ram_quota: Long,
     val net_weight: Long,
     val cpu_weight: Long,
@@ -18,8 +19,8 @@ data class Account(
     val cpu_limit: AccountResourceLimit,
     val ram_usage: Long,
     val permissions: List<AccountPermission>,
-    val total_resources: Any?,
-    val self_delegated_bandwidth: Any?,
+    val total_resources: TotalResources?,
+    val self_delegated_bandwidth: SelfDelegatedBandwidth?,
     val refund_request: Any?,
     val voter_info: VoterInfo?
 )

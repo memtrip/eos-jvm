@@ -22,7 +22,7 @@ import java.util.Arrays.asList
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class VoteAggregateTest : Spek({
+class VoteChainTest : Spek({
 
     given("an Api") {
 
@@ -177,12 +177,14 @@ class VoteAggregateTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertNotNull(transfer.body)
                 Assert.assertTrue(transfer.isSuccessful)
-                Assert.assertNotNull(delegateBw.body)
+                Assert.assertNotNull(transfer.body)
+
                 Assert.assertTrue(delegateBw.isSuccessful)
-                Assert.assertNotNull(vote.body)
+                Assert.assertNotNull(delegateBw.body)
+
                 Assert.assertTrue(vote.isSuccessful)
+                Assert.assertNotNull(vote.body)
             }
         }
     }

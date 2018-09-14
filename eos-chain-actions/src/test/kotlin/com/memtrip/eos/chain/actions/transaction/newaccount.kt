@@ -19,7 +19,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class CreateAccountAggregateTest : Spek({
+class CreateAccountChainTest : Spek({
 
     given("an Api") {
 
@@ -59,8 +59,8 @@ class CreateAccountAggregateTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                assertNotNull(response.body)
                 assertTrue(response.isSuccessful)
+                assertNotNull(response.body)
             }
         }
     }
