@@ -96,14 +96,15 @@ cleos push action eosio.token issue '[ "memtripproxy", "10.0000 SYS", "eosio_ini
 
 # delegate 100% of memtripissue issue tokens to bandwidth for voting, to activate the chain.
 # (at least 15% of all tokens participate in voting)
-cleos system delegatebw memtripissue memtripissue "300000.0000 SYS" "300000.0000 SYS"
+cleos system delegatebw memtripissue memtripissue "200000.0000 SYS" "200000.0000 SYS"
+cleos system delegatebw memtripissue memtripproxy "100000.0000 SYS" "100000.0000 SYS"
 
 # vote for memtripblock as the block producer
 cleos system voteproducer prods memtripissue memtripblock
 cleos system voteproducer prods memtripadmin memtripblock
 
 cleos system regproxy memtripadmin
-cleos system voteproducer proxy memtripissue memtripadmin
+cleos system voteproducer proxy memtripproxy memtripadmin
 
 ## echo the wallet and key details for the developer to take note of
 echo "\n"

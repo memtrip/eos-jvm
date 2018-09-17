@@ -27,7 +27,6 @@ class ECSignatureProvider private constructor(
         var nonce = 0
 
         do {
-            println(nonce)
             components = deterministicGenerateK(
                 keyCurve,
                 hash,

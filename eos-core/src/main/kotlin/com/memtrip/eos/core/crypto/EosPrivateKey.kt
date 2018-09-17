@@ -7,7 +7,7 @@ import org.bitcoinj.core.Sha256Hash
 import java.math.BigInteger
 import java.util.Arrays
 
-class EosPrivateKey internal constructor(val key: ECKey) {
+class EosPrivateKey internal constructor(private val key: ECKey) {
 
     val publicKey: EosPublicKey = EosPublicKey(key.pubKey)
     val keyCurve: SecP256K1KeyCurve = SecP256K1KeyCurve()

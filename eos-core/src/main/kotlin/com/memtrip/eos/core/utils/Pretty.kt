@@ -3,14 +3,14 @@ package com.memtrip.eos.core.utils
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
-class Pretty {
+object Pretty {
 
-    fun net(value: Float): String {
-        if (value == -1f) {
+    fun net(value: Long): String {
+        if (value == -1L) {
             return "unlimited"
         } else {
             var unit = "bytes"
-            var bytes = value
+            var bytes = value.toFloat()
 
             if (bytes >= 1024 * 1024 * 1024 * 1024L) {
                 unit = "TiB"
@@ -30,17 +30,18 @@ class Pretty {
         }
     }
 
-    fun ram(value: Float): String {
-        return roundRAM(value / 1000)
+    fun ram(value: Long): String {
+        val floatValue = value.toFloat()
+        return roundRAM(floatValue / 1000)
     }
 
-    fun cpu(value: Float): String {
-        if (value == -1f) {
+    fun cpu(value: Long): String {
+        if (value == -1L) {
             return "unlimited"
         } else {
 
             var unit = ""
-            var micro = value
+            var micro = value.toFloat()
 
             if (micro > 1000000*60*60L) {
                 micro /= 1000000*60*60L
