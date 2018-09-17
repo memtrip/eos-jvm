@@ -34,9 +34,9 @@ class ChainGetCurrencyBalanceTest : Spek({
         on("v1/chain/get_currency_balance") {
 
             val currencyBalance = chainApi.getCurrencyBalance(GetCurrencyBalance(
-                "eosio.token",
-                "tester",
-                "SYS"
+                "wubcoinissue",
+                "memtripissue",
+                "WUB"
             )).blockingGet()
 
             it("should return currency balances for the account") {

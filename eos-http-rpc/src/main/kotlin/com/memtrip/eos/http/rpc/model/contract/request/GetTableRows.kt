@@ -8,7 +8,10 @@ data class GetTableRows(
     val code: String,
     val table: String,
     val json: Boolean,
-    val lower_bound: Int = 1,
-    val upper_bound: Int = -1,
-    val limit: Int = 10
+    val limit: Int,
+    val lower_bound: String,
+    val upper_bound: String,
+    val key_type: String,
+    val index_position: String,
+    val encode_type: String
 )

@@ -4,6 +4,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class ContractTableRows(
-    val rows: List<Any>,
+    val rows: List<Map<String, Any>>,
     val more: Boolean
 )

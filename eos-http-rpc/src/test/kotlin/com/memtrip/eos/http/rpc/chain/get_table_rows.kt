@@ -37,7 +37,13 @@ class ChainGetTableRowsTest : Spek({
                 "eosio",
                 "eosio.token",
                 "accounts",
-                true
+                true,
+                10,
+                "",
+                "",
+                "",
+                "",
+                ""
             )).blockingGet()
 
             it("should return the table rows") {
