@@ -1,6 +1,11 @@
-### eos-core
+# eos-core
 An EOS client library containing the core building blocks required to interact
-with the EOS network from the JVM.
+with the EOS network.
+
+## dependency
+```groovy
+com.memtrip.eos-jvm:eos-core:1.0.0-alpha01
+```
 
 ## Key pairs
 EOS keypairs are generated using ECKey from bitcoinj, the private key bytes are

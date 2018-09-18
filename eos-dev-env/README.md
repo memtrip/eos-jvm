@@ -1,3 +1,10 @@
+# eos-dev-env
+NOTE FROM DEVELOPER: These are the initial rough steps I took to setup a consistent
+development environment for interacting with the nodeos api.
+`setup_system_contracts.sh` and `populate_action_list_data.sh` are required by some
+of the integration tests in eos-http-rpc and eos-chain-actions. I included this project
+with the assumption that it might help some people, but this is by no means a complete solution.
+
 ## clone eos
 ```
 git clone https://github.com/EOSIO/eos.git --recursive  --depth 1

@@ -33,7 +33,7 @@ class HistoryGetTransactionsTest : Spek({
         val historyApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).history }
 
         /**
-         * v1/history/get_actions
+         * v1/history/get_transaction
          */
         val actions = historyApi.getActions(GetActions(
             "eosio.token"
@@ -41,7 +41,7 @@ class HistoryGetTransactionsTest : Spek({
 
         val action = actions.body()!!.actions[0]
 
-        on("v1/history/get_transactions") {
+        on("v1/history/get_transaction") {
 
             val transaction = historyApi.getTransaction(GetTransaction(
                 action.action_trace.trx_id
