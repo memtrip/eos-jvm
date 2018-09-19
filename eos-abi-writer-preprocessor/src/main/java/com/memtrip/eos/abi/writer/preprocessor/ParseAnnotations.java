@@ -21,6 +21,7 @@ import com.memtrip.eos.abi.writer.StringCollectionCompress;
 import com.memtrip.eos.abi.writer.StringCompress;
 import com.memtrip.eos.abi.writer.TimestampCompress;
 import com.memtrip.eos.abi.writer.VariableUIntCompress;
+import com.memtrip.eos.abi.writer.preprocessor.model.AbiWriterModel;
 import com.memtrip.eos.abi.writer.preprocessor.model.FieldModel;
 
 import com.memtrip.eos.abi.writer.preprocessor.model.AbiModel;
@@ -40,6 +41,14 @@ final class ParseAnnotations {
 
     ParseAnnotations(Elements elementUtils) {
         this.elementUtils = elementUtils;
+    }
+
+    AbiWriterModel abiWriter(Set<? extends Element> elements) {
+        Element element = elements.iterator().next();
+        return new AbiWriterModel(
+            element.getSimpleName().toString(),
+            elementUtils.getPackageOf(element).getQualifiedName().toString()
+        );
     }
 
     List<AbiModel> abi(Set<? extends Element> elements) {

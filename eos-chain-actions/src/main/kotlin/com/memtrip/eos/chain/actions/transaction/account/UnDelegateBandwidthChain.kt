@@ -2,6 +2,7 @@ package com.memtrip.eos.chain.actions.transaction.account
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
+import com.memtrip.eos.chain.actions.transaction.AbiBinaryGenTransactionWriter
 import com.memtrip.eos.chain.actions.transaction.ChainTransaction
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
@@ -12,7 +13,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.undelegatebw.Un
 import com.memtrip.eos.chain.actions.transaction.account.actions.undelegatebw.UnDelegateBandwidthBody
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import io.reactivex.Single
 import java.util.Arrays.asList
 
@@ -45,7 +46,7 @@ class UnDelegateBandwidthChain(chainApi: ChainApi) : ChainTransaction(chainApi) 
     }
 
     private fun delegateBandwidthBin(args: Args): String {
-        return AbiBinaryGen(CompressionType.NONE).squishUnDelegateBandwidthBody(
+        return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishUnDelegateBandwidthBody(
             UnDelegateBandwidthBody(
                 "eosio",
                 "undelegatebw",

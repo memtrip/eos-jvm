@@ -7,9 +7,10 @@ import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.generateUniqueWalletName
+import com.memtrip.eos.http.rpc.utils.testabi.AbiBinaryGenTransferWriter
 import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
 import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -70,13 +71,11 @@ class WalletSignDigestTest : Spek({
                     "here is some coins!")
             )
 
-            val transferBodyDigest = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
+            val transferBodyDigest = AbiBinaryGenTransferWriter(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
             val signDigest = walletApi.signDigest(
                 asList(transferBodyDigest, privateKey.publicKey.toString())
             ).blockingGet()
-
-            AbiBinaryGen(CompressionType.NONE)
 
             it("should return a transaction receipt") {
                 assertNotNull(signDigest.body())

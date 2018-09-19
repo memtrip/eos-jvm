@@ -119,7 +119,7 @@ class VoteChainTest : Spek({
                     CreateAccountChain.Args.Quantity(
                         "1.0000 SYS",
                         "1.0000 SYS",
-                        "11.0000 SYS"),
+                        "1.0000 SYS"),
                     firstAccountPrivateKey.publicKey,
                     firstAccountPrivateKey.publicKey,
                     false
@@ -138,7 +138,7 @@ class VoteChainTest : Spek({
                 TransferChain.Args(
                     "eosio",
                     firstAccountName,
-                    "100.0000 SYS",
+                    "1.0000 SYS",
                     "here is some coins!"
                 ),
                 TransactionContext(

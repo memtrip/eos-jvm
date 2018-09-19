@@ -9,10 +9,11 @@ import com.memtrip.eos.http.rpc.model.transaction.Transaction
 import com.memtrip.eos.http.rpc.model.transaction.TransactionAuthorization
 import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.DateAdapter
+import com.memtrip.eos.http.rpc.utils.testabi.AbiBinaryGenTransferWriter
 import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
 import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
 import com.memtrip.eos.http.rpc.utils.transactionDefaultExpiry
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -75,7 +76,7 @@ class WalletSignTransactionTest : Spek({
                     "here is some coins!")
             )
 
-            val abiBin = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
+            val abiBin = AbiBinaryGenTransferWriter(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
             val transaction = Transaction(
                 transactionDefaultExpiry(),

@@ -3,6 +3,7 @@ package com.memtrip.eos.abi.writer.preprocessor;
 import com.google.auto.service.AutoService;
 import com.google.googlejavaformat.java.FormatterException;
 import com.memtrip.eos.abi.writer.Abi;
+import com.memtrip.eos.abi.writer.AbiWriter;
 import com.memtrip.eos.abi.writer.preprocessor.gen.Generate;
 
 import javax.annotation.processing.*;
@@ -31,18 +32,32 @@ public final class Preprocessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annoations, RoundEnvironment env) {
 
-        Set<? extends Element> elements = env.getElementsAnnotatedWith(Abi.class);
+        Set<? extends Element> abiElements = env.getElementsAnnotatedWith(Abi.class);
+        Set<? extends Element> abiWriterElements = env.getElementsAnnotatedWith(AbiWriter.class);
 
-        if (!elements.isEmpty()) {
-            try {
-                new Generate(
-                    new ParseAnnotations(elementUtils).abi(elements),
-                    new FreeMarker(),
-                    new SourceFileGenerator(filer, messager)
-                ).generate();
-            } catch (IOException | FormatterException e) {
-                messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+        if (!abiElements.isEmpty()) {
+            if (abiWriterElements.isEmpty()) {
+                messager.printMessage(
+                    Diagnostic.Kind.ERROR,
+                    "You must annotate an interface with @AbiWriter for us to generate the boilerplate for you.\n" +
+                        "We will generate the boilerplate in the package of this interface and generate a class named \n" +
+                        "AbiBinaryGen${your_interface_name} for you.");
                 return false;
+            } else {
+
+                ParseAnnotations parseAnnotations = new ParseAnnotations(elementUtils);
+
+                try {
+                    new Generate(
+                        parseAnnotations.abiWriter(abiWriterElements),
+                        parseAnnotations.abi(abiElements),
+                        new FreeMarker(),
+                        new SourceFileGenerator(filer, messager)
+                    ).generate();
+                } catch (IOException | FormatterException e) {
+                    messager.printMessage(Diagnostic.Kind.ERROR, e.getMessage());
+                    return false;
+                }
             }
         }
         return true;
@@ -57,6 +72,7 @@ public final class Preprocessor extends AbstractProcessor {
     public Set<String> getSupportedAnnotationTypes() {
         Set<String> set = new HashSet<>();
         set.add(Abi.class.getCanonicalName());
+        set.add(AbiWriter.class.getCanonicalName());
         return set;
     }
 }

@@ -3,19 +3,25 @@ package com.memtrip.eos.abi.writer.preprocessor.gen;
 import com.google.googlejavaformat.java.FormatterException;
 import com.memtrip.eos.abi.writer.preprocessor.FreeMarker;
 import com.memtrip.eos.abi.writer.preprocessor.SourceFileGenerator;
+import com.memtrip.eos.abi.writer.preprocessor.model.AbiWriterModel;
 
 import java.io.IOException;
 
 class RootGen extends Gen<RootMap> {
 
+    private final AbiWriterModel abiWriterModel;
     private final RootMap rootMap;
 
-    RootGen(RootMap rootMap,
-            FreeMarker freeMarker,
-            SourceFileGenerator sourceFileGenerator) {
+    RootGen(
+        AbiWriterModel abiWriterModel,
+        RootMap rootMap,
+        FreeMarker freeMarker,
+        SourceFileGenerator sourceFileGenerator
+    ) {
 
         super(freeMarker, sourceFileGenerator);
 
+        this.abiWriterModel = abiWriterModel;
         this.rootMap = rootMap;
     }
 
@@ -23,7 +29,7 @@ class RootGen extends Gen<RootMap> {
         super.write(
             "AbiBinaryGen.template",
             rootMap,
-            "com.memtrip.eosio.abi.binary.gen",
-            "AbiBinaryGen");
+            abiWriterModel.getClassPackage(),
+            "AbiBinaryGen" + abiWriterModel.getClassName());
     }
 }

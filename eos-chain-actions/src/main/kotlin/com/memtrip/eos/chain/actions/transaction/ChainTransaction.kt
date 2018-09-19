@@ -11,7 +11,7 @@ import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import io.reactivex.Single
 import retrofit2.Response
 import java.util.*
@@ -34,7 +34,7 @@ abstract class ChainTransaction(
                     actions)
 
                 val signature = PrivateKeySigning().sign(
-                    AbiBinaryGen(CompressionType.NONE).squishSignedTransactionAbi(
+                    AbiBinaryGenTransactionWriter(CompressionType.NONE).squishSignedTransactionAbi(
                         SignedTransactionAbi(
                             info.body()!!.chain_id,
                             transaction,
@@ -47,7 +47,7 @@ abstract class ChainTransaction(
                         asList(signature),
                         "none",
                         "",
-                        AbiBinaryGen(CompressionType.NONE).squishTransactionAbi(transaction).toHex()))
+                        AbiBinaryGenTransactionWriter(CompressionType.NONE).squishTransactionAbi(transaction).toHex()))
             } else {
                 Single.just(Response.error(info.code(), info.errorBody()!!))
             }

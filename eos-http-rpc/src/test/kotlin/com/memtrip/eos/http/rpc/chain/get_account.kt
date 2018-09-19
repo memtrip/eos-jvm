@@ -54,7 +54,7 @@ class ChainGetAccountTest : Spek({
 
         on("v1/chain/get_account -> voter info proxied") {
 
-            val account = chainApi.getAccount(AccountName("memtripissue")).blockingGet()
+            val account = chainApi.getAccount(AccountName("memtripproxy")).blockingGet()
 
             it("should return the account") {
                 assertTrue(account.isSuccessful)

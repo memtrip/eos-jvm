@@ -56,8 +56,8 @@ dependencies {
     testCompile 'org.json:json:20140107'
 
     /* abi */
-    testCompile "com.memtrip.eos-jvm:eos-abi-writer:1.0.2"
-    kaptTest "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.1"
+    testCompile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha01"
+    kaptTest "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha01"
 }
 
 compileKotlin {

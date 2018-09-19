@@ -2,6 +2,7 @@ package com.memtrip.eos.chain.actions.transaction.account
 
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
+import com.memtrip.eos.chain.actions.transaction.AbiBinaryGenTransactionWriter
 import com.memtrip.eos.chain.actions.transaction.ChainTransaction
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
@@ -12,7 +13,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.delegatebw.Dele
 import com.memtrip.eos.chain.actions.transaction.account.actions.delegatebw.DelegateBandwidthBody
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import io.reactivex.Single
 import java.util.Arrays.asList
 
@@ -43,7 +44,7 @@ class SellRamChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     }
 
     private fun sellRamAbi(args: Args, transactionContext: TransactionContext): String {
-        return AbiBinaryGen(CompressionType.NONE).squishBuyRamBody(
+        return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishBuyRamBody(
             BuyRamBody(
                 BuyRamArgs(
                     transactionContext.authorizingAccountName,

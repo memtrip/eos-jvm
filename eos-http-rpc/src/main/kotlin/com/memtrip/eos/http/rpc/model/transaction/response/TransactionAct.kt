@@ -8,6 +8,6 @@ data class TransactionAct(
     val account: String,
     val name: String,
     val authorization: List<TransactionAuthorization>,
-    val data: Map<String, Any>,
+    val data: Any,
     val hex_data: String
 )

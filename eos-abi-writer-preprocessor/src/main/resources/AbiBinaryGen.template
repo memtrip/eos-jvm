@@ -1,4 +1,4 @@
-package com.memtrip.eosio.abi.binary.gen;
+package ${package_name};
 
 <#list abi_list as abi>
 import ${abi.getClassPackage()}.${abi.getClassName()};
@@ -14,7 +14,7 @@ import com.memtrip.eos.core.hex.HexWriter;
 
 import java.util.List;
 
-public class AbiBinaryGen {
+public class AbiBinaryGen${class_postfix} {
 
     private final ByteWriter byteWriter;
     private final HexWriter hexWriter;
@@ -24,7 +24,7 @@ public class AbiBinaryGen {
     private final ${abi.getClassName()}Squishable ${abi.getClassName()?lower_case}Squishable;
     </#list>
 
-    public AbiBinaryGen(CompressionType compressionType) {
+    public AbiBinaryGen${class_postfix}(CompressionType compressionType) {
         this(
             new DefaultByteWriter(512),
             new DefaultHexWriter(),
@@ -32,7 +32,7 @@ public class AbiBinaryGen {
         );
     }
 
-    public AbiBinaryGen(ByteWriter byteWriter, HexWriter hexWriter, CompressionType compressionType) {
+    public AbiBinaryGen${class_postfix}(ByteWriter byteWriter, HexWriter hexWriter, CompressionType compressionType) {
         this.byteWriter = byteWriter;
         this.hexWriter = hexWriter;
         this.compressionType = compressionType;
@@ -55,7 +55,7 @@ public class AbiBinaryGen {
 
     <#list abi_list as abi>
 
-        public AbiBinaryGen squish${abi.getClassName()}(${abi.getClassName()} ${abi.getClassName()?lower_case}) {
+        public AbiBinaryGen${class_postfix} squish${abi.getClassName()}(${abi.getClassName()} ${abi.getClassName()?lower_case}) {
             ${abi.getClassName()?lower_case}Squishable.squish(${abi.getClassName()?lower_case}, byteWriter);
             return this;
         }

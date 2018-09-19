@@ -5,9 +5,10 @@ import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.model.contract.request.AbiBinToJson
 import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.DateAdapter
+
+import com.memtrip.eos.http.rpc.utils.testabi.AbiBinaryGenTransferWriter
 import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
 import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -53,7 +54,7 @@ class ChainAbiBinToJsonTest : Spek({
                     "here is some coins!")
             )
 
-            val abi = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
+            val abi = AbiBinaryGenTransferWriter(CompressionType.NONE).squishTransferBody(transferBody).toHex()
 
             /**
              * v1/chain/abi_bin_to_json

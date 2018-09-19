@@ -1,6 +1,9 @@
 package com.memtrip.eos.abi.writer
 
 @Target(AnnotationTarget.CLASS)
+annotation class AbiWriter
+
+@Target(AnnotationTarget.CLASS)
 annotation class Abi
 
 @Target(AnnotationTarget.PROPERTY_GETTER)

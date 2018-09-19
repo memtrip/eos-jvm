@@ -4,9 +4,10 @@ import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.http.rpc.Api
 import com.memtrip.eos.http.rpc.utils.Config
 import com.memtrip.eos.http.rpc.utils.DateAdapter
+import com.memtrip.eos.http.rpc.utils.testabi.AbiBinaryGenTransferWriter
 import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
 import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
-import com.memtrip.eosio.abi.binary.gen.AbiBinaryGen
+
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
 import okhttp3.OkHttpClient
@@ -61,7 +62,7 @@ class ChainAbiJsoinToBinTest : Spek({
 
             it("should return the bin") {
                 assertTrue(abi.isSuccessful)
-                val localAbiBin = AbiBinaryGen(CompressionType.NONE).squishTransferBody(transferBody).toHex()
+                val localAbiBin = AbiBinaryGenTransferWriter(CompressionType.NONE).squishTransferBody(transferBody).toHex()
                 assertEquals(abi.body()!!.binargs, localAbiBin)
             }
         }
