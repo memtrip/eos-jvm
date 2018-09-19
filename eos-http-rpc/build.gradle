@@ -67,13 +67,23 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+task sourcesJar(type: Jar, dependsOn: project.classes) {
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
             groupId = 'com.memtrip.eos-jvm'
             artifactId = 'eos-http-rpc'
             version = '1.0.0-alpha01'
-
+            artifact sourcesJar {
+                classifier = 'sources'
+            }
             from components.java
         }
     }
