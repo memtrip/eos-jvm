@@ -18,6 +18,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.newaccount.NewA
 
 import com.memtrip.eos.core.crypto.EosPublicKey
 import com.memtrip.eos.http.rpc.ChainApi
+import com.memtrip.eos.http.rpc.model.contract.response.AbiAction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 
 import io.reactivex.Single
@@ -47,7 +48,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
         return push(
             transactionContext.expirationDate,
-            with (asList(
+            with (ArrayList<ActionAbi>(asList(
                 ActionAbi(
                     "eosio",
                     "newaccount",
@@ -75,7 +76,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
                     ),
                     delegateRamAbi(args, transactionContext)
                 )
-            )) {
+            ))) {
                 addAll(extraActionAbi)
                 this
             },
