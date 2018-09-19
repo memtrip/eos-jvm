@@ -6,6 +6,7 @@ import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transactionDefaultExpiry
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
+import com.memtrip.eos.http.rpc.model.history.request.GetKeyAccounts
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -33,12 +34,17 @@ class CreateAccountChainTest : Spek({
         }
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
+        val historyApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).history }
 
         on("v1/chain/push_transaction -> create account") {
 
-            val newAccountName = generateUniqueAccountName()
+            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
-            val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            /**
+             * New account
+             */
+            val newAccountName = generateUniqueAccountName()
+            val newAccountPrivateKey = EosPrivateKey()
 
             val response = CreateAccountChain(chainApi).createAccount(
                 CreateAccountChain.Args(
@@ -47,20 +53,29 @@ class CreateAccountChainTest : Spek({
                         "1.0000 SYS",
                         "1.0000 SYS",
                         "11.0000 SYS"),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
+                    newAccountPrivateKey.publicKey,
+                    newAccountPrivateKey.publicKey,
                     true
                 ),
                 TransactionContext(
                     "eosio",
-                    privateKey,
+                    signatureProviderPrivateKey,
                     transactionDefaultExpiry()
                 )
             ).blockingGet()
 
+            /**
+             * Get account by public key
+             */
+            val accounts = historyApi.getKeyAccounts(GetKeyAccounts(newAccountPrivateKey.publicKey.toString())).blockingGet()
+
             it("should return the transaction") {
                 assertTrue(response.isSuccessful)
                 assertNotNull(response.body)
+
+                assertTrue(accounts.isSuccessful)
+                assertNotNull(accounts.body())
+                assertTrue(accounts.body()!!.account_names.size == 1)
             }
         }
     }
