@@ -2,7 +2,12 @@
 A local replacement of `abi_json_to_bin`, annotation processing is used to generate
 reliable Abi byte writing boilerplate code.
 
-## @AbiWriter
+## Gradle
+```
+implementation com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha01
+```
+
+## Writer
 Annotate an interface with @AbiWriter, this will tell the annotation preprocessor what package to generate the code in
 and will generate an AbiBinaryGen${interface_name} class.
 
@@ -11,7 +16,7 @@ and will generate an AbiBinaryGen${interface_name} class.
 interface TransferWriter
 ```
 
-## @Abi model
+## Model
 Simply annotate a data class or pojo with `@Abi`, and use on of the many `@*Compress`
 annotations on the getters that you would like to write to abi bytes for.
 

@@ -56,7 +56,7 @@ class HistoryGetActionsTest : Spek({
             val secondPageActions = historyApi.getActions(GetActions(
                 "eosio.token",
                 -1,
-                firstPageActionsItems[firstPageActionsItems.size-1].account_action_seq
+                firstPageActionsItems[firstPageActionsItems.size - 1].account_action_seq
             )).blockingGet()
 
             it("should return the account") {

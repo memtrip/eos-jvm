@@ -2,9 +2,9 @@
 An EOS client library containing the core building blocks required to interact
 with the EOS network.
 
-## dependency
-```groovy
-com.memtrip.eos-jvm:eos-core:1.0.0-alpha01
+## Gradle
+```
+implementation com.memtrip.eos-jvm:eos-core:1.0.0-alpha01
 ```
 
 ## Key pairs

@@ -1,9 +1,9 @@
 # eos-http-rpc
 An EOS client library that uses an OkHttpClient to make requests to the nodeos RPC HTTP API.
 
-## dependency
-```groovy
-com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha01
+## Gradle
+```
+implementation com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha01
 ```
 
 ## Api

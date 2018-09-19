@@ -4,7 +4,6 @@ import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.transaction.account.BuyRamChain
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
-import com.memtrip.eos.chain.actions.transaction.account.DelegateBandwidthChain
 import com.memtrip.eos.chain.actions.transaction.transfer.TransferChain
 import com.memtrip.eos.chain.actions.transactionDefaultExpiry
 import com.memtrip.eos.core.crypto.EosPrivateKey
@@ -16,7 +15,6 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform

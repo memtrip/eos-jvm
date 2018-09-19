@@ -5,7 +5,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0"
+        classpath 'gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:4.1.0'
     }
 }
 
@@ -14,7 +14,34 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.2.61'
     id 'maven-publish'
     id "org.jlleitschuh.gradle.ktlint" version "5.0.0"
+    id "com.jfrog.bintray" version "1.8.3"
 }
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'eos-core'
+    bintrayOrg = 'memtrip'
+
+    publishedGroupId = 'com.memtrip.eos-jvm'
+    artifact = 'eos-core'
+
+    libraryDescription = 'An EOS client library containing the core building blocks required to interact with the EOS network.'
+    siteUrl = 'https://github.com/memtrip/eos-jvm'
+    gitUrl = 'https://github.com/memtrip/eos-jvm.git'
+
+    libraryVersion = '1.0.0-alpha01'
+
+    developerId = 'samkirton'
+    developerName = 'Samuel Kirton'
+    developerEmail = 'sam@memtrip.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+version = libraryVersion
+group = publishedGroupId
 
 sourceCompatibility = 1.8
 
@@ -36,20 +63,69 @@ compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-task sourcesJar(type: Jar, dependsOn: project.classes) {
-    from sourceSets.main.allSource
+allprojects {
+    task sourcesJar(type: Jar, dependsOn: project.classes) {
+        from sourceSets.main.allSource
+    }
 }
 
 artifacts {
     archives sourcesJar
 }
 
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+
+    configurations = ['archives']
+    publications = ['maven']
+    pkg {
+        version {
+            name = libraryVersion
+            desc = libraryDescription
+            released = new Date()
+        }
+        repo = bintrayRepo
+        name = bintrayName
+        userOrg = bintrayOrg
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+    }
+}
+
 publishing {
     publications {
         maven(MavenPublication) {
-            groupId = 'com.memtrip.eos-jvm'
-            artifactId = 'eos-core'
-            version = '1.0.0-alpha01'
+            groupId = publishedGroupId
+            artifactId = artifact
+            description libraryDescription
+            version = libraryVersion
+            pom {
+                name = artifact
+                description = libraryDescription
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'samkirton'
+                        name = 'Samuel Kirton'
+                        email = 'sam@memtrip.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/memtrip/eos-jvm.git'
+                    developerConnection = 'scm:git:ssh://github.com/memtrip/eos-jvm.git'
+                    url = 'https://github.com/memtrip/eos-jvm/'
+                }
+            }
             artifact sourcesJar {
                 classifier = 'sources'
             }
