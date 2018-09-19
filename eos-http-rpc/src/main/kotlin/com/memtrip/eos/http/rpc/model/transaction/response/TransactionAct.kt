@@ -9,5 +9,5 @@ data class TransactionAct(
     val name: String,
     val authorization: List<TransactionAuthorization>,
     val data: Any,
-    val hex_data: String
+    val hex_data: String?
 )
