@@ -29,7 +29,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0-alpha01'
+    libraryVersion = '1.0.0-alpha02'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -51,7 +51,9 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-    compile "org.bitcoinj:bitcoinj-core:0.14.7"
+    compile ("org.bitcoinj:bitcoinj-core:0.14.7") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
     testCompile "junit:junit:4.12"
 }
 

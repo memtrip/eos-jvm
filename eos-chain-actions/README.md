@@ -4,7 +4,7 @@ to seamlessly handle transaction signing, byte writing and api requests.
 
 ## Gradle
 ```
-implementation com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha01
+implementation com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha02
 ```
 
 ## Supported actions
