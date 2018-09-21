@@ -35,7 +35,7 @@ abstract class ChainTransaction(
     private val chainApi: ChainApi
 ) {
 
-    internal fun push(
+    fun push(
         expirationDate: Date,
         actions: List<ActionAbi>,
         authorizingPrivateKey: EosPrivateKey

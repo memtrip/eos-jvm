@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0-alpha02'
+    libraryVersion = '1.0.0-alpha03'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'

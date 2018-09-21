@@ -75,7 +75,41 @@ cleos push action eosio.token issue '[ "memtripblock", "100.0000 SYS", "eosio_in
 ## Register the public key and account as a block producer
 cleos system regproducer memtripblock $PUBLIC_KEY https://memtrip.com/
 
-# create a key pair for memtripissue
+##
+## create a key pair for multisig accounts
+##
+declare MULTISIG_CREATE_KEY_RESULT=($(cleos create key --to-console))
+MULTISIG_PRIVATE_KEY=${MULTISIG_CREATE_KEY_RESULT[2]}
+MULTISIG_PUBLIC_KEY=${MULTISIG_CREATE_KEY_RESULT[5]}
+
+cleos wallet import --private-key $MULTISIG_PRIVATE_KEY
+
+## The multisig account
+cleos system newaccount eosio --transfer memtripmulti $MULTISIG_PUBLIC_KEY --stake-net "500.0000 SYS" --stake-cpu "500.0000 SYS" --buy-ram "500.0000 SYS"
+cleos push action eosio.token issue '[ "memtripmulti", "500.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+## Create 1/3 signatories
+cleos system newaccount eosio --transfer memtrip11111 $MULTISIG_PUBLIC_KEY --stake-net "111.0000 SYS" --stake-cpu "111.0000 SYS" --buy-ram "111.0000 SYS"
+cleos push action eosio.token issue '[ "memtrip11111", "100.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+## Create 2/3 signatories
+cleos system newaccount eosio --transfer memtrip22222 $MULTISIG_PUBLIC_KEY --stake-net "222.0000 SYS" --stake-cpu "222.0000 SYS" --buy-ram "222.0000 SYS"
+cleos push action eosio.token issue '[ "memtrip22222", "100.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+# Create 3/3 signatories
+cleos system newaccount eosio --transfer memtrip33333 $MULTISIG_PUBLIC_KEY --stake-net "333.0000 SYS" --stake-cpu "333.0000 SYS" --buy-ram "333.0000 SYS"
+cleos push action eosio.token issue '[ "memtrip33333", "100.0000 SYS", "eosio_init" ]' \
+        -p eosio@active
+
+cleos set account permission memtripmulti owner \
+'{"threshold":2,"keys":[],"accounts":[{"permission":{"actor":"memtrip11111","permission":"owner"},"weight":1},{"permission":{"actor":"memtrip22222","permission":"owner"},"weight":1},{"permission":{"actor":"memtrip33333","permission":"owner"},"weight":1}],"waits":[]}' -p memtripmulti@owner
+
+##
+## create a key pair for memtripissue
+##
 declare MEMTRIP_ISSUE_CREATE_KEY_RESULT=($(cleos create key --to-console))
 MEMTRIP_ISSUE_PRIVATE_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[2]}
 MEMTRIP_ISSUE_PUBLIC_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[5]}
@@ -111,8 +145,11 @@ echo "\n"
 echo "> system contracts installed"
 
 mkdir -p session/memtripissue
+mkdir -p session/multisig
 echo $PUBLIC_KEY > session/public_key
 echo $PRIVATE_KEY > session/private_key
 echo $WALLET_PASSWORD > session/wallet_password
 echo $MEMTRIP_ISSUE_PUBLIC_KEY > session/memtripissue/public_key
 echo $MEMTRIP_ISSUE_PRIVATE_KEY > session/memtripissue/private_key
+echo $MULTISIG_PUBLIC_KEY > session/multisig/public_key
+echo $MULTISIG_PRIVATE_KEY > session/multisig/private_key
