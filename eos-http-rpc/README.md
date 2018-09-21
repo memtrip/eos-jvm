@@ -3,7 +3,9 @@ An EOS client library that uses an OkHttpClient to make requests to the nodeos R
 
 ## Gradle
 ```
-implementation com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha02
+implementation (com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha02) {
+    exclude group: "com.lambdaworks", module: "scrypt"
+}
 ```
 
 ## Api

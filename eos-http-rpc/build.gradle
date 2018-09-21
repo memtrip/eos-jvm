@@ -48,7 +48,6 @@ sourceCompatibility = 1.8
 
 repositories {
     jcenter()
-    mavenLocal()
 }
 
 dependencies {
@@ -69,7 +68,9 @@ dependencies {
     /* rxkotlin */
     compile 'io.reactivex:rxkotlin:1.0.0'
 
-    compile "com.memtrip.eos-jvm:eos-core:1.0.0-alpha02"
+    compile ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha02") {
+        exclude group: "com.lambdaworks", module: "scrypt"
+    }
 
     /* junit */
     testCompile 'junit:junit:4.12'
