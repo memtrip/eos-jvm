@@ -28,6 +28,7 @@ class EosPublicKey {
 
     private val ecKey: ECKey
     private val checkSum: Long
+    private val base58: String
 
     private val base58Encode = Base58Encode()
 
@@ -40,21 +41,24 @@ class EosPublicKey {
     constructor(bytes: ByteArray) {
         this.ecKey = ECKey.fromPublicOnly(Arrays.copyOf(bytes, 33))
         this.checkSum = Utils.readUint32(RIPEMD160Digest.hash(ecKey.pubKey), 0)
+        this.base58 = base58Encode.encodeKey(PREFIX, ecKey.pubKey)
     }
 
     constructor(base58: String) {
         val bytesWithChecksum = bytesFromBase58(base58)
         this.ecKey = ECKey.fromPublicOnly(bytesWithChecksum.bytes)
         this.checkSum = bytesWithChecksum.checkSum
+        this.base58 = base58
     }
 
     internal constructor(ecKey: ECKey) {
         this.ecKey = ecKey
         this.checkSum = Utils.readUint32(RIPEMD160Digest.hash(ecKey.pubKey), 0)
+        this.base58 = base58Encode.encodeKey(PREFIX, ecKey.pubKey)
     }
 
     override fun toString(): String {
-        return base58Encode.encodeKey(PREFIX, ecKey.pubKey)
+        return base58
     }
 
     override fun hashCode(): Int {

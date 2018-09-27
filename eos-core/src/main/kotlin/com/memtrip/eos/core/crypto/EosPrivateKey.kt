@@ -22,7 +22,10 @@ import org.bitcoinj.core.Sha256Hash
 import java.math.BigInteger
 import java.util.Arrays
 
-class EosPrivateKey internal constructor(private val key: ECKey) {
+class EosPrivateKey internal constructor(
+    private val key: ECKey,
+    private val base58: String = base58Encode(key)
+) {
 
     val publicKey: EosPublicKey = EosPublicKey(key.pubKey)
     val keyCurve: SecP256K1KeyCurve = SecP256K1KeyCurve()
@@ -39,15 +42,7 @@ class EosPrivateKey internal constructor(private val key: ECKey) {
 
     constructor(bytes: ByteArray) : this(ECKey.fromPrivate(bytes))
 
-    override fun toString(): String {
-        val privateKeyBytes = bytes
-        val resultWIFBytes = ByteArray(1 + 32 + 4)
-        resultWIFBytes[0] = 0x80.toByte()
-        System.arraycopy(privateKeyBytes, if (privateKeyBytes.size > 32) 1 else 0, resultWIFBytes, 1, 32)
-        val hash = Sha256Hash.hashTwice(resultWIFBytes, 0, 33)
-        System.arraycopy(hash, 0, resultWIFBytes, 33, 4)
-        return Base58.encode(resultWIFBytes)
-    }
+    override fun toString(): String = base58
 
     companion object {
         private fun getBase58Bytes(base58: String): ByteArray {
@@ -71,6 +66,16 @@ class EosPrivateKey internal constructor(private val key: ECKey) {
             } else {
                 throw IllegalArgumentException("Invalid private format, expecting a prefix")
             }
+        }
+
+        private fun base58Encode(key: ECKey): String {
+            val privateKeyBytes = key.privKeyBytes
+            val resultWIFBytes = ByteArray(1 + 32 + 4)
+            resultWIFBytes[0] = 0x80.toByte()
+            System.arraycopy(privateKeyBytes, if (privateKeyBytes.size > 32) 1 else 0, resultWIFBytes, 1, 32)
+            val hash = Sha256Hash.hashTwice(resultWIFBytes, 0, 33)
+            System.arraycopy(hash, 0, resultWIFBytes, 33, 4)
+            return Base58.encode(resultWIFBytes)
         }
 
         private fun equalsFromOffset(mHashBytes: ByteArray, toCompareData: ByteArray?, offsetInCompareData: Int): Boolean {

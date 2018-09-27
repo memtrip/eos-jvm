@@ -26,6 +26,7 @@ class EosKeyTests {
         val bytes = existingPrivateKey.bytes
         val privateKey = EosPrivateKey(bytes)
         assertNotNull(privateKey.toString())
+        assertEquals(privateKey.toString(), "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
     }
 
     @Test

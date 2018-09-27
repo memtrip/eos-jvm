@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0-alpha02'
+    libraryVersion = '1.0.0-alpha04'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -68,7 +68,7 @@ dependencies {
     /* rxkotlin */
     compile 'io.reactivex:rxkotlin:1.0.0'
 
-    compile ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha02") {
+    compile ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha04") {
         exclude group: "com.lambdaworks", module: "scrypt"
     }
 
@@ -84,8 +84,8 @@ dependencies {
     testCompile 'org.json:json:20140107'
 
     /* abi */
-    testCompile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha02"
-    kaptTest "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha02"
+    testCompile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha04"
+    kaptTest "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha04"
 }
 
 compileKotlin {
