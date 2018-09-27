@@ -51,7 +51,7 @@ class VoteChainTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        4096,
                         "1.0000 SYS",
                         "11.0000 SYS"),
                     firstAccountPrivateKey.publicKey,
@@ -117,7 +117,7 @@ class VoteChainTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        4096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     firstAccountPrivateKey.publicKey,

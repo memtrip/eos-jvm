@@ -45,7 +45,7 @@ class CheckAccountNameTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "100.0000 SYS",
+                        4096,
                         "100.0000 SYS",
                         "100.0000 SYS"),
                     privateKey.publicKey,

@@ -48,7 +48,7 @@ class TransferChainTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        14096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     firstAccountPrivateKey.publicKey,
@@ -72,7 +72,7 @@ class TransferChainTest : Spek({
                 CreateAccountChain.Args(
                     secondAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        14096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     secondAccountPrivateKey.publicKey,

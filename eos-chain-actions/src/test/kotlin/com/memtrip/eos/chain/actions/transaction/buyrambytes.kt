@@ -2,6 +2,7 @@ package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
+import com.memtrip.eos.chain.actions.transaction.account.BuyRamBytesChain
 import com.memtrip.eos.chain.actions.transaction.account.BuyRamChain
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transaction.transfer.TransferChain
@@ -22,7 +23,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class SellRamChainTest : Spek({
+class BuyRamBytesChainTest : Spek({
 
     given("an Api") {
 
@@ -37,7 +38,7 @@ class SellRamChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> sell ram") {
+        on("v1/chain/push_transaction -> buy ram") {
 
             val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
@@ -52,7 +53,7 @@ class SellRamChainTest : Spek({
                 CreateAccountChain.Args(
                     newAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "10.0000 SYS",
+                        4096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     newAccountPrivateKey.publicKey,
@@ -92,10 +93,10 @@ class SellRamChainTest : Spek({
             /**
              * Buy ram
              */
-            val buyRam = BuyRamChain(chainApi).buyRam(
-                BuyRamChain.Args(
+            val buyRam = BuyRamBytesChain(chainApi).buyRamBytes(
+                BuyRamBytesChain.Args(
                     newAccountName,
-                    "1.0000 SYS"
+                    4096
                 ),
                 TransactionContext(
                     newAccountName,

@@ -22,8 +22,8 @@ import com.memtrip.eos.chain.actions.transaction.ChainTransaction
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
 import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
 import com.memtrip.eos.chain.actions.transaction.abi.TransactionAuthorizationAbi
-import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamArgs
-import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamBody
+import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamBytesArgs
+import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamBytesBody
 import com.memtrip.eos.chain.actions.transaction.account.actions.delegatebw.DelegateBandwidthArgs
 import com.memtrip.eos.chain.actions.transaction.account.actions.delegatebw.DelegateBandwidthBody
 import com.memtrip.eos.chain.actions.transaction.account.actions.newaccount.AccountKeyAbi
@@ -46,7 +46,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
         val transfer: Boolean
     ) {
         data class Quantity(
-            val ram: String,
+            val ram: Int,
             val net: String,
             val cpu: String
         )
@@ -72,12 +72,12 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
                 ),
                 ActionAbi(
                     "eosio",
-                    "buyram",
+                    "buyrambytes",
                     asList(TransactionAuthorizationAbi(
                         transactionContext.authorizingAccountName,
                         "active")
                     ),
-                    buyRamAbi(args, transactionContext)
+                    buyRamBytesAbi(args, transactionContext)
                 ),
                 ActionAbi(
                     "eosio",
@@ -86,7 +86,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
                         transactionContext.authorizingAccountName,
                         "active")
                     ),
-                    delegateRamAbi(args, transactionContext)
+                    delegateBandwidthAbi(args, transactionContext)
                 )
             ))) {
                 addAll(extraActionAbi)
@@ -127,10 +127,10 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
         ).toHex()
     }
 
-    private fun buyRamAbi(args: Args, transactionContext: TransactionContext): String {
-        return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishBuyRamBody(
-            BuyRamBody(
-                BuyRamArgs(
+    private fun buyRamBytesAbi(args: Args, transactionContext: TransactionContext): String {
+        return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishBuyRamBytesBody(
+            BuyRamBytesBody(
+                BuyRamBytesArgs(
                     transactionContext.authorizingAccountName,
                     args.newAccountName,
                     args.quantity.ram)
@@ -138,7 +138,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
         ).toHex()
     }
 
-    private fun delegateRamAbi(args: Args, transactionContext: TransactionContext): String {
+    private fun delegateBandwidthAbi(args: Args, transactionContext: TransactionContext): String {
         return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishDelegateBandwidthBody(
             DelegateBandwidthBody(
                 "eosio",

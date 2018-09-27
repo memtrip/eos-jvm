@@ -53,7 +53,7 @@ class DelegateBandwidthChainTest : Spek({
                 CreateAccountChain.Args(
                     newAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        14096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     newAccountPrivateKey.publicKey,

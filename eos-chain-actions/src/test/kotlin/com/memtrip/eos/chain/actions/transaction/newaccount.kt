@@ -50,7 +50,7 @@ class CreateAccountChainTest : Spek({
                 CreateAccountChain.Args(
                     newAccountName,
                     CreateAccountChain.Args.Quantity(
-                        "1.0000 SYS",
+                        4096,
                         "1.0000 SYS",
                         "11.0000 SYS"),
                     newAccountPrivateKey.publicKey,

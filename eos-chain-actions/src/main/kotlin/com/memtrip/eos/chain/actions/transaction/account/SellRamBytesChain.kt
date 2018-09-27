@@ -24,16 +24,17 @@ import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
 import com.memtrip.eos.chain.actions.transaction.abi.TransactionAuthorizationAbi
 import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamArgs
 import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamBody
+import com.memtrip.eos.chain.actions.transaction.account.actions.sellram.SellRamBytesArgs
+import com.memtrip.eos.chain.actions.transaction.account.actions.sellram.SellRamBytesBody
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
 import java.util.Arrays.asList
 
-class SellRamChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
+class SellRamBytesChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
-        val receiver: String,
-        val quantity: String
+        val quantity: Int
     )
 
     fun sellRam(
@@ -56,13 +57,13 @@ class SellRamChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     }
 
     private fun sellRamAbi(args: Args, transactionContext: TransactionContext): String {
-        return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishBuyRamBody(
-            BuyRamBody(
-                BuyRamArgs(
+        val t =  AbiBinaryGenTransactionWriter(CompressionType.NONE).squishSellRamBytesBody(
+            SellRamBytesBody(
+                SellRamBytesArgs(
                     transactionContext.authorizingAccountName,
-                    args.receiver,
                     args.quantity)
             )
         ).toHex()
+        return t
     }
 }
