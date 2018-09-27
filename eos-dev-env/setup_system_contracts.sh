@@ -30,7 +30,6 @@ TEMP_PUBLIC_KEY=${CREATE_TEMP_KEY_RESULT[5]}
 cleos wallet import $TEMP_PRIVATE_KEY
 cleos create account eosio eosio.bpay $TEMP_PUBLIC_KEY $TEMP_PUBLIC_KEY
 
-cleos create account eosio eosio.msig  $PUBLIC_KEY $PUBLIC_KEY
 cleos create account eosio eosio.names $PUBLIC_KEY $PUBLIC_KEY
 cleos create account eosio eosio.ram $PUBLIC_KEY $PUBLIC_KEY
 cleos create account eosio eosio.ramfee $PUBLIC_KEY $PUBLIC_KEY
@@ -44,11 +43,17 @@ cleos create account eosio eosio.token \
         $PUBLIC_KEY
 cleos set contract eosio.token contracts/eosio.token -p eosio.token@active
 
-## create an account for and instsll the exchange contract
+## create an account for and install the exchange contract
 cleos create account eosio exchange  \
         $PUBLIC_KEY \
         $PUBLIC_KEY
 cleos set contract exchange contracts/exchange -p exchange@active
+
+## create an account for and install the msig contracts
+cleos create account eosio eosio.msig \
+        $PUBLIC_KEY \
+        $PUBLIC_KEY
+cleos set contract eosio.msig contracts/eosio.msig -p eosio.msig@active
 
 ## create an account using the signature authority
 cleos create account eosio sigaccount EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV
@@ -110,9 +115,8 @@ cleos set account permission memtripmulti owner \
 ##
 ## create a key pair for memtripissue
 ##
-declare MEMTRIP_ISSUE_CREATE_KEY_RESULT=($(cleos create key --to-console))
-MEMTRIP_ISSUE_PRIVATE_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[2]}
-MEMTRIP_ISSUE_PUBLIC_KEY=${MEMTRIP_ISSUE_CREATE_KEY_RESULT[5]}
+MEMTRIP_ISSUE_PRIVATE_KEY=5JKonnU5r895a1r9iSBRbAxo2CeuCDfNCNnJtUN6tuGWoXp49mg
+MEMTRIP_ISSUE_PUBLIC_KEY=EOS6c1rBVtgaMRfb7m173kbkqFXXuLoaQepBXHxFiB5hHaCobZ9CE
 
 cleos wallet import --private-key $MEMTRIP_ISSUE_PRIVATE_KEY
 
