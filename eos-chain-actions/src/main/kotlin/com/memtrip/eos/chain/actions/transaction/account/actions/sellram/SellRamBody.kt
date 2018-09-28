@@ -19,10 +19,10 @@ import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.ChildCompress
 
 @Abi
-data class SellRamBytesBody(
-    val args: SellRamBytesArgs
+data class SellRamBody(
+    val args: SellRamArgs
 ) {
 
-    val getArgs: SellRamBytesArgs
+    val getArgs: SellRamArgs
         @ChildCompress get() = args
 }

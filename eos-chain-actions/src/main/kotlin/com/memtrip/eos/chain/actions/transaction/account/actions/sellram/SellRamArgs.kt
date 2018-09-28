@@ -17,17 +17,17 @@ package com.memtrip.eos.chain.actions.transaction.account.actions.sellram
 
 import com.memtrip.eos.abi.writer.Abi
 import com.memtrip.eos.abi.writer.AccountNameCompress
-import com.memtrip.eos.abi.writer.IntCompress
+import com.memtrip.eos.abi.writer.LongCompress
 
 @Abi
-data class SellRamBytesArgs(
+data class SellRamArgs(
     val account: String,
-    val bytes: Int
+    val bytes: Long
 ) {
 
     val getAccount: String
         @AccountNameCompress get() = account
 
-    val getBytes: Int
-        @IntCompress get() = bytes
+    val getBytes: Long
+        @LongCompress get() = bytes
 }

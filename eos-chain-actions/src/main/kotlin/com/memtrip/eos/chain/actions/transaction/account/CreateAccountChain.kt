@@ -46,7 +46,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
         val transfer: Boolean
     ) {
         data class Quantity(
-            val ram: Int,
+            val ram: Long,
             val net: String,
             val cpu: String
         )

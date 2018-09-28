@@ -34,7 +34,7 @@ class BuyRamBytesChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
     data class Args(
         val receiver: String,
-        val quantity: Int
+        val quantity: Long
     )
 
     fun buyRamBytes(
