@@ -94,14 +94,14 @@ class GetBlockProducersAggregate(
 
     private fun findApiEndPointInNodes(nodes: List<BpNode>): String? {
         val sslEndPoint = nodes.find { node ->
-            node.ssl_endpoint != null
+            !node.ssl_endpoint.isNullOrEmpty()
         }
 
         return if (sslEndPoint != null) {
             sslEndPoint.ssl_endpoint
         } else {
             nodes.find { node ->
-                node.api_endpoint != null
+                !node.api_endpoint.isNullOrEmpty()
             }?.api_endpoint
         }
     }

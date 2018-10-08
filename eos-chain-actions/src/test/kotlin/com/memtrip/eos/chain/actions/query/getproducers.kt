@@ -3,13 +3,13 @@ package com.memtrip.eos.chain.actions.query
 import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.query.producer.GetBlockProducersAggregate
 import com.memtrip.eos.http.rpc.Api
+import junit.framework.TestCase.assertFalse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
@@ -35,8 +35,9 @@ class GetBlockProducersAggregateTest : Spek({
             val response = GetBlockProducersAggregate(chainApi).getProducers(50).blockingGet()
 
             it("should return the transaction") {
-                print("")
-                Assert.assertNotNull(response.isNotEmpty())
+               response.map { blockProducer ->
+                   assertFalse(blockProducer.apiEndpoint.isEmpty())
+               }
             }
         }
     }
