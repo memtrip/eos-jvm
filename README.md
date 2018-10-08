@@ -1,5 +1,6 @@
 ## eos-jvm
-EOS libraries for the JVM, designed primarily for Android development.
+EOS libraries for the JVM, designed primarily for Android development. Our open source Android wallet app
+[EOS REACH](https://github.com/memtrip/eosreach) serves as a blueprint for how other developers might want to utilise this SDK.
 
 ### [eos-chain-actions](https://github.com/memtrip/eos-jvm/tree/master/eos-chain-actions)
 An EOS SDK for pushing actions to the EOS system contracts. The SDK utilises eos-jvm
