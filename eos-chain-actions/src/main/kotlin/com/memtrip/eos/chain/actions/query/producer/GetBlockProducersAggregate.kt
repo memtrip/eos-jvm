@@ -15,55 +15,96 @@
  */
 package com.memtrip.eos.chain.actions.query.producer
 
-import com.memtrip.eos.chain.actions.query.producer.bpjson.GetBpJson
+import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpNode
 import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpParent
 
 import com.memtrip.eos.http.rpc.ChainApi
+import com.memtrip.eos.http.rpc.model.contract.request.GetTableRows
 import com.memtrip.eos.http.rpc.model.producer.request.GetProducers
-import com.memtrip.eos.http.rpc.model.producer.response.Producer
+import com.squareup.moshi.Moshi
 
 import io.reactivex.Single
 
 class GetBlockProducersAggregate(
     private val chainApi: ChainApi,
-    private val getBpJson: GetBpJson = GetBpJson()
+    private val moshi: Moshi = Moshi.Builder().build()
 ) {
 
     fun getProducers(limit: Int): Single<List<BlockProducer>> {
-        return chainApi.getProducers(GetProducers(
-            true,
-            "",
-            limit
-        )).map { response ->
-            if (response.isSuccessful) {
-                response.body()!!.rows.map { producer ->
-                    val bpParent = getBpJson(producer)
-                    if (bpParent != null) {
-                        if (bpParent.nodes.isNotEmpty() &&
-                            bpParent.nodes[0].api_endpoint != null) {
-                            BlockProducer(producer, bpParent, bpParent.nodes[0].api_endpoint!!)
+        return getBpJson().flatMap { blockProducersContract ->
+            chainApi.getProducers(GetProducers(
+                true,
+                "",
+                limit
+            )).map { response ->
+                if (response.isSuccessful) {
+                    val rows = response.body()!!.rows
+                    rows.mapNotNull { producer ->
+                        val bpJson = blockProducersContract.find { bpParent ->
+                            producer.is_active == 1 && bpParent.producer_account_name == producer.owner
+                        }
+
+                        if (bpJson != null) {
+                            val apiEndpoint = findApiEndPointInNodes(bpJson.nodes)
+                            if (apiEndpoint != null) {
+                                BlockProducer(
+                                    producer,
+                                    bpJson,
+                                    apiEndpoint)
+                            } else {
+                                null
+                            }
                         } else {
                             null
                         }
-                    } else {
-                        null
                     }
-                }.filterNotNull()
-            } else {
-                throw FailedToFetchBlockProducers()
+                } else {
+                    throw FailedToFetchBlockProducer()
+                }
             }
         }
     }
 
-    private fun getBpJson(producer: Producer): BpParent? {
-        val response = getBpJson.get(producer.url)
-
-        return if (response.isSuccessful) {
-            response.body
-        } else {
-            null
+    private fun getBpJson(): Single<List<BpParent>> {
+        return chainApi.getTableRows(GetTableRows(
+            "producerjson",
+            "producerjson",
+            "producerjson",
+            true,
+            150,
+            "",
+            "",
+            "",
+            "",
+            "dec"
+        )).map { response ->
+            if (response.isSuccessful) {
+                response.body()!!.rows.mapNotNull { row ->
+                    try {
+                        moshi.adapter(BpParent::class.java).fromJson(row["json"] as String)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            } else {
+                throw FailedToFetchBlockProducer()
+            }
         }
     }
 
-    class FailedToFetchBlockProducers : Exception()
+    private fun findApiEndPointInNodes(nodes: List<BpNode>): String? {
+        val sslEndPoint = nodes.find { node ->
+            node.ssl_endpoint != null
+        }
+
+        return if (sslEndPoint != null) {
+            sslEndPoint.ssl_endpoint
+        } else {
+            nodes.find { node ->
+                node.api_endpoint != null
+            }?.api_endpoint
+        }
+    }
+
+    class FailedToFetchBlockProducer : Exception()
 }

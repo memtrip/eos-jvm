@@ -141,8 +141,7 @@ cleos system delegatebw memtripissue memtripproxy "100000.0000 SYS" "100000.0000
 cleos system voteproducer prods memtripissue memtripblock
 cleos system voteproducer prods memtripadmin memtripblock
 
-cleos system regproxy memtripadmin
-cleos system voteproducer proxy memtripproxy memtripadmin
+cleos system regproxy memtripproxy
 
 ## echo the wallet and key details for the developer to take note of
 echo "\n"

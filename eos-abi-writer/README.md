@@ -115,5 +115,5 @@ A collection of account names in a List<String> type
 `@VariableUIntCompress`
 
 ## Examples
-See the [src/main/kotlin/com/memtrip/eos/chain/actions/transaction](https://github.com/memtrip/eos-jvm/eos-chain-actions/src/main/kotlin/com/memtrip/eos/chain/actions/transaction) package in [eos-chain-actions](https://github.com/memtrip/eos-jvm/eos-chain-actions)
+See the [src/main/kotlin/com/memtrip/eos/chain/actions/transaction](https://github.com/memtrip/eos-jvm/tree/master/eos-chain-actions/src/test/kotlin/com/memtrip/eos/chain/actions/transaction) package in [eos-chain-actions](https://github.com/memtrip/eos-jvm/eos-chain-actions)
 for production examples. These examples are covered by a full suite of integration tests.

@@ -32,7 +32,7 @@ class GetBlockProducersAggregateTest : Spek({
 
         on("v1/chain/get_producers") {
 
-            val response = GetBlockProducersAggregate(chainApi).getProducers(21).blockingGet()
+            val response = GetBlockProducersAggregate(chainApi).getProducers(50).blockingGet()
 
             it("should return the transaction") {
                 print("")

@@ -2,7 +2,6 @@ package com.memtrip.eos.chain.actions.query.ramprice
 
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.contract.request.GetTableRows
-import com.memtrip.eos.http.rpc.model.contract.response.ContractTableRows
 import io.reactivex.Single
 import java.math.BigDecimal
 
@@ -26,7 +25,7 @@ class GetRamPrice(
             if (response.isSuccessful) {
                 val tableRows = response.body()!!.rows
                 if (tableRows.isNotEmpty()) {
-                    calculateRamPerKiloByte(response.body()!!)
+                    calculateRamPerKiloByte(tableRows[0])
                 } else {
                     throw FailedToGetRamPrice()
                 }
@@ -37,14 +36,12 @@ class GetRamPrice(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun calculateRamPerKiloByte(contractTableRows: ContractTableRows): Double {
-        val row = contractTableRows.rows[0]
+    private fun calculateRamPerKiloByte(row: Map<String, Any>): Double {
         val quote = row["quote"] as Map<String, String>
         val base = row["base"] as Map<String, String>
 
         val quoteBalance = value(quote["balance"]!!)
         val baseBalance = value(base["balance"]!!)
-        val quoteWeight = value(quote["weight"]!!)
 
         return (quoteBalance.toDouble() / (baseBalance.toDouble()) * 1024)
     }
