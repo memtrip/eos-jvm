@@ -60,7 +60,7 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
         return push(
             transactionContext.expirationDate,
-            with (ArrayList<ActionAbi>(asList(
+            with(ArrayList<ActionAbi>(asList(
                 ActionAbi(
                     "eosio",
                     "newaccount",
@@ -89,8 +89,8 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
                     delegateBandwidthAbi(args, transactionContext)
                 )
             ))) {
-                addAll(extraActionAbi)
-                this
+            addAll(extraActionAbi)
+            this
             },
             transactionContext.authorizingPrivateKey
         )

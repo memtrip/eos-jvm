@@ -82,17 +82,17 @@ object Pretty {
         }
     }
 
-    private fun roundNet(value: Float): String = with (DecimalFormat("#.##")) {
+    private fun roundNet(value: Float): String = with(DecimalFormat("#.##")) {
         roundingMode = RoundingMode.CEILING
         format(value)
     }
 
-    private fun roundRAM(value: Float): String = with (DecimalFormat("#.##")) {
+    private fun roundRAM(value: Float): String = with(DecimalFormat("#.##")) {
         roundingMode = RoundingMode.CEILING
         format(value)
     }
 
-    private fun roundCPU(value: Float): String = with (DecimalFormat("#.###")) {
+    private fun roundCPU(value: Float): String = with(DecimalFormat("#.###")) {
         roundingMode = RoundingMode.CEILING
         format(value)
     }
