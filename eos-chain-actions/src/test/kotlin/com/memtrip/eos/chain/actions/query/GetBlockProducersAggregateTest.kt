@@ -35,9 +35,9 @@ class GetBlockProducersAggregateTest : Spek({
             val response = GetBlockProducersAggregate(chainApi).getProducers(50).blockingGet()
 
             it("should return the transaction") {
-               response.map { blockProducer ->
-                   assertFalse(blockProducer.apiEndpoint.isEmpty())
-               }
+                response.map { blockProducer ->
+                    assertFalse(blockProducer.apiEndpoint.isEmpty())
+                }
             }
         }
     }

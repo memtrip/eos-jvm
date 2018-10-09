@@ -2,9 +2,8 @@ package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
-import com.memtrip.eos.chain.actions.transaction.account.BuyRamChain
+import com.memtrip.eos.chain.actions.transaction.account.BuyRamBytesChain
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
-import com.memtrip.eos.chain.actions.transaction.account.SellRamChain
 import com.memtrip.eos.chain.actions.transaction.transfer.TransferChain
 import com.memtrip.eos.chain.actions.transactionDefaultExpiry
 import com.memtrip.eos.core.crypto.EosPrivateKey
@@ -23,7 +22,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class SellRamChainTest : Spek({
+class BuyRamBytesChainTest : Spek({
 
     given("an Api") {
 
@@ -38,7 +37,7 @@ class SellRamChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> sell ram") {
+        on("v1/chain/push_transaction -> buy ram") {
 
             val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
@@ -93,9 +92,10 @@ class SellRamChainTest : Spek({
             /**
              * Buy ram
              */
-            val sellRam = SellRamChain(chainApi).sellRam(
-                SellRamChain.Args(
-                    1000
+            val buyRam = BuyRamBytesChain(chainApi).buyRamBytes(
+                BuyRamBytesChain.Args(
+                    newAccountName,
+                    4096
                 ),
                 TransactionContext(
                     newAccountName,
@@ -109,8 +109,8 @@ class SellRamChainTest : Spek({
                 assertNotNull(response.body)
                 assertTrue(transfer.isSuccessful)
                 assertNotNull(transfer.body)
-                assertTrue(sellRam.isSuccessful)
-                assertNotNull(sellRam.body)
+                assertTrue(buyRam.isSuccessful)
+                assertNotNull(buyRam.body)
 
                 /**
                  * Verify the banwidth has increased
@@ -118,7 +118,7 @@ class SellRamChainTest : Spek({
                 val afterAccount = chainApi.getAccount(AccountName(newAccountName)).blockingGet()
                 val ramBytesAfter = afterAccount.body()!!.total_resources!!.ram_bytes
 
-                assertTrue(ramBytesAfter < ramBytesBefore)
+                assertTrue(ramBytesAfter > ramBytesBefore)
             }
         }
     }

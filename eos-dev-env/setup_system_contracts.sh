@@ -139,7 +139,6 @@ cleos system delegatebw memtripissue memtripproxy "100000.0000 SYS" "100000.0000
 
 # vote for memtripblock as the block producer
 cleos system voteproducer prods memtripissue memtripblock
-cleos system voteproducer prods memtripadmin memtripblock
 
 cleos system regproxy memtripproxy
 
