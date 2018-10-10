@@ -1,7 +1,6 @@
 package com.memtrip.eos.chain.actions.query
 
-import com.memtrip.eos.chain.actions.Config
-import com.memtrip.eos.chain.actions.query.producer.GetBlockProducersAggregate
+import com.memtrip.eos.chain.actions.query.producer.GetBlockProducers
 import com.memtrip.eos.http.rpc.Api
 import junit.framework.TestCase.assertFalse
 import okhttp3.OkHttpClient
@@ -15,7 +14,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class GetBlockProducersAggregateTest : Spek({
+class GetBlockProducersTest : Spek({
 
     given("an Api") {
 
@@ -28,11 +27,11 @@ class GetBlockProducersAggregateTest : Spek({
                 .build()
         }
 
-        val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
+        val chainApi by memoized { Api("http://api.eosnewyork.io/", okHttpClient).chain }
 
         on("v1/chain/get_producers") {
 
-            val response = GetBlockProducersAggregate(chainApi).getProducers(50).blockingGet()
+            val response = GetBlockProducers(chainApi).getProducers(50).blockingGet()
 
             it("should return the transaction") {
                 response.map { blockProducer ->

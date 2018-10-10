@@ -15,6 +15,7 @@
  */
 package com.memtrip.eos.chain.actions.query.producer
 
+import com.memtrip.eos.abi.writer.bytewriter.NameWriter
 import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpNode
 import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpParent
 
@@ -25,13 +26,31 @@ import com.squareup.moshi.Moshi
 
 import io.reactivex.Single
 
-class GetBlockProducersAggregate(
+class GetBlockProducers(
     private val chainApi: ChainApi,
     private val moshi: Moshi = Moshi.Builder().build()
 ) {
 
+    fun getSingleProducer(accountName: String): Single<BlockProducer> {
+        val primaryKey = NameWriter().eosNameAsLong(accountName)
+        return getBpJson(1, primaryKey.toString(), (primaryKey + 1).toString()).map { bps ->
+            if (bps.isNotEmpty()) {
+                val apiEndpoint = findApiEndPointInNodes(bps[0].nodes)
+                if (apiEndpoint != null) {
+                    BlockProducer(
+                    bps[0],
+                    apiEndpoint)
+                } else {
+                    throw FailedToFetchBlockProducer()
+                }
+            } else {
+                throw FailedToFetchBlockProducer()
+            }
+        }
+    }
+
     fun getProducers(limit: Int): Single<List<BlockProducer>> {
-        return getBpJson().flatMap { blockProducersContract ->
+        return getBpJson(limit).flatMap { blockProducersContract ->
             chainApi.getProducers(GetProducers(
                 true,
                 "",
@@ -48,7 +67,6 @@ class GetBlockProducersAggregate(
                             val apiEndpoint = findApiEndPointInNodes(bpJson.nodes)
                             if (apiEndpoint != null) {
                                 BlockProducer(
-                                    producer,
                                     bpJson,
                                     apiEndpoint)
                             } else {
@@ -65,15 +83,19 @@ class GetBlockProducersAggregate(
         }
     }
 
-    private fun getBpJson(): Single<List<BpParent>> {
+    private fun getBpJson(
+        limit: Int,
+        lowerBound: String = "",
+        upperBound: String = ""
+    ): Single<List<BpParent>> {
         return chainApi.getTableRows(GetTableRows(
             "producerjson",
             "producerjson",
             "producerjson",
             true,
-            150,
-            "",
-            "",
+            limit,
+            lowerBound,
+            upperBound,
             "",
             "",
             "dec"

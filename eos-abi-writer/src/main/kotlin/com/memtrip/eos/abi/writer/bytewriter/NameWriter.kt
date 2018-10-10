@@ -20,7 +20,10 @@ import com.memtrip.eos.abi.writer.ByteWriter
 class NameWriter {
 
     fun put(name: String, writer: ByteWriter) {
+        writer.putLong(eosNameAsLong(name))
+    }
 
+    fun eosNameAsLong(name: String): Long {
         val len = name.length
         var value: Long = 0
 
@@ -41,7 +44,7 @@ class NameWriter {
             value = value or c
         }
 
-        writer.putLong(value)
+        return value
     }
 
     private fun charToSymbol(c: Char): Byte {

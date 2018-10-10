@@ -1,20 +1,21 @@
 package com.memtrip.eos.chain.actions.query
 
-import com.memtrip.eos.chain.actions.query.ramprice.GetRamPrice
+import com.memtrip.eos.chain.actions.query.proxy.GetRegProxyInfo
 import com.memtrip.eos.http.rpc.Api
+import junit.framework.TestCase.assertFalse
+
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class CalculateRamPriceTest : Spek({
+class GetProxiesTest : Spek({
 
     given("an Api") {
 
@@ -29,12 +30,15 @@ class CalculateRamPriceTest : Spek({
 
         val chainApi by memoized { Api("http://api.eosnewyork.io/", okHttpClient).chain }
 
-        on("get ram price per byte") {
+        on("v1/chain/get_table_rows -> proxies") {
 
-            val response = GetRamPrice(chainApi).getPricePerKilobyte().blockingGet()
+            val page1Response = GetRegProxyInfo(chainApi).getProxies(100).blockingGet()
+            val page2Response = GetRegProxyInfo(chainApi).getProxies(100, page1Response.last().owner).blockingGet()
 
-            it("should return a ram price per byte") {
-                assertTrue(response > 0)
+            it("should return the proxies") {
+                page2Response.map { proxyJson ->
+                    assertFalse(page1Response.contains(proxyJson))
+                }
             }
         }
     }
