@@ -50,7 +50,7 @@ class GetBlockProducers(
     }
 
     fun getProducers(limit: Int): Single<List<BlockProducer>> {
-        return getBpJson(limit).flatMap { blockProducersContract ->
+        return getBpJson(limit, "", "").flatMap { blockProducersContract ->
             chainApi.getProducers(GetProducers(
                 true,
                 "",
@@ -85,13 +85,14 @@ class GetBlockProducers(
 
     private fun getBpJson(
         limit: Int,
-        lowerBound: String = "",
-        upperBound: String = ""
+        lowerBound: String,
+        upperBound: String
     ): Single<List<BpParent>> {
         return chainApi.getTableRows(GetTableRows(
             "producerjson",
             "producerjson",
             "producerjson",
+            "",
             true,
             limit,
             lowerBound,

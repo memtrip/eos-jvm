@@ -3,6 +3,7 @@ package com.memtrip.eos.chain.actions.query
 import com.memtrip.eos.chain.actions.query.proxy.GetRegProxyInfo
 import com.memtrip.eos.http.rpc.Api
 import junit.framework.TestCase.assertFalse
+import junit.framework.TestCase.assertNotNull
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +16,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class GetProxiesTest : Spek({
+class GetRegProxyInfoTest : Spek({
 
     given("an Api") {
 
@@ -39,6 +40,15 @@ class GetProxiesTest : Spek({
                 page2Response.map { proxyJson ->
                     assertFalse(page1Response.contains(proxyJson))
                 }
+            }
+        }
+
+        on("v1/chain/get_table_rows -> single proxy") {
+
+            val proxyInfo = GetRegProxyInfo(chainApi).getProxy("amazinggamer").blockingGet()
+
+            it("should return the proxies") {
+                assertNotNull(proxyInfo)
             }
         }
     }

@@ -22,6 +22,7 @@ data class GetTableRows(
     val scope: String,
     val code: String,
     val table: String,
+    val table_key: String,
     val json: Boolean,
     val limit: Int,
     val lower_bound: String,

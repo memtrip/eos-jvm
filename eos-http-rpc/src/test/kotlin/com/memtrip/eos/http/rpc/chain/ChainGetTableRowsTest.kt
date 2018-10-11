@@ -37,6 +37,7 @@ class ChainGetTableRowsTest : Spek({
                 "eosio",
                 "eosio.token",
                 "accounts",
+                "",
                 true,
                 10,
                 "",

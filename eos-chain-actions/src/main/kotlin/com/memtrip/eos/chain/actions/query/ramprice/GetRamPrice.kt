@@ -14,6 +14,7 @@ class GetRamPrice(
             "eosio",
             "eosio",
             "rammarket",
+            "",
             true,
             1,
             "",

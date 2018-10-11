@@ -15,6 +15,7 @@ class GetRegProxyInfo(
             "regproxyinfo",
             "regproxyinfo",
             "proxies",
+            "",
             true,
             limit,
             if (nextAccount.isEmpty()) { "" } else {
@@ -40,6 +41,40 @@ class GetRegProxyInfo(
                         row["twitter"].toString(),
                         row["wechat"].toString())
                 }
+            } else {
+                throw FailedToFetchProxies()
+            }
+        }
+    }
+
+    fun getProxy(accountName: String): Single<ProxyJson> {
+        return chainApi.getTableRows(GetTableRows(
+            "regproxyinfo",
+            "regproxyinfo",
+            "proxies",
+            "",
+            true,
+            1,
+            NameWriter().eosNameAsLong(accountName).toString(),
+            (NameWriter().eosNameAsLong(accountName) + 1).toString(),
+            "",
+            "",
+            "dec"
+        )).map { response ->
+            if (response.isSuccessful && response.body()!!.rows.isNotEmpty()) {
+                val rows = response.body()!!.rows
+                ProxyJson(
+                    rows[0]["owner"].toString(),
+                    rows[0]["name"].toString(),
+                    rows[0]["website"].toString(),
+                    rows[0]["slogan"].toString(),
+                    rows[0]["philosophy"].toString(),
+                    rows[0]["background"].toString(),
+                    rows[0]["logo_256"].toString(),
+                    rows[0]["telegram"].toString(),
+                    rows[0]["steemit"].toString(),
+                    rows[0]["twitter"].toString(),
+                    rows[0]["wechat"].toString())
             } else {
                 throw FailedToFetchProxies()
             }

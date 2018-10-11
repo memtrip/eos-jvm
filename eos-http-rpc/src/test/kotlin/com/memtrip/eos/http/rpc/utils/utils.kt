@@ -13,7 +13,7 @@ class Config {
     }
 }
 
-fun transactionDefaultExpiry(): Date = with (Calendar.getInstance()) {
+fun transactionDefaultExpiry(): Date = with(Calendar.getInstance()) {
     set(Calendar.MINUTE, get(Calendar.MINUTE) + 2)
     this
 }.time

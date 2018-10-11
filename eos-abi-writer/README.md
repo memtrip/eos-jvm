@@ -4,10 +4,10 @@ reliable Abi byte writing boilerplate code.
 
 ## Gradle
 ```
-implementation ("com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha04") {
+implementation ("com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha13") {
    exclude group: "com.lambdaworks", module: "scrypt"
 }
-kapt 'com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha04'
+kapt 'com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha13'
 ```
 
 ## Writer
