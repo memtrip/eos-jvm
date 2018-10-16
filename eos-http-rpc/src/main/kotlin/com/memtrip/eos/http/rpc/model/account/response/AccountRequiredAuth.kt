@@ -21,6 +21,6 @@ import com.squareup.moshi.JsonClass
 data class AccountRequiredAuth(
     val threshold: Int,
     val keys: List<AccountKey>,
-    val accounts: List<String>,
+    val accounts: List<AccountAuth>,
     val waits: List<String>
 )

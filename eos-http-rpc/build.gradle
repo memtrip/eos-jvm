@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0-alpha13'
+    libraryVersion = '1.0.0-alpha14'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -68,7 +68,7 @@ dependencies {
     /* rxkotlin */
     compile 'io.reactivex:rxkotlin:1.0.0'
 
-    compile ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha13") {
+    compile ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha14") {
         exclude group: "com.lambdaworks", module: "scrypt"
     }
 
