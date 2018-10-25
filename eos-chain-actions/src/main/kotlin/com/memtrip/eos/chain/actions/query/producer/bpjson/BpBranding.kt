@@ -13,14 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memtrip.eos.chain.actions.query.producer.bpjson.response
+package com.memtrip.eos.chain.actions.query.producer.bpjson
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class BpLocation(
-    val name: String,
-    val country: String,
-    val latitude: Double,
-    val longitude: Double
+data class BpBranding(
+    val logo_256: String?,
+    val logo_1024: String?,
+    val logo_svg: String?
 )

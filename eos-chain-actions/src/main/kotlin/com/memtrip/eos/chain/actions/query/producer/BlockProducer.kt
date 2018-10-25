@@ -15,7 +15,7 @@
  */
 package com.memtrip.eos.chain.actions.query.producer
 
-import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpParent
+import com.memtrip.eos.chain.actions.query.producer.bpjson.BpParent
 
 data class BlockProducer(
     val bpJson: BpParent,

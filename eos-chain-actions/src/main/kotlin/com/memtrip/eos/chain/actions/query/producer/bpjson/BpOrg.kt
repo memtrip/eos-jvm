@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.memtrip.eos.chain.actions.query.producer.bpjson.response
+package com.memtrip.eos.chain.actions.query.producer.bpjson
 
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class BpSocial(
-    val steemit: String?,
-    val twitter: String?,
-    val youtube: String?,
-    val facebook: String?,
-    val github: String?,
-    val reddit: String?,
-    val telegram: String?,
-    val wechat: String?
+data class BpOrg(
+    val candidate_name: String,
+    val website: String,
+    val code_of_conduct: String,
+    val ownership_disclosure: String,
+    val email: String,
+    val branding: BpBranding,
+    val location: BpLocation,
+    val social: BpSocial
 )

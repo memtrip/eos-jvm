@@ -16,8 +16,8 @@
 package com.memtrip.eos.chain.actions.query.producer
 
 import com.memtrip.eos.abi.writer.bytewriter.NameWriter
-import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpNode
-import com.memtrip.eos.chain.actions.query.producer.bpjson.response.BpParent
+import com.memtrip.eos.chain.actions.query.producer.bpjson.BpNode
+import com.memtrip.eos.chain.actions.query.producer.bpjson.BpParent
 
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.contract.request.GetTableRows
@@ -41,10 +41,10 @@ class GetBlockProducers(
                     bps[0],
                     apiEndpoint)
                 } else {
-                    throw FailedToFetchBlockProducer()
+                    throw OnChainProducerJsonMissing()
                 }
             } else {
-                throw FailedToFetchBlockProducer()
+                throw OnChainProducerJsonMissing()
             }
         }
     }
@@ -129,5 +129,6 @@ class GetBlockProducers(
         }
     }
 
+    class OnChainProducerJsonMissing : Exception()
     class FailedToFetchBlockProducer : Exception()
 }

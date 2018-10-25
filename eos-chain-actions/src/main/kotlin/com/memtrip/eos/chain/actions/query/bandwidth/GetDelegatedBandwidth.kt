@@ -20,7 +20,7 @@ class GetDelegatedBandwidth(private val chainApi: ChainApi) {
             "",
             "dec"
         )).map { response ->
-            if (response.isSuccessful && response.body()!!.rows.isNotEmpty()) {
+            if (response.isSuccessful && response.body() != null) {
                 val rows = response.body()!!.rows
                 rows.map { row ->
                     BandwidthJson(
@@ -28,7 +28,7 @@ class GetDelegatedBandwidth(private val chainApi: ChainApi) {
                         row["to"].toString(),
                         row["net_weight"].toString(),
                         row["cpu_weight"].toString())
-                }
+                    }
             } else {
                 throw FailedToFetchDelegatedBandwidth()
             }
