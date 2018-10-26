@@ -33,5 +33,7 @@ class EosKeyTests {
     fun testPublicKeyFormat() {
         val publicKey = EosPublicKey("EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV")
         assertEquals("EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV", publicKey.toString())
+        val publicKeyFromBytes = EosPublicKey(publicKey.bytes)
+        assertEquals(publicKeyFromBytes.toString(), publicKey.toString())
     }
 }

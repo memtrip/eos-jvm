@@ -22,24 +22,24 @@ import org.bitcoinj.core.Base58
 class Base58Encode {
 
     fun encodeSignature(prefix: String, data: ByteArray): String {
-        return encodeEosCrypto(prefix, "K1", data)
+        return encodeWithChecksum(prefix, "K1", data)
     }
 
     fun encodeKey(prefix: String, data: ByteArray): String {
-        return encodeEosCrypto(prefix, "", data)
+        return encodeWithChecksum(prefix, "", data)
     }
 
-    private fun encodeEosCrypto(prefix: String, signaturePrefix: String, data: ByteArray): String {
+    private fun encodeWithChecksum(prefix: String, signaturePrefix: String, data: ByteArray): String {
 
-        val dataToEncodeBase58 = ByteArray(data.size + 4)
+        val dataWithChecksum = ByteArray(data.size + 4)
 
-        System.arraycopy(data, 0, dataToEncodeBase58, 0, data.size)
-        System.arraycopy(encodeChecksum(data, signaturePrefix), 0, dataToEncodeBase58, data.size, 4)
+        System.arraycopy(data, 0, dataWithChecksum, 0, data.size)
+        System.arraycopy(encodeChecksum(data, signaturePrefix), 0, dataWithChecksum, data.size, 4)
 
         return if (signaturePrefix.isEmpty()) {
-            prefix + Base58.encode(dataToEncodeBase58)
+            prefix + Base58.encode(dataWithChecksum)
         } else {
-            prefix + "_" + signaturePrefix + "_" + Base58.encode(dataToEncodeBase58)
+            prefix + "_" + signaturePrefix + "_" + Base58.encode(dataWithChecksum)
         }
     }
 

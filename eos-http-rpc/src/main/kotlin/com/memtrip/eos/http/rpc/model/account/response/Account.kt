@@ -36,6 +36,6 @@ data class Account(
     val permissions: List<AccountPermission>,
     val total_resources: TotalResources?,
     val self_delegated_bandwidth: SelfDelegatedBandwidth?,
-    val refund_request: Any?,
+    val refund_request: RefundRequest?,
     val voter_info: VoterInfo?
 )

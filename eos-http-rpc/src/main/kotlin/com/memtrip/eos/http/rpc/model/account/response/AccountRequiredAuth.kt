@@ -22,5 +22,5 @@ data class AccountRequiredAuth(
     val threshold: Int,
     val keys: List<AccountKey>,
     val accounts: List<AccountAuth>,
-    val waits: List<String>
+    val waits: List<AccountAuthWait>
 )

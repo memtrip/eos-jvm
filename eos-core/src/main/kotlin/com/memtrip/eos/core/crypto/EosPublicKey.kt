@@ -35,6 +35,7 @@ class EosPublicKey {
     val bytes: ByteArray
         get() = ecKey.pubKey
 
+    @Suppress("unused")
     val isCurveParamK1: Boolean
         get() = true
 
