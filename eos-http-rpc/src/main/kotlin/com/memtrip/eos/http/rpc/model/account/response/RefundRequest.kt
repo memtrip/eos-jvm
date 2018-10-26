@@ -1,7 +1,7 @@
 package com.memtrip.eos.http.rpc.model.account.response
 
 import com.squareup.moshi.JsonClass
-import java.util.*
+import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class RefundRequest(
