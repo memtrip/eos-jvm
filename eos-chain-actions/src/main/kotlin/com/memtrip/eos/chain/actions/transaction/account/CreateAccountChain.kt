@@ -141,8 +141,6 @@ class CreateAccountChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     private fun delegateBandwidthAbi(args: Args, transactionContext: TransactionContext): String {
         return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishDelegateBandwidthBody(
             DelegateBandwidthBody(
-                "eosio",
-                "delegatebw",
                 DelegateBandwidthArgs(
                     transactionContext.authorizingAccountName,
                     args.newAccountName,

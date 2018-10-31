@@ -20,8 +20,6 @@ import com.memtrip.eos.abi.writer.ChildCompress
 
 @Abi
 data class UnDelegateBandwidthBody(
-    val code: String,
-    val action: String,
     val args: UnDelegateBandwidthArgs
 ) {
 

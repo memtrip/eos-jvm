@@ -4,7 +4,7 @@ to seamlessly handle transaction signing, byte writing and api requests.
 
 ## Gradle
 ```
-implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha23") {
+implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha24") {
  exclude group: "com.lambdaworks", module: "scrypt"
 }
 ```
@@ -17,6 +17,7 @@ implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha23") {
 - UndelegateBandwidth
 - Transfer
 - Vote
+- Refund
 
 ## Examples
 See src/test for a full suite of integration tests. The setup scripts in

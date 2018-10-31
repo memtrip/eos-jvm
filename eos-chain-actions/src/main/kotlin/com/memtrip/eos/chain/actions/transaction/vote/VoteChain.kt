@@ -60,8 +60,6 @@ class VoteChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     private fun voteBin(args: Args): String {
         return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishVoteBody(
             VoteBody(
-                "eosio",
-                "voteproducer",
                 VoteArgs(
                     args.voter,
                     args.proxy,

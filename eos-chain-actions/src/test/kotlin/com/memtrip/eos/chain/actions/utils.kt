@@ -1,8 +1,8 @@
 package com.memtrip.eos.chain.actions
 
+import java.util.Random
 import java.util.Date
 import java.util.Calendar
-import java.util.Random
 
 fun generateUniqueAccountName(): String {
     fun random(): String = (Random().nextInt(5 - 1) + 1).toString()

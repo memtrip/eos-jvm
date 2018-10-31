@@ -62,8 +62,6 @@ class DelegateBandwidthChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     private fun delegateBandwidthBin(args: Args): String {
         return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishDelegateBandwidthBody(
             DelegateBandwidthBody(
-                "eosio",
-                "delegatebw",
                 DelegateBandwidthArgs(
                     args.from,
                     args.receiver,

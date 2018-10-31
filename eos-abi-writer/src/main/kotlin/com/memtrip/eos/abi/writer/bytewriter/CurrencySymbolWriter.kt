@@ -27,8 +27,6 @@ class CurrencySymbolWriter {
             throw IllegalArgumentException("empty currency symbol string")
         }
 
-        validateSymbolName(symbol)
-
         for (index in 0 until symbol.length) {
             val value = symbol[index].toLong()
 
@@ -43,32 +41,5 @@ class CurrencySymbolWriter {
         result = result or precision.toLong()
 
         writer.putLong(result)
-    }
-
-    private fun validateSymbolName(name: CharSequence): Boolean {
-        for (index in 0 until name.length) {
-            val value = name[index].toInt()
-
-            // check range 'A' to 'Z'
-            if (value < 97 || value > 122) {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    private fun parseInt(content: String?, defaultValue: Int): Int {
-        if (null == content) return defaultValue
-
-        return try {
-            Integer.parseInt(content)
-        } catch (e: NumberFormatException) {
-            throw IllegalArgumentException("invalid currency formatting")
-        }
-    }
-
-    companion object {
-        private const val MAX_PRECISION = 18
     }
 }

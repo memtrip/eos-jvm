@@ -61,8 +61,6 @@ class TransferChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     private fun transferBin(args: Args): String {
         return AbiBinaryGenTransactionWriter(CompressionType.NONE).squishTransferBody(
             TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     args.fromAccount,
                     args.toAccount,
