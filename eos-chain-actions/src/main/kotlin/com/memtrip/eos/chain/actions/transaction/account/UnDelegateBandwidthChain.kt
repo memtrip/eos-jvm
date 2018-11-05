@@ -27,7 +27,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.undelegatebw.Un
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
-import java.util.asList
+import java.util.Arrays.asList
 
 class UnDelegateBandwidthChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 

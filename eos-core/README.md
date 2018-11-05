@@ -28,7 +28,8 @@ val fromBytesPrivateKey = EosPrivateKey(eosPrivate.bytes)
 ```
 
 ## Sign bytes with a private key
-A private key signature is expected for each transaction committed by the EOS RPC api.
+When a transaction is pushed to the EOS network, the packed transaction bytes must be
+signed by an EOS private key.
 
 Sign bytes with an EOS private key
 ```kotlin
