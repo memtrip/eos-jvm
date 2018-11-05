@@ -1,7 +1,7 @@
 package com.memtrip.eos.chain.actions
 
-import java.util.Random
 import java.util.Date
+import java.util.Random
 import java.util.Calendar
 
 fun generateUniqueAccountName(): String {

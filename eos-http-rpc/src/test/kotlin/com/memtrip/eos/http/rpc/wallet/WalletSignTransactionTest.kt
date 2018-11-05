@@ -67,8 +67,6 @@ class WalletSignTransactionTest : Spek({
             val blockIdDetails = BlockIdDetails(info.head_block_id)
 
             val transferBody = TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     "eosio.token",
                     "tester",

@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
-class ChainAbiJsoinToBinTest : Spek({
+class ChainAbiJsonToBinTest : Spek({
 
     given("an Api") {
 
@@ -42,8 +42,6 @@ class ChainAbiJsoinToBinTest : Spek({
         on("v1/chain/abi_json_to_bin") {
 
             val transferBody = TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     "user",
                     "tester",

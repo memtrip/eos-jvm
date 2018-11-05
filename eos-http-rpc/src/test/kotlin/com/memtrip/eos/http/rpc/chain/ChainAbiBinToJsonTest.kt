@@ -45,8 +45,6 @@ class ChainAbiBinToJsonTest : Spek({
              * Create abi
              */
             val transferBody = TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     "user",
                     "tester",

@@ -18,7 +18,7 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.Arrays.asList
+import java.util.asList
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
@@ -51,7 +51,7 @@ class VoteChainTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        4096,
+                        6096,
                         "1.0000 SYS",
                         "11.0000 SYS"),
                     firstAccountPrivateKey.publicKey,
@@ -117,12 +117,12 @@ class VoteChainTest : Spek({
                 CreateAccountChain.Args(
                     firstAccountName,
                     CreateAccountChain.Args.Quantity(
-                        4096,
+                        6096,
                         "1.0000 SYS",
                         "1.0000 SYS"),
                     firstAccountPrivateKey.publicKey,
                     firstAccountPrivateKey.publicKey,
-                    false
+                    true
                 ),
                 TransactionContext(
                     "eosio",
@@ -138,7 +138,7 @@ class VoteChainTest : Spek({
                 TransferChain.Args(
                     "eosio",
                     firstAccountName,
-                    "1.0000 SYS",
+                    "10.0000 SYS",
                     "here is some coins!"
                 ),
                 TransactionContext(
@@ -166,7 +166,7 @@ class VoteChainTest : Spek({
             val vote = VoteChain(chainApi).vote(
                 VoteChain.Args(
                     firstAccountName,
-                    "memtripadmin",
+                    "memtripproxy",
                     emptyList()
                 ),
                 TransactionContext(

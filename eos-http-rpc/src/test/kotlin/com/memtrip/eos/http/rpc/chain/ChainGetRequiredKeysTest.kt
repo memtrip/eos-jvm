@@ -57,8 +57,6 @@ class ChainGetRequiredKeysTest : Spek({
             val blockIdDetails = BlockIdDetails(info.head_block_id)
 
             val transferBody = TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     "user",
                     "tester",

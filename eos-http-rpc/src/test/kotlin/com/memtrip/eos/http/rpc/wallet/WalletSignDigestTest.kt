@@ -62,8 +62,6 @@ class WalletSignDigestTest : Spek({
              * v1/wallet/sign_digest
              */
             val transferBody = TransferBody(
-                "eosio.token",
-                "transfer",
                 TransferArgs(
                     "memtripblock",
                     "memtripissue",

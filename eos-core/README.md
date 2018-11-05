@@ -10,8 +10,7 @@ implementation ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha23") {
 ```
 
 ## Key pairs
-EOS keypairs are generated using ECKey from bitcoinj, the private key bytes are
-hashed using SHA256 and encoded in Base58. Creating key instances is a blocking
+EOS keypairs are generated using ECKey from bitcoinj. Creating key instances is a blocking
 operation, we recommend instantiating keys on a separate thread on memory
 constrained systems.
 

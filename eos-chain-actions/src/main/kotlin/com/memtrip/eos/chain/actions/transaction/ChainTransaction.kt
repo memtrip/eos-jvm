@@ -29,7 +29,7 @@ import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
 import retrofit2.Response
 import java.util.Date
-import java.util.Arrays.asList
+import java.util.asList
 
 abstract class ChainTransaction(
     private val chainApi: ChainApi

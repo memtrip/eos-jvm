@@ -27,7 +27,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.buyram.BuyRamBo
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
-import java.util.Arrays.asList
+import java.util.asList
 
 class BuyRamChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 

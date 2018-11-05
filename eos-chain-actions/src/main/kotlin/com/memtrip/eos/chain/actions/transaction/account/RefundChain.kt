@@ -13,7 +13,7 @@ import com.memtrip.eos.chain.actions.transaction.account.actions.refund.RefundBo
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
 import io.reactivex.Single
-import java.util.Arrays
+import java.util.Arrays.asList
 
 class RefundChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
@@ -23,10 +23,10 @@ class RefundChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
 
         return push(
             transactionContext.expirationDate,
-            Arrays.asList(ActionAbi(
+            asList(ActionAbi(
                 "eosio",
                 "refund",
-                Arrays.asList(TransactionAuthorizationAbi(
+                asList(TransactionAuthorizationAbi(
                     transactionContext.authorizingAccountName,
                     "active")),
                 refundAbi(transactionContext)
