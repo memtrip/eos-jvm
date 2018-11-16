@@ -2,6 +2,7 @@ package com.memtrip.eos.chain.actions.query
 
 import com.memtrip.eos.chain.actions.query.producer.GetBlockProducers
 import com.memtrip.eos.http.rpc.Api
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,6 +38,16 @@ class GetBlockProducersTest : Spek({
                 response.map { blockProducer ->
                     assertFalse(blockProducer.apiEndpoint.isEmpty())
                 }
+            }
+        }
+
+        on("v1/chain/get_producers -> single") {
+
+            val response = GetBlockProducers(chainApi).getSingleProducer("eoscannonchn").blockingGet()
+
+            it("should return the transaction") {
+                assertFalse(response.apiEndpoint.isEmpty())
+                assertEquals(response.bpJson.producer_account_name, "eoscannonchn")
             }
         }
     }

@@ -2,6 +2,7 @@ package com.memtrip.eos.chain.actions.query
 
 import com.memtrip.eos.chain.actions.query.proxy.GetRegProxyInfo
 import com.memtrip.eos.http.rpc.Api
+import junit.framework.TestCase.assertEquals
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertNotNull
 
@@ -49,6 +50,7 @@ class GetRegProxyInfoTest : Spek({
 
             it("should return the proxies") {
                 assertNotNull(proxyInfo)
+                assertEquals("amazinggamer", proxyInfo.owner)
             }
         }
     }

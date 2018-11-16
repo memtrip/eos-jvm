@@ -12,7 +12,7 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.asList
+import java.util.Arrays.asList
 
 @RunWith(JUnitPlatform::class)
 class VoteArgsTest : Spek({

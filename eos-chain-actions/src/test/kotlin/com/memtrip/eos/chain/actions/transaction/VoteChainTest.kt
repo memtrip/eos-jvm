@@ -18,7 +18,7 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
-import java.util.asList
+import java.util.Arrays.asList
 import java.util.concurrent.TimeUnit
 
 @RunWith(JUnitPlatform::class)
