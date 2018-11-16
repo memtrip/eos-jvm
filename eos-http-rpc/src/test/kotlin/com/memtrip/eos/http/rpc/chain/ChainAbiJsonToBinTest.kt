@@ -7,6 +7,8 @@ import com.memtrip.eos.http.rpc.utils.DateAdapter
 import com.memtrip.eos.http.rpc.utils.testabi.AbiBinaryGenTransferWriter
 import com.memtrip.eos.http.rpc.utils.testabi.TransferArgs
 import com.memtrip.eos.http.rpc.utils.testabi.TransferBody
+import com.memtrip.eos.http.rpc.utils.testjson.TransferArgsJson
+import com.memtrip.eos.http.rpc.utils.testjson.TransferBodyJson
 
 import com.squareup.moshi.Moshi
 import okhttp3.MediaType
@@ -49,13 +51,23 @@ class ChainAbiJsonToBinTest : Spek({
                     "here is some coins!")
             )
 
+            val transferBodyJson = TransferBodyJson(
+                    "eosio.token",
+                    "transfer",
+                    TransferArgsJson(
+                        "user",
+                        "tester",
+                        "25.0000 SYS",
+                        "here is some coins!")
+            )
+
             val jsonAdapter = Moshi.Builder()
                 .add(DateAdapter())
                 .build()
-                .adapter<TransferBody>(TransferBody::class.java)
+                .adapter<TransferBodyJson>(TransferBodyJson::class.java)
 
             val abi = chainApi.abiJsonToBin(
-                RequestBody.create(MediaType.parse("application/json"), jsonAdapter.toJson(transferBody))
+                RequestBody.create(MediaType.parse("application/json"), jsonAdapter.toJson(transferBodyJson))
             ).blockingGet()
 
             it("should return the bin") {

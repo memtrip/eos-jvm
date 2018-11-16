@@ -42,16 +42,5 @@ class ChainGetCodeTest : Spek({
                 assertNotEquals(code.body()!!.wasm, "")
             }
         }
-
-        on("v1/chain/get_code as wast") {
-
-            val code = chainApi.getCode(GetCodeByAccountName("eosio.token", false)).blockingGet()
-
-            it("should return the code deployed by the account") {
-                assertTrue(code.isSuccessful)
-                assertNotNull(code.body())
-                assertNotEquals(code.body()!!.wast, "")
-            }
-        }
     }
 })

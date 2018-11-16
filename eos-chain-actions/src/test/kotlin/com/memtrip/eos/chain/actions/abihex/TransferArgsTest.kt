@@ -20,7 +20,7 @@ class TransferArgsTest : Spek({
 
         val transactionWriter by memoized { AbiBinaryGenTransactionWriter(CompressionType.NONE) }
 
-        on("squish the transfer abi model") {
+        on("squi`sh the transfer abi model") {
 
             val transferArgs = TransferArgs(
                 "memtripissu5",

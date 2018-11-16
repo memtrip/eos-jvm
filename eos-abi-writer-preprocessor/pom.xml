@@ -9,7 +9,7 @@
 
     <groupId>com.memtrip.eos-jvm</groupId>
     <artifactId>eos-abi-writer-preprocessor</artifactId>
-    <version>1.0.0-alpha23</version>
+    <version>1.0.0-alpha24</version>
 
     <name>eos-abi-writer-preprocessor</name>
     <description>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.memtrip.eos-jvm</groupId>
             <artifactId>eos-abi-writer</artifactId>
-            <version>1.0.0-alpha23</version>
+            <version>1.0.0-alpha24</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
