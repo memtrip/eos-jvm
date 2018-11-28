@@ -4,7 +4,7 @@ with the EOS network.
 
 ## Gradle
 ```
-implementation ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha24") {
+implementation ("com.memtrip.eos-jvm:eos-core:1.0.0-alpha26") {
     exclude group: "com.lambdaworks", module: "scrypt"
 }
 ```

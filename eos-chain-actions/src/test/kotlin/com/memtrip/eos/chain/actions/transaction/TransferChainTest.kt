@@ -90,6 +90,7 @@ class TransferChainTest : Spek({
              * Send money from the signature provider to the first account
              */
             val transfer1 = TransferChain(chainApi).transfer(
+                "eosio.token",
                 TransferChain.Args(
                     "eosio",
                     firstAccountName,
@@ -107,6 +108,7 @@ class TransferChainTest : Spek({
              * Transfer money from the first account to the second account
              */
             val transfer2 = TransferChain(chainApi).transfer(
+                "eosio.token",
                 TransferChain.Args(
                     firstAccountName,
                     secondAccountName,
@@ -124,6 +126,7 @@ class TransferChainTest : Spek({
              * Transfer money from the second account to the first account
              */
             val transfer3 = TransferChain(chainApi).transfer(
+                "eosio.token",
                 TransferChain.Args(
                     secondAccountName,
                     firstAccountName,

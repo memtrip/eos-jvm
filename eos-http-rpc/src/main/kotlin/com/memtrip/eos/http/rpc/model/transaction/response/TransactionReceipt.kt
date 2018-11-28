@@ -21,9 +21,9 @@ import com.squareup.moshi.JsonClass
 data class TransactionReceipt(
     val receiver: String,
     val act_digest: String,
-    val global_sequence: Int,
-    val recv_sequence: Int,
+    val global_sequence: Long,
+    val recv_sequence: Long,
     val auth_sequence: List<Any>,
-    val code_sequence: Int,
-    val abi_sequence: Int
+    val code_sequence: Long,
+    val abi_sequence: Long
 )

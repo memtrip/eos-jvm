@@ -40,6 +40,7 @@ class TransferChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
     )
 
     fun transfer(
+        contract: String,
         args: Args,
         transactionContext: TransactionContext
     ): Single<ChainResponse<TransactionCommitted>> {
@@ -47,7 +48,7 @@ class TransferChain(chainApi: ChainApi) : ChainTransaction(chainApi) {
         return push(
             transactionContext.expirationDate,
             asList(ActionAbi(
-                "eosio.token",
+                contract,
                 "transfer",
                 asList(TransactionAuthorizationAbi(
                     transactionContext.authorizingAccountName,

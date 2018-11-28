@@ -7,4 +7,5 @@ data class TransferArgsJson(
     val from: String,
     val to: String,
     val quantity: String,
-    val memo: String)
+    val memo: String
+)

@@ -69,6 +69,7 @@ class VoteChainTest : Spek({
              * Send money from the signature provider to the first account
              */
             val transfer = TransferChain(chainApi).transfer(
+                "eosio.token",
                 TransferChain.Args(
                     "eosio",
                     firstAccountName,
@@ -135,6 +136,7 @@ class VoteChainTest : Spek({
              * Send money from the signature provider to the first account
              */
             val transfer = TransferChain(chainApi).transfer(
+                "eosio.token",
                 TransferChain.Args(
                     "eosio",
                     firstAccountName,

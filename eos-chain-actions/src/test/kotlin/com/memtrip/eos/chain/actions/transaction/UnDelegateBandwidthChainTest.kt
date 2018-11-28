@@ -72,7 +72,8 @@ class UnDelegateBandwidthChainTest : Spek({
              * Send money from the signature provider to the new account
              */
             val transfer = TransferChain(chainApi).transfer(
-                TransferChain.Args(
+                "eosio.token",
+                    TransferChain.Args(
                     "eosio",
                     newAccountName,
                     "100.0000 SYS",

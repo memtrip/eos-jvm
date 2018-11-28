@@ -21,8 +21,8 @@ import java.util.Date
 
 @JsonClass(generateAdapter = true)
 data class HistoricAccountAction(
-    val global_action_seq: Int,
-    val account_action_seq: Int,
+    val global_action_seq: Long,
+    val account_action_seq: Long,
     val block_num: Int,
     val block_time: Date,
     val action_trace: TransactionActionTrace
