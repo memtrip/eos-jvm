@@ -29,12 +29,12 @@ class HistoryGetActionsTest : Spek({
                 .build()
         }
 
-        val historyApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).history }
+        val historyApi by memoized { Api(Config.MAINNET_API_BASE_URL, okHttpClient).history }
 
         on("v1/history/get_actions") {
 
             val actions = historyApi.getActions(GetActions(
-                "eosio.token"
+                "memtripissue"
             )).blockingGet()
 
             it("should return the account") {
@@ -47,16 +47,16 @@ class HistoryGetActionsTest : Spek({
         on("v1/history/get_actions with pagination") {
 
             val firstPageActions = historyApi.getActions(GetActions(
-                "eosio.token",
+                "memtripissue",
                 -1,
                 -20
             )).blockingGet()
             val firstPageActionsItems = firstPageActions.body()!!.actions
 
             val secondPageActions = historyApi.getActions(GetActions(
-                "eosio.token",
-                -1,
-                firstPageActionsItems[firstPageActionsItems.size - 1].account_action_seq
+                "memtripissue",
+                firstPageActionsItems[firstPageActionsItems.size - 1].account_action_seq - 1,
+                -20
             )).blockingGet()
 
             it("should return the account") {
@@ -66,14 +66,14 @@ class HistoryGetActionsTest : Spek({
 
                 assertTrue(secondPageActions.isSuccessful)
                 assertNotNull(secondPageActions.body())
-                assertTrue(secondPageActions.body()!!.actions.size == 20)
+                assertTrue(secondPageActions.body()!!.actions.size == 21)
             }
         }
 
         on("v1/history/get_actions with pos out of range") {
 
             val actions = historyApi.getActions(GetActions(
-                "eosio.token",
+                "memtripissue",
                 100000
             )).blockingGet()
 

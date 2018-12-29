@@ -35,6 +35,5 @@ class Api(
         .addConverterFactory(converterFactory)
         .build(),
     val chain: ChainApi = retrofit.create(ChainApi::class.java),
-    val wallet: WalletApi = retrofit.create(WalletApi::class.java),
     val history: HistoryApi = retrofit.create(HistoryApi::class.java)
 )

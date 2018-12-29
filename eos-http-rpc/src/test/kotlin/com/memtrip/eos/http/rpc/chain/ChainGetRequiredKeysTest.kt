@@ -45,9 +45,9 @@ class ChainGetRequiredKeysTest : Spek({
         on("v1/chain/get_required_keys") {
 
             /**
-             * Import signature provider key
+             * Import memtripissue key
              */
-            val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            val privateKey = EosPrivateKey("5HvDsbgjH574GALj5gRcnscMfAGBQD9JSWn3sHFsD7bNrkqXqpr")
 
             /**
              * v1/chain/get_info
@@ -78,7 +78,7 @@ class ChainGetRequiredKeysTest : Spek({
                     "eosio",
                     "newaccount",
                     asList(TransactionAuthorization(
-                        "eosio",
+                        "memtripissue",
                         "active")),
                     abiBin
                 )),

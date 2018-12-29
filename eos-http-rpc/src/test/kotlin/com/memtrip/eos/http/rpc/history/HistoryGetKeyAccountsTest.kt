@@ -33,7 +33,7 @@ class HistoryGetKeyAccountsTest : Spek({
 
         on("v1/history/get_key_accounts") {
 
-            val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            val privateKey = EosPrivateKey("5HvDsbgjH574GALj5gRcnscMfAGBQD9JSWn3sHFsD7bNrkqXqpr")
 
             val accounts = historyApi.getKeyAccounts(GetKeyAccounts(privateKey.publicKey.toString())).blockingGet()
 
