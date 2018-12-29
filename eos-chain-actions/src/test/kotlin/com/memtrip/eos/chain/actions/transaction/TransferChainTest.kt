@@ -1,6 +1,7 @@
 package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
+import com.memtrip.eos.chain.actions.SetupTransactions
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transaction.transfer.TransferChain
@@ -34,57 +35,25 @@ class TransferChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
+        val setupTransactions by memoized { SetupTransactions(chainApi) }
+
         on("v1/chain/push_transaction -> transfer") {
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            val signatureProviderPrivateKey = EosPrivateKey("5HvDsbgjH574GALj5gRcnscMfAGBQD9JSWn3sHFsD7bNrkqXqpr")
 
             /**
              * First account
              */
             val firstAccountPrivateKey = EosPrivateKey()
-
             val firstAccountName = generateUniqueAccountName()
-            CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    firstAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        14096,
-                        "1.0000 SYS",
-                        "1.0000 SYS"),
-                    firstAccountPrivateKey.publicKey,
-                    firstAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            setupTransactions.createAccount(firstAccountName, firstAccountPrivateKey).blockingGet()
 
             /**
              * Second account
              */
             val secondAccountPrivateKey = EosPrivateKey()
-
             val secondAccountName = generateUniqueAccountName()
-            CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    secondAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        14096,
-                        "1.0000 SYS",
-                        "1.0000 SYS"),
-                    secondAccountPrivateKey.publicKey,
-                    secondAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            setupTransactions.createAccount(secondAccountName, secondAccountPrivateKey).blockingGet()
 
             /**
              * Send money from the signature provider to the first account
@@ -92,13 +61,13 @@ class TransferChainTest : Spek({
             val transfer1 = TransferChain(chainApi).transfer(
                 "eosio.token",
                 TransferChain.Args(
-                    "eosio",
+                    "memtripissue",
                     firstAccountName,
-                    "100.0000 SYS",
-                    "here is some coins!"
+                    "0.0001 EOS",
+                    "eos-swift test suite -> transfer"
                 ),
                 TransactionContext(
-                    "eosio",
+                    "memtripissue",
                     signatureProviderPrivateKey,
                     transactionDefaultExpiry()
                 )
@@ -112,8 +81,8 @@ class TransferChainTest : Spek({
                 TransferChain.Args(
                     firstAccountName,
                     secondAccountName,
-                    "2.0000 SYS",
-                    "Enjoy these coins!"
+                    "0.0001 EOS",
+                    "eos-swift test suite -> transfer"
                 ),
                 TransactionContext(
                     firstAccountName,
@@ -130,8 +99,8 @@ class TransferChainTest : Spek({
                 TransferChain.Args(
                     secondAccountName,
                     firstAccountName,
-                    "2.0000 SYS",
-                    "Enjoy these coins!"
+                    "0.0001 EOS",
+                    "eos-swift test suite -> transfer"
                 ),
                 TransactionContext(
                     secondAccountName,

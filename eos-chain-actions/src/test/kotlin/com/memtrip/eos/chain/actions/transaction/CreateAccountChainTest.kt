@@ -38,7 +38,7 @@ class CreateAccountChainTest : Spek({
 
         on("v1/chain/push_transaction -> create account") {
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+            val memtripissuePrivateKey = EosPrivateKey("5HvDsbgjH574GALj5gRcnscMfAGBQD9JSWn3sHFsD7bNrkqXqpr")
 
             /**
              * New account
@@ -50,16 +50,16 @@ class CreateAccountChainTest : Spek({
                 CreateAccountChain.Args(
                     newAccountName,
                     CreateAccountChain.Args.Quantity(
-                        4096,
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
+                    3048,
+                    "0.1000 EOS",
+                    "1.0000 EOS"),
                     newAccountPrivateKey.publicKey,
                     newAccountPrivateKey.publicKey,
                     true
                 ),
                 TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
+                    "memtripissue",
+                    memtripissuePrivateKey,
                     transactionDefaultExpiry()
                 )
             ).blockingGet()

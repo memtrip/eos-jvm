@@ -1,6 +1,7 @@
 package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
+import com.memtrip.eos.chain.actions.SetupTransactions
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transaction.account.DelegateBandwidthChain
@@ -38,52 +39,21 @@ class DelegateBandwidthChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> delegate bandwidth") {
+        val setupTransactions by memoized { SetupTransactions(chainApi) }
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+        on("v1/chain/push_transaction -> delegate bandwidth") {
 
             /**
              * Create account
              */
             val newAccountName = generateUniqueAccountName()
-
             val newAccountPrivateKey = EosPrivateKey()
-
-            val response = CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    newAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        14096,
-                        "1.0000 SYS",
-                        "1.0000 SYS"),
-                    newAccountPrivateKey.publicKey,
-                    newAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val createAccount = setupTransactions.createAccount(newAccountName, newAccountPrivateKey).blockingGet()
 
             /**
-             * Send money from the signature provider to the new account
+             * Send money from memtripissue to the new account
              */
-            val transfer = TransferChain(chainApi).transfer(
-                "eosio.token",
-                TransferChain.Args(
-                    "eosio",
-                    newAccountName,
-                    "100.0000 SYS",
-                    "here are some tokens for you to delegate to resources."
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val transfer = setupTransactions.transfer(newAccountName).blockingGet()
 
             /**
              * Delegate bandwidth
@@ -92,8 +62,8 @@ class DelegateBandwidthChainTest : Spek({
                 DelegateBandwidthChain.Args(
                     newAccountName,
                     newAccountName,
-                    "1.0000 SYS",
-                    "1.0000 SYS",
+                    "0.1000 EOS",
+                    "0.1000 EOS",
                     false
                 ),
                 TransactionContext(
@@ -104,8 +74,8 @@ class DelegateBandwidthChainTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                assertTrue(response.isSuccessful)
-                assertNotNull(response.body)
+                assertTrue(createAccount.isSuccessful)
+                assertNotNull(createAccount.body)
                 assertTrue(transfer.isSuccessful)
                 assertNotNull(transfer.body)
                 assertTrue(delegateBw.isSuccessful)
@@ -115,8 +85,8 @@ class DelegateBandwidthChainTest : Spek({
                  * Verify the banwidth has increased
                  */
                 val account = chainApi.getAccount(AccountName(newAccountName)).blockingGet()
-                assertEquals("2.0000 SYS", account.body()!!.total_resources!!.cpu_weight)
-                assertEquals("2.0000 SYS", account.body()!!.total_resources!!.net_weight)
+                assertEquals("1.1000 EOS", account.body()!!.total_resources!!.cpu_weight)
+                assertEquals("0.2000 EOS", account.body()!!.total_resources!!.net_weight)
             }
         }
     }

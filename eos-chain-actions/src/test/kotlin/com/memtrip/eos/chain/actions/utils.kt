@@ -3,18 +3,20 @@ package com.memtrip.eos.chain.actions
 import java.util.Date
 import java.util.Random
 import java.util.Calendar
+import kotlin.streams.asSequence
 
 fun generateUniqueAccountName(): String {
-    fun random(): String = (Random().nextInt(5 - 1) + 1).toString()
-    return random() + random() + random() +
-        random() + random() + random() +
-        random() + random() + random() +
-        random() + random() + random()
+    val source = "abcdefghijklmnopqrstuvwxyz"
+    return Random().ints(12, 0, source.length)
+            .asSequence()
+            .map(source::get)
+            .joinToString("")
 }
 
 class Config {
     companion object {
-        const val CHAIN_API_BASE_URL = "http://localhost:8888/"
+        const val CHAIN_API_BASE_URL = "https://jungle2.cryptolions.io:443/"
+        const val MAINNET_API_BASE_URL = "https://eos.greymass.com/"
     }
 }
 

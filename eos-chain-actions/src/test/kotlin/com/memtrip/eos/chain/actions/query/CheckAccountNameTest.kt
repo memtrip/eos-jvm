@@ -1,6 +1,7 @@
 package com.memtrip.eos.chain.actions.query
 
 import com.memtrip.eos.chain.actions.Config
+import com.memtrip.eos.chain.actions.SetupTransactions
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.query.accountname.CheckAccountNameExists
 import com.memtrip.eos.chain.actions.transaction.TransactionContext
@@ -15,6 +16,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
@@ -36,36 +38,23 @@ class CheckAccountNameTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
+        val setupTransactions by memoized { SetupTransactions(chainApi) }
+
         on("v1/chain/get_currency_balance -> Account exists") {
 
             val privateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
 
             val firstAccountName = generateUniqueAccountName()
-            val createAccountRequest = CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    firstAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        4096,
-                        "100.0000 SYS",
-                        "100.0000 SYS"),
-                    privateKey.publicKey,
-                    privateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    privateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val firstAccountPrivateKey = EosPrivateKey()
+            val createAccount = setupTransactions.createAccount(firstAccountName, firstAccountPrivateKey).blockingGet()
 
             val accountExists = CheckAccountNameExists(chainApi)
                 .checkAccountNameExists(firstAccountName)
                 .blockingGet()
 
             it("should return true") {
-                assertTrue(createAccountRequest.isSuccessful)
-                Assert.assertTrue(accountExists)
+                assertTrue(createAccount.isSuccessful)
+                assertTrue(accountExists)
             }
         }
 
@@ -76,7 +65,7 @@ class CheckAccountNameTest : Spek({
                 .blockingGet()
 
             it("should return false") {
-                Assert.assertFalse(accountExists)
+                assertFalse(accountExists)
             }
         }
     }

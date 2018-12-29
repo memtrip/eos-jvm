@@ -1,6 +1,7 @@
 package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
+import com.memtrip.eos.chain.actions.SetupTransactions
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transaction.account.SellRamChain
@@ -37,52 +38,21 @@ class SellRamChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
-        on("v1/chain/push_transaction -> sell ram") {
+        val setupTransactions by memoized { SetupTransactions(chainApi) }
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
+        on("v1/chain/push_transaction -> sell ram") {
 
             /**
              * Create account
              */
             val newAccountName = generateUniqueAccountName()
-
             val newAccountPrivateKey = EosPrivateKey()
-
-            val response = CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    newAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        14096,
-                        "1.0000 SYS",
-                        "1.0000 SYS"),
-                    newAccountPrivateKey.publicKey,
-                    newAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val createAccount = setupTransactions.createAccount(newAccountName, newAccountPrivateKey).blockingGet()
 
             /**
              * Send money from the signature provider to the new account
              */
-            val transfer = TransferChain(chainApi).transfer(
-                "eosio.token",
-                TransferChain.Args(
-                    "eosio",
-                    newAccountName,
-                    "100.0000 SYS",
-                    "here are some tokens for you to delegate to resources."
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val transfer = setupTransactions.transfer(newAccountName).blockingGet()
 
             /**
              * ram bytes before purchase
@@ -91,12 +61,10 @@ class SellRamChainTest : Spek({
             val ramBytesBefore = beforeAccount.body()!!.total_resources!!.ram_bytes
 
             /**
-             * Buy ram
+             * Sell ram
              */
             val sellRam = SellRamChain(chainApi).sellRam(
-                SellRamChain.Args(
-                    1000
-                ),
+                SellRamChain.Args(50),
                 TransactionContext(
                     newAccountName,
                     newAccountPrivateKey,
@@ -105,15 +73,15 @@ class SellRamChainTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                assertTrue(response.isSuccessful)
-                assertNotNull(response.body)
+                assertTrue(createAccount.isSuccessful)
+                assertNotNull(createAccount.body)
                 assertTrue(transfer.isSuccessful)
                 assertNotNull(transfer.body)
                 assertTrue(sellRam.isSuccessful)
                 assertNotNull(sellRam.body)
 
                 /**
-                 * Verify the banwidth has increased
+                 * Verify the ram has decreased
                  */
                 val afterAccount = chainApi.getAccount(AccountName(newAccountName)).blockingGet()
                 val ramBytesAfter = afterAccount.body()!!.total_resources!!.ram_bytes

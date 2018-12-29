@@ -1,5 +1,6 @@
 package com.memtrip.eos.chain.actions.query
 
+import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.query.proxy.GetRegProxyInfo
 import com.memtrip.eos.http.rpc.Api
 import junit.framework.TestCase.assertEquals
@@ -30,7 +31,7 @@ class GetRegProxyInfoTest : Spek({
                 .build()
         }
 
-        val chainApi by memoized { Api("http://api.eosnewyork.io/", okHttpClient).chain }
+        val chainApi by memoized { Api(Config.MAINNET_API_BASE_URL, okHttpClient).chain }
 
         on("v1/chain/get_table_rows -> proxies") {
 

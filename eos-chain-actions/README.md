@@ -20,6 +20,4 @@ implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-alpha29") {
 - Refund
 
 ## Examples
-See src/test for a full suite of integration tests. The setup scripts in
-[eos-dev-env](https://github.com/memtrip/eos-jvm/eos-dev-env) need to be ran
-before the tests will work.
+See src/test for a full suite of integration tests.

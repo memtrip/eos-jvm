@@ -1,6 +1,7 @@
 package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.chain.actions.Config
+import com.memtrip.eos.chain.actions.SetupTransactions
 import com.memtrip.eos.chain.actions.generateUniqueAccountName
 import com.memtrip.eos.chain.actions.transaction.account.CreateAccountChain
 import com.memtrip.eos.chain.actions.transaction.account.DelegateBandwidthChain
@@ -9,6 +10,8 @@ import com.memtrip.eos.chain.actions.transaction.vote.VoteChain
 import com.memtrip.eos.chain.actions.transactionDefaultExpiry
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.http.rpc.Api
+import junit.framework.Assert.assertNotNull
+import junit.framework.Assert.assertTrue
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.jetbrains.spek.api.Spek
@@ -37,51 +40,21 @@ class VoteChainTest : Spek({
 
         val chainApi by memoized { Api(Config.CHAIN_API_BASE_URL, okHttpClient).chain }
 
+        val setupTransactions by memoized { SetupTransactions(chainApi) }
+
         on("v1/chain/push_transaction -> vote for producer") {
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
-
             /**
-             * First account
+             * Create account
              */
             val firstAccountPrivateKey = EosPrivateKey()
-
             val firstAccountName = generateUniqueAccountName()
-            CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    firstAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        6096,
-                        "1.0000 SYS",
-                        "11.0000 SYS"),
-                    firstAccountPrivateKey.publicKey,
-                    firstAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val createAccount = setupTransactions.createAccount(firstAccountName, firstAccountPrivateKey).blockingGet()
 
             /**
              * Send money from the signature provider to the first account
              */
-            val transfer = TransferChain(chainApi).transfer(
-                "eosio.token",
-                TransferChain.Args(
-                    "eosio",
-                    firstAccountName,
-                    "100.0000 SYS",
-                    "here is some coins!"
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val transfer = setupTransactions.transfer(firstAccountName).blockingGet()
 
             val vote = VoteChain(chainApi).vote(
                 VoteChain.Args(
@@ -97,73 +70,28 @@ class VoteChainTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertNotNull(transfer.body)
-                Assert.assertTrue(transfer.isSuccessful)
-                Assert.assertNotNull(vote.body)
-                Assert.assertTrue(vote.isSuccessful)
+                assertNotNull(createAccount.body)
+                assertTrue(createAccount.isSuccessful)
+                assertNotNull(transfer.body)
+                assertTrue(transfer.isSuccessful)
+                assertNotNull(vote.body)
+                assertTrue(vote.isSuccessful)
             }
         }
 
         on("v1/chain/push_transaction -> vote for proxy") {
 
-            val signatureProviderPrivateKey = EosPrivateKey("5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3")
-
             /**
-             * First account
+             * Create account
              */
             val firstAccountPrivateKey = EosPrivateKey()
-
             val firstAccountName = generateUniqueAccountName()
-            CreateAccountChain(chainApi).createAccount(
-                CreateAccountChain.Args(
-                    firstAccountName,
-                    CreateAccountChain.Args.Quantity(
-                        6096,
-                        "1.0000 SYS",
-                        "1.0000 SYS"),
-                    firstAccountPrivateKey.publicKey,
-                    firstAccountPrivateKey.publicKey,
-                    true
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val createAccount = setupTransactions.createAccount(firstAccountName, firstAccountPrivateKey).blockingGet()
 
             /**
              * Send money from the signature provider to the first account
              */
-            val transfer = TransferChain(chainApi).transfer(
-                "eosio.token",
-                TransferChain.Args(
-                    "eosio",
-                    firstAccountName,
-                    "10.0000 SYS",
-                    "here is some coins!"
-                ),
-                TransactionContext(
-                    "eosio",
-                    signatureProviderPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
-
-            val delegateBw = DelegateBandwidthChain(chainApi).delegateBandwidth(
-                DelegateBandwidthChain.Args(
-                    firstAccountName,
-                    firstAccountName,
-                    "1.0000 SYS",
-                    "1.0000 SYS",
-                    false
-                ),
-                TransactionContext(
-                    firstAccountName,
-                    firstAccountPrivateKey,
-                    transactionDefaultExpiry()
-                )
-            ).blockingGet()
+            val transfer = setupTransactions.transfer(firstAccountName).blockingGet()
 
             val vote = VoteChain(chainApi).vote(
                 VoteChain.Args(
@@ -179,14 +107,12 @@ class VoteChainTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertTrue(transfer.isSuccessful)
-                Assert.assertNotNull(transfer.body)
-
-                Assert.assertTrue(delegateBw.isSuccessful)
-                Assert.assertNotNull(delegateBw.body)
-
-                Assert.assertTrue(vote.isSuccessful)
-                Assert.assertNotNull(vote.body)
+                assertTrue(createAccount.isSuccessful)
+                assertNotNull(createAccount.body)
+                assertTrue(transfer.isSuccessful)
+                assertNotNull(transfer.body)
+                assertTrue(vote.isSuccessful)
+                assertNotNull(vote.body)
             }
         }
     }

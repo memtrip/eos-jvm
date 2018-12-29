@@ -1,5 +1,6 @@
 package com.memtrip.eos.chain.actions.query
 
+import com.memtrip.eos.chain.actions.Config
 import com.memtrip.eos.chain.actions.query.ramprice.GetRamPrice
 import com.memtrip.eos.http.rpc.Api
 import okhttp3.OkHttpClient
@@ -27,7 +28,7 @@ class CalculateRamPriceTest : Spek({
                 .build()
         }
 
-        val chainApi by memoized { Api("http://api.eosnewyork.io/", okHttpClient).chain }
+        val chainApi by memoized { Api(Config.MAINNET_API_BASE_URL, okHttpClient).chain }
 
         on("get ram price per byte") {
 
