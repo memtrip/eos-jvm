@@ -27,6 +27,7 @@ jobs:
       before_script: cd eos-chain-actions
       script:
         - ./gradlew ktlintcheck
+        - ./gradlew test
         - ./gradlew assemble
     - stage: "Abi writer - annotation preprocessor"
       before_script: cd eos-abi-writer-preprocessor
