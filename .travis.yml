@@ -42,6 +42,7 @@ jobs:
       before_script: cd eos-http-rpc
       script:
         - ./gradlew ktlintcheck
+        - ./gradlew test
         - ./gradlew assemble
     - stage: "Chain actions"
       before_script: cd eos-chain-actions
