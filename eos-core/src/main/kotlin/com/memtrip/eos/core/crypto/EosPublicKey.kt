@@ -17,6 +17,7 @@ package com.memtrip.eos.core.crypto
 
 import com.memtrip.eos.core.base58.Base58Decode
 import com.memtrip.eos.core.base58.Base58Encode
+import com.memtrip.eos.core.crypto.signature.SignatureFormatter
 import com.memtrip.eos.core.hash.RIPEMD160Digest
 import com.memtrip.eos.core.utils.BytesWithChecksum
 
@@ -30,8 +31,6 @@ class EosPublicKey {
     private val checkSum: Long
     private val base58: String
 
-    private val base58Encode = Base58Encode()
-
     val bytes: ByteArray
         get() = ecKey.pubKey
 
@@ -42,7 +41,7 @@ class EosPublicKey {
     constructor(bytes: ByteArray) {
         this.ecKey = ECKey.fromPublicOnly(Arrays.copyOf(bytes, 33))
         this.checkSum = Utils.readUint32(RIPEMD160Digest.hash(ecKey.pubKey), 0)
-        this.base58 = base58Encode.encodeKey(PREFIX, ecKey.pubKey)
+        this.base58 = Base58Encode.encodeKey(PREFIX, ecKey.pubKey)
     }
 
     constructor(base58: String) {
@@ -55,7 +54,7 @@ class EosPublicKey {
     internal constructor(ecKey: ECKey) {
         this.ecKey = ecKey
         this.checkSum = Utils.readUint32(RIPEMD160Digest.hash(ecKey.pubKey), 0)
-        this.base58 = base58Encode.encodeKey(PREFIX, ecKey.pubKey)
+        this.base58 = Base58Encode.encodeKey(PREFIX, ecKey.pubKey)
     }
 
     override fun toString(): String {

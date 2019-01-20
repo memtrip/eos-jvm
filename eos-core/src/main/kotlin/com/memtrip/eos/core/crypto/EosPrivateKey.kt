@@ -23,7 +23,7 @@ import java.math.BigInteger
 import java.util.Arrays
 
 class EosPrivateKey internal constructor(
-    private val key: ECKey,
+    val key: ECKey,
     private val base58: String = base58Encode(key)
 ) {
 

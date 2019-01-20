@@ -19,7 +19,7 @@ import com.memtrip.eos.core.hash.RIPEMD160Digest
 
 import org.bitcoinj.core.Base58
 
-class Base58Encode {
+object Base58Encode {
 
     fun encodeSignature(prefix: String, data: ByteArray): String {
         return encodeWithChecksum(prefix, "K1", data)
