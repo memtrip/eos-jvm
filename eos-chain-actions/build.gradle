@@ -30,7 +30,7 @@ ext {
     siteUrl = 'https://github.com/memtrip/eos-jvm'
     gitUrl = 'https://github.com/memtrip/eos-jvm.git'
 
-    libraryVersion = '1.0.0-alpha29'
+    libraryVersion = '1.0.0-beta01'
 
     developerId = 'samkirton'
     developerName = 'Samuel Kirton'
@@ -48,6 +48,7 @@ sourceCompatibility = 1.8
 
 repositories {
     jcenter()
+    mavenLocal()
 }
 
 dependencies {
@@ -66,9 +67,9 @@ dependencies {
     /* rxkotlin */
     compile 'io.reactivex:rxkotlin:1.0.0'
 
-    compile "com.memtrip.eos-jvm:eos-http-rpc:1.0.0-alpha29"
-    compile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-alpha26"
-    kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-alpha26"
+    compile "com.memtrip.eos-jvm:eos-http-rpc:1.0.0-beta01"
+    compile "com.memtrip.eos-jvm:eos-abi-writer:1.0.0-beta01"
+    kapt "com.memtrip.eos-jvm:eos-abi-writer-preprocessor:1.0.0-beta01"
 
     /* junit */
     testCompile 'junit:junit:4.12'

@@ -14,7 +14,9 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.Assert
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Assert.assertEquals
 import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
@@ -64,7 +66,7 @@ class TransferChainTest : Spek({
                     "memtripissue",
                     firstAccountName,
                     "0.0001 EOS",
-                    "eos-swift test suite -> transfer"
+                    "eos-swift test suite -> transfer тест"
                 ),
                 TransactionContext(
                     "memtripissue",
@@ -82,7 +84,7 @@ class TransferChainTest : Spek({
                     firstAccountName,
                     secondAccountName,
                     "0.0001 EOS",
-                    "eos-swift test suite -> transfer"
+                    "eos-swift test suite -> transfer 轮子把巨人挤出局"
                 ),
                 TransactionContext(
                     firstAccountName,
@@ -100,7 +102,7 @@ class TransferChainTest : Spek({
                     secondAccountName,
                     firstAccountName,
                     "0.0001 EOS",
-                    "eos-swift test suite -> transfer"
+                    "eos-swift test suite -> тестируем testing 1234567890"
                 ),
                 TransactionContext(
                     secondAccountName,
@@ -110,14 +112,33 @@ class TransferChainTest : Spek({
             ).blockingGet()
 
             it("should return the transaction") {
-                Assert.assertTrue(transfer1.isSuccessful)
-                Assert.assertNotNull(transfer1.body)
 
-                Assert.assertTrue(transfer2.isSuccessful)
-                Assert.assertNotNull(transfer2.body)
+                // Transfer 1
+                assertTrue(transfer1.isSuccessful)
+                assertNotNull(transfer1.body)
 
-                Assert.assertTrue(transfer3.isSuccessful)
-                Assert.assertNotNull(transfer3.body)
+                val data1 = transfer1.body!!.processed.action_traces[0].act.data as Map<*, *>
+                assertEquals(
+                        "eos-swift test suite -> transfer тест",
+                        data1["memo"])
+
+                // Transfer 2
+                assertTrue(transfer2.isSuccessful)
+                assertNotNull(transfer2.body)
+
+                val data2 = transfer2.body!!.processed.action_traces[0].act.data as Map<*, *>
+                assertEquals(
+                        "eos-swift test suite -> transfer 轮子把巨人挤出局",
+                        data2["memo"])
+
+                // Transfer 3
+                assertTrue(transfer3.isSuccessful)
+                assertNotNull(transfer3.body)
+
+                val data3 = transfer3.body!!.processed.action_traces[0].act.data as Map<*, *>
+                assertEquals(
+                        "eos-swift test suite -> тестируем testing 1234567890",
+                        data3["memo"])
             }
         }
     }

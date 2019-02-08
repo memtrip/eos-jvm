@@ -15,7 +15,7 @@ fun generateUniqueAccountName(): String {
 
 class Config {
     companion object {
-        const val CHAIN_API_BASE_URL = "https://jungle2.cryptolions.io:443/"
+        const val CHAIN_API_BASE_URL = "https://api.jungle.alohaeos.com:443/"
         const val MAINNET_API_BASE_URL = "https://eos.greymass.com/"
     }
 }

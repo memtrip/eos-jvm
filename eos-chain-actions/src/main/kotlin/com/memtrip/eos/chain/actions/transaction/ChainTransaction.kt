@@ -15,6 +15,7 @@
  */
 package com.memtrip.eos.chain.actions.transaction
 
+import com.memtrip.eos.abi.writer.bytewriter.DefaultByteWriter
 import com.memtrip.eos.abi.writer.compression.CompressionType
 import com.memtrip.eos.chain.actions.ChainResponse
 import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
@@ -23,6 +24,7 @@ import com.memtrip.eos.chain.actions.transaction.abi.TransactionAbi
 import com.memtrip.eos.core.block.BlockIdDetails
 import com.memtrip.eos.core.crypto.EosPrivateKey
 import com.memtrip.eos.core.crypto.signature.PrivateKeySigning
+import com.memtrip.eos.core.hex.DefaultHexWriter
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
@@ -48,7 +50,7 @@ abstract class ChainTransaction(
                     actions)
 
                 val signature = PrivateKeySigning().sign(
-                    AbiBinaryGenTransactionWriter(CompressionType.NONE).squishSignedTransactionAbi(
+                    AbiBinaryGenTransactionWriter(DefaultByteWriter(1048), DefaultHexWriter(), CompressionType.NONE).squishSignedTransactionAbi(
                         SignedTransactionAbi(
                             info.body()!!.chain_id,
                             transaction,

@@ -27,7 +27,6 @@ interface ByteWriter {
     fun putChainId(value: String)
     fun putData(value: String)
     fun putTimestampMs(value: Long)
-    fun putByte(value: Byte)
     fun putShort(value: Short)
     fun putInt(value: Int)
     fun putVariableUInt(value: Long)
