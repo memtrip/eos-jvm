@@ -95,6 +95,10 @@ class DefaultByteWriter(
         buffer.append(value)
     }
 
+    override fun putFloat(value: Float) {
+        buffer.append(value)
+    }
+
     override fun putBytes(value: ByteArray) {
         buffer.append(value)
     }

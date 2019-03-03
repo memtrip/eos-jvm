@@ -88,6 +88,10 @@ public class FieldModel {
     public boolean isLong() {
         return compressType == CompressType.LONG;
     }
+    
+    public boolean isFloat() {
+        return compressType == CompressType.FLOAT;
+    }
 
     public boolean isBytes() {
         return compressType == CompressType.BYTES;

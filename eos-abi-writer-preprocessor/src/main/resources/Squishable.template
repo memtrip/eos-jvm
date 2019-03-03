@@ -62,6 +62,9 @@ public class ${abi.getClassName()}Squishable implements Squishable<${abi.getClas
             <#if field.isLong()>
                 byteWriter.putLong(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>
+            <#if field.isFloat()>
+                byteWriter.putFloat(${abi.getClassName()?lower_case}.${field.getName()}());
+            </#if>
             <#if field.isBytes()>
                 byteWriter.putBytes(${abi.getClassName()?lower_case}.${field.getName()}());
             </#if>

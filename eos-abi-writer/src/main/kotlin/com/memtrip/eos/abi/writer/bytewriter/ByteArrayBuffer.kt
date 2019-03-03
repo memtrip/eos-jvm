@@ -34,6 +34,14 @@ class ByteArrayBuffer(
         append(this)
     }
 
+    fun append(v: Float): ByteArrayBuffer = with(ByteBuffer.allocate(java.lang.Float.BYTES)
+        .order(ByteOrder.LITTLE_ENDIAN)
+        .putFloat(v)
+        .array()
+    ) {
+        append(this)
+    }
+
     fun append(b: ByteArray, off: Int = 0, len: Int = b.size): ByteArrayBuffer = apply {
         if (off < 0 || off > b.size || len < 0 ||
             off + len < 0 || off + len > b.size) {
