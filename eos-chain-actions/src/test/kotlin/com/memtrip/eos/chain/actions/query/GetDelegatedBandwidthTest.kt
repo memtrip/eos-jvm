@@ -96,14 +96,28 @@ class GetDelegatedBandwidthTest : Spek({
 
                 assertEquals(2, response.size)
 
-                assertEquals(response[0].from, firstAccountName)
-                assertEquals(response[0].to, secondAccountName)
-                assertEquals(response[0].net_weight, "0.0001 EOS")
-                assertEquals(response[0].cpu_weight, "0.0001 EOS")
-                assertEquals(response[1].from, firstAccountName)
-                assertEquals(response[1].to, firstAccountName)
-                assertEquals(response[1].net_weight, "0.1001 EOS")
-                assertEquals(response[1].cpu_weight, "1.0001 EOS")
+                // The order of delegated bandwidth items is inconsistent, this work around is used to increase
+                // the stability of the integration tests.
+                // TODO: Why is the order of delegate bandwidth inconsistent?
+                if (response[0].from == response[0].to) {
+                    assertEquals(response[0].from, firstAccountName)
+                    assertEquals(response[0].to, firstAccountName)
+                    assertEquals(response[0].net_weight, "0.1001 EOS")
+                    assertEquals(response[0].cpu_weight, "1.0001 EOS")
+                    assertEquals(response[1].from, firstAccountName)
+                    assertEquals(response[1].to, secondAccountName)
+                    assertEquals(response[1].net_weight, "0.0001 EOS")
+                    assertEquals(response[1].cpu_weight, "0.0001 EOS")
+                } else {
+                    assertEquals(response[0].from, firstAccountName)
+                    assertEquals(response[0].to, secondAccountName)
+                    assertEquals(response[0].net_weight, "0.0001 EOS")
+                    assertEquals(response[0].cpu_weight, "0.0001 EOS")
+                    assertEquals(response[1].from, firstAccountName)
+                    assertEquals(response[1].to, firstAccountName)
+                    assertEquals(response[1].net_weight, "0.1001 EOS")
+                    assertEquals(response[1].cpu_weight, "1.0001 EOS")
+                }
             }
         }
     }
