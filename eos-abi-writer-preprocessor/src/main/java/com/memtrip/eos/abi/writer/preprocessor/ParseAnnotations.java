@@ -29,6 +29,7 @@ import com.memtrip.eos.abi.writer.DataCompress;
 import com.memtrip.eos.abi.writer.HexCollectionCompress;
 import com.memtrip.eos.abi.writer.IntCompress;
 import com.memtrip.eos.abi.writer.LongCompress;
+import com.memtrip.eos.abi.writer.FloatCompress;
 import com.memtrip.eos.abi.writer.NameCompress;
 import com.memtrip.eos.abi.writer.PublicKeyCompress;
 import com.memtrip.eos.abi.writer.ShortCompress;
@@ -142,6 +143,8 @@ final class ParseAnnotations {
             return CompressType.VARIABLE_UINT;
         } else if (hasAnnotation(element, LongCompress.class)) {
             return CompressType.LONG;
+        } else if (hasAnnotation(element, FloatCompress.class)) {
+            return CompressType.FLOAT;
         } else if (hasAnnotation(element, BytesCompress.class)) {
             return CompressType.BYTES;
         } else if (hasAnnotation(element, StringCompress.class)) {
@@ -176,6 +179,7 @@ final class ParseAnnotations {
             || hasAnnotation(element, IntCompress.class)
             || hasAnnotation(element, VariableUIntCompress.class)
             || hasAnnotation(element, LongCompress.class)
+            || hasAnnotation(element, FloatCompress.class)
             || hasAnnotation(element, BytesCompress.class)
             || hasAnnotation(element, StringCompress.class)
             || hasAnnotation(element, StringCollectionCompress.class)

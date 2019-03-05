@@ -31,6 +31,7 @@ interface ByteWriter {
     fun putInt(value: Int)
     fun putVariableUInt(value: Long)
     fun putLong(value: Long)
+    fun putFloat(value: Float)
     fun putBytes(value: ByteArray)
     fun putString(value: String)
     fun putStringCollection(stringList: List<String>)

@@ -31,6 +31,7 @@ public enum  CompressType {
     INT,
     VARIABLE_UINT,
     LONG,
+    FLOAT,
     BYTES,
     STRING,
     STRING_COLLECTION,

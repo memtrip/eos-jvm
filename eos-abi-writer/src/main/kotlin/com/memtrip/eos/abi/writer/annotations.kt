@@ -64,6 +64,9 @@ annotation class IntCompress
 annotation class LongCompress
 
 @Target(AnnotationTarget.PROPERTY_GETTER)
+annotation class FloatCompress
+
+@Target(AnnotationTarget.PROPERTY_GETTER)
 annotation class BytesCompress
 
 @Target(AnnotationTarget.PROPERTY_GETTER)
