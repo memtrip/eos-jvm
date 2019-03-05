@@ -1,17 +1,6 @@
 package com.memtrip.eos.abi.writer.preprocessor.model;
 
-import com.memtrip.eos.abi.writer.Abi;
-import com.memtrip.eos.abi.writer.AssetCompress;
-import com.memtrip.eos.abi.writer.BlockNumCompress;
-import com.memtrip.eos.abi.writer.BlockPrefixCompress;
-import com.memtrip.eos.abi.writer.ChainIdCompress;
-import com.memtrip.eos.abi.writer.ChildCompress;
-import com.memtrip.eos.abi.writer.CollectionCompress;
-import com.memtrip.eos.abi.writer.HexCollectionCompress;
-import com.memtrip.eos.abi.writer.PublicKeyCompress;
-import com.memtrip.eos.abi.writer.StringCollectionCompress;
-import com.memtrip.eos.abi.writer.TimestampCompress;
-import com.memtrip.eos.abi.writer.VariableUIntCompress;
+import com.memtrip.eos.abi.writer.*;
 
 import java.util.List;
 
@@ -24,6 +13,7 @@ public class Transaction {
     private final long maxNetUsageWords;
     private final long maxCpuUsageMs;
     private final long delaySec;
+    private final float speed;
     private final String publicKey;
     private final String asset;
     private final String chainId;
@@ -63,6 +53,11 @@ public class Transaction {
     @VariableUIntCompress
     public long getDelaySec() {
         return delaySec;
+    }
+
+    @FloatCompress
+    public float getSpeed() {
+        return speed;
     }
 
     @PublicKeyCompress
@@ -120,6 +115,7 @@ public class Transaction {
         long maxNetUsageWords,
         long maxCpuUsageMs,
         long delaySec,
+        float speed,
         String publicKey,
         String asset,
         String chainId,
@@ -137,6 +133,7 @@ public class Transaction {
         this.maxNetUsageWords = maxNetUsageWords;
         this.maxCpuUsageMs = maxCpuUsageMs;
         this.delaySec = delaySec;
+        this.speed = speed;
         this.publicKey = publicKey;
         this.asset = asset;
         this.chainId = chainId;

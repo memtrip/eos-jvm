@@ -21,6 +21,7 @@ public class TransactionSquishable implements Squishable<Transaction> {
         byteWriter.putVariableUInt(transaction.getMaxNetUsageWords());
         byteWriter.putVariableUInt(transaction.getMaxCpuUsageMs());
         byteWriter.putVariableUInt(transaction.getDelaySec());
+        byteWriter.putFloat(transaction.getSpeed());
         byteWriter.putPublicKey(new EosPublicKey(transaction.getPublicKey()));
         byteWriter.putAsset(transaction.getAsset());
         byteWriter.putChainId(transaction.getChainId());
