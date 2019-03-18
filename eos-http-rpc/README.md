@@ -72,6 +72,5 @@ historyApi.getTransaction(GetTransaction("trx_id")).subscribe ({ response ->
 ```
 
 ### Integration tests
-The `src/test` directory contains a full suite of integration tests. You will need to
-run the setup scripts in [eos-dev-env](https://github.com/memtrip/eos-jvm/tree/master/eos-dev-env)
-for a few of the tests to run successfully.
+The `src/test` directory contains a full suite of integration tests. The integration tests
+are ran using the Jungle test net HTTP API endpoint.

@@ -1,6 +1,5 @@
 # eos-chain-actions
-An EOS SDK for pushing actions to the EOS system contracts. The SDK utilises eos-jvm
-to seamlessly handle transaction signing, byte writing and api requests.
+An EOS SDK for pushing actions to the EOS system contracts. This high level abstraction composes the other eos-jvm modules to seamlessly handle transaction signing, byte writing and api requests.
 
 ## Gradle
 ```
