@@ -19,7 +19,7 @@ data class ChainResponse<T> (
     val isSuccessful: Boolean,
     val statusCode: Int,
     val body: T?,
-    val errorBody: String?
+    val errorBody: ChainError?
 ) {
 
     companion object {
@@ -32,3 +32,21 @@ data class ChainResponse<T> (
         }
     }
 }
+
+data class ChainError(
+    val code: Long,
+    val message: String,
+    val error: Error
+)
+
+data class Error(
+    val code: Long,
+    val name: String,
+    val what: String,
+    val details: List<Details>
+)
+
+data class Details(
+    val message: String,
+    val method: String
+)
