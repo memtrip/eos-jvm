@@ -17,6 +17,7 @@ package com.memtrip.eos.chain.actions.transaction
 
 import com.memtrip.eos.abi.writer.bytewriter.DefaultByteWriter
 import com.memtrip.eos.abi.writer.compression.CompressionType
+import com.memtrip.eos.chain.actions.ChainError
 import com.memtrip.eos.chain.actions.ChainResponse
 import com.memtrip.eos.chain.actions.transaction.abi.ActionAbi
 import com.memtrip.eos.chain.actions.transaction.abi.SignedTransactionAbi
@@ -28,6 +29,7 @@ import com.memtrip.eos.core.hex.DefaultHexWriter
 import com.memtrip.eos.http.rpc.ChainApi
 import com.memtrip.eos.http.rpc.model.signing.PushTransaction
 import com.memtrip.eos.http.rpc.model.transaction.response.TransactionCommitted
+import com.squareup.moshi.Moshi
 import io.reactivex.Single
 import retrofit2.Response
 import java.util.Arrays.asList
@@ -36,6 +38,8 @@ import java.util.Date
 abstract class ChainTransaction(
     private val chainApi: ChainApi
 ) {
+
+    private val moshi: Moshi = Moshi.Builder().build()
 
     fun push(
         expirationDate: Date,
@@ -68,11 +72,17 @@ abstract class ChainTransaction(
                 Single.just(Response.error(info.code(), info.errorBody()!!))
             }
         }.map {
+
+            var error: ChainError? = null
+            if (it.errorBody() != null) {
+                error = moshi.adapter(ChainError::class.java).fromJson(it.errorBody()!!.string())
+            }
+
             ChainResponse(
                 it.isSuccessful,
                 it.code(),
                 it.body(),
-                it.errorBody()?.string())
+                error)
         }
     }
 

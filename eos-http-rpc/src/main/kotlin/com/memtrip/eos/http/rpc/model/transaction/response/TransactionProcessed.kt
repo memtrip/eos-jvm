@@ -25,5 +25,6 @@ data class TransactionProcessed(
     val net_usage: Int,
     val scheduled: Boolean,
     val action_traces: List<TransactionActionTrace>,
-    val except: Any?
+    val except: Any?,
+    val block_num: Int?
 )
