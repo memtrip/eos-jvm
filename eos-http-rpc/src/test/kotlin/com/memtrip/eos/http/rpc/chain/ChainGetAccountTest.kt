@@ -48,7 +48,7 @@ class ChainGetAccountTest : Spek({
             it("should return the account") {
                 assertTrue(account.isSuccessful)
                 assertNotNull(account.body()!!.voter_info)
-                assertTrue(account.body()!!.voter_info!!.producers.isEmpty())
+                assertTrue(account.body()!!.voter_info!!.producers.isNotEmpty())
             }
         }
 
