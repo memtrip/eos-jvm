@@ -3,7 +3,7 @@ An EOS SDK for pushing actions to the EOS system contracts. This high level abst
 
 ## Gradle
 ```
-implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-beta02") {
+implementation ("com.memtrip.eos-jvm:eos-chain-actions:1.0.0-beta03") {
  exclude group: "com.lambdaworks", module: "scrypt"
 }
 ```
