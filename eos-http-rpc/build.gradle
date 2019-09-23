@@ -18,6 +18,10 @@ plugins {
     id "com.jfrog.bintray" version "1.8.3"
 }
 
+jar {
+    enabled = true
+}
+
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'eos-http-rpc'
@@ -48,6 +52,10 @@ sourceCompatibility = 1.8
 
 repositories {
     jcenter()
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10'
 }
 
 dependencies {
