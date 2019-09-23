@@ -13,7 +13,7 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert
 import java.util.concurrent.TimeUnit
 
-//@RunWith(JUnitPlatform::class)
+// @RunWith(JUnitPlatform::class)
 class HistoryGetKeyAccountsTest : Spek({
 
     given("an Api") {

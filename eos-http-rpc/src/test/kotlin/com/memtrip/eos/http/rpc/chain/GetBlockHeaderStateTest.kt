@@ -13,7 +13,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import java.util.concurrent.TimeUnit
 
-//@RunWith(JUnitPlatform::class)
+// @RunWith(JUnitPlatform::class)
 class GetBlockHeaderStateTest : Spek({
 
     given("an Api") {
