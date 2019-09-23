@@ -19,9 +19,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class TransactionActionTrace(
-    val action_ordinal: Int,
-    val creator_action_ordinal: Int,
-    val closest_unnotified_ancestor_action_ordinal: Int,
     val receipt: TransactionReceipt,
     val act: TransactionAct,
     val elapsed: Int,
