@@ -17,14 +17,15 @@ package com.memtrip.eos.http.rpc.model.transaction.response
 
 import com.squareup.moshi.JsonClass
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonClass(generateAdapter = true)
 data class TransactionActionTrace(
-    val receipt: TransactionReceipt,
-    val act: TransactionAct,
-    val elapsed: Int,
-    val cpu_usage: Int = -1,
-    val console: String,
-    val total_cpu_usage: Int = -1,
-    val trx_id: String,
-    val inline_traces: List<TransactionActionTrace>
+        val action_ordinal: Int,
+        val creator_action_ordinal: Int,
+        val closest_unnotified_ancestor_action_ordinal: Int,
+        val receipt: TransactionReceipt,
+        val act: TransactionAct,
+        val elapsed: Int,
+        val console: String,
+        val trx_id: String
 )
