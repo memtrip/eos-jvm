@@ -49,6 +49,14 @@ repositories {
     jcenter()
 }
 
+jar {
+    enabled = true
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.8'
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile ("org.bitcoinj:bitcoinj-core:0.14.7") {

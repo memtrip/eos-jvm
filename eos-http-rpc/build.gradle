@@ -22,6 +22,10 @@ jar {
     enabled = true
 }
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.8'
+}
+
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'eos-http-rpc'
@@ -52,10 +56,6 @@ sourceCompatibility = 1.8
 
 repositories {
     jcenter()
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10'
 }
 
 dependencies {
