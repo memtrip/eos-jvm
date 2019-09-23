@@ -11,11 +11,9 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
-import org.junit.platform.runner.JUnitPlatform
-import org.junit.runner.RunWith
 import java.util.concurrent.TimeUnit
 
-@RunWith(JUnitPlatform::class)
+//@RunWith(JUnitPlatform::class)
 class GetBlockHeaderStateTest : Spek({
 
     given("an Api") {

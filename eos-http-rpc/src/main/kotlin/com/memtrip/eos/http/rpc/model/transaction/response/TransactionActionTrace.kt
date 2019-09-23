@@ -17,7 +17,6 @@ package com.memtrip.eos.http.rpc.model.transaction.response
 
 import com.squareup.moshi.JsonClass
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonClass(generateAdapter = true)
 data class TransactionActionTrace(
         val action_ordinal: Int,
