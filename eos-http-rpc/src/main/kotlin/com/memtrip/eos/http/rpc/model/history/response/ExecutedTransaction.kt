@@ -29,7 +29,6 @@ class ExecutedTransaction(
     val delay_sec: Long,
     val context_free_actions: List<Action>,
     val actions: List<Any>,
-    val transaction_extensions: List<String>,
     val signatures: List<String>,
     val context_free_data: List<String>
 )
